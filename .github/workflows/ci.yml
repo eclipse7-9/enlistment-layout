@@ -1,21 +1,29 @@
-name: CI Básico
+name: CI Build
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ develop ]
   pull_request:
-    branches:
-      - main
+    branches: [ develop ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar repositorio
+      - name: 📥 Clonar repositorio
         uses: actions/checkout@v3
 
-      - name: Mostrar mensaje
-        run: echo "✅ Hola, GitHub Actions está funcionando!"
+      - name: 🛠 Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 📦 Instalar dependencias
+        run: npm install
+
+      - name: 🏗 Compilar el proyecto
+        run: npm run build
+
+      - name: ✅ Verificar que el build exista
+        run: test -d dist || (echo "❌ No se generó la carpeta dist" && exit 1)
