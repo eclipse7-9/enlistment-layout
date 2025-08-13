@@ -1,0 +1,21 @@
+name: CI Básico
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Mostrar mensaje
+        run: echo "✅ Hola, GitHub Actions está funcionando!"
