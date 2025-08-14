@@ -5,6 +5,8 @@
 
 **Estructura organizada de las carpetas del proyecto**
 
+```texto
+proyecto/
 │
 ├── backend/                 # Backend con FastAPI (Python)
 │   ├── app/                  # Código principal
