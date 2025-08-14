@@ -1,7 +1,7 @@
 # enlistment-layout
 
 [![CI](https://github.com/eclipse7-9/enlistment-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/eclipse7-9/enlistment-layout/actions/workflows/ci.yml)
-
+![Último commit](https://img.shields.io/github/last-commit/eclipse7-9/enlistment-layout)
 
 **Estructura organizada de las carpetas del proyecto**
 
