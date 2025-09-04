@@ -34,7 +34,7 @@ proyecto/
 │
 ├── db/                       # Scripts y migraciones de MySQL
 │   ├── migrations/           # Archivos de migración
-│   ├── init.sql               # Script inicial de base de datos
+│   ├── init.sql              # Script inicial de base de datos
 │   └── README.md
 │
 ├── docs/                     # Documentación del proyecto
