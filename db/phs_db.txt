@@ -1,0 +1,150 @@
+CREATE DATABASE phs_db;
+USE phs_db;
+SHOW TABLES;
+
+CREATE TABLE rol_usuarios (
+    id_rol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL UNIQUE,
+    descripcion_rol VARCHAR(150)
+) ENGINE=InnoDB;
+
+CREATE TABLE usuarios (
+    id_usu INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usu VARCHAR(50) NOT NULL,
+    correo_usu VARCHAR(50) NOT NULL UNIQUE,
+    telefono_usu VARCHAR(20) NOT NULL,
+    password_usu VARCHAR(100) NOT NULL,
+    direccion_usu VARCHAR(50) NOT NULL,
+    codigoPostal_usu VARCHAR (60) NOT NULL,
+    imagen_usu VARCHAR(255),
+    id_rol INT NOT NULL,
+    estado_usu VARCHAR(25) NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES rol_usuarios(id_rol)
+);
+
+CREATE TABLE mascotas (
+	id_mascota INT auto_increment PRIMARY KEY,
+    nombre_mascota VARCHAR(25) NOT NULL,
+    peso INT NOT NULL,
+    especie VARCHAR(70) NOT NULL,
+    raza VARCHAR(70) NOT NULL,
+    edad INT NOT NULL,
+    altura INT NOT NULL,
+    id_usu INT NOT NULL,
+    FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
+);
+
+CREATE TABLE domicilios (
+	id_dom INT auto_increment PRIMARY KEY,
+    departamento_dom VARCHAR(100) NOT NULL,
+    ciudad_dom VARCHAR(100) NOT NULL,
+    calle_dom VARCHAR(250) NOT NULL,
+    codigoPostal_dom VARCHAR(60) NOT NULL,
+    id_usu INT NOT NULL,
+    FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
+);
+
+CREATE TABLE servicios (
+	id_servicio INT auto_increment PRIMARY KEY,
+    tipo_servicio VARCHAR(75) NOT NULL,
+    estado_servicio VARCHAR(25) NOT NULL,
+    descripcion_servicio VARCHAR(255) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   /* idk */
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   /* idk */
+    id_usu INT NOT NULL,
+    FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
+);
+
+CREATE TABLE citas (
+	id_cita INT auto_increment PRIMARY KEY,
+    tipo_cita VARCHAR(40) NOT NULL,
+    descripcion_cita VARCHAR(255) NOT NULL,
+    estado_cita VARCHAR(30) NOT NULL,
+    id_servicio INT NOT NULL,
+    id_mascota INT NOT NULL,
+    FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
+	FOREIGN KEY (id_mascota) REFERENCES mascotas(id_mascota)
+);
+
+CREATE TABLE resultados (
+	id_resultado INT auto_increment PRIMARY KEY,
+	diagnostico VARCHAR(255) NOT NULL,
+    observaciones TEXT,
+	fecha_resultado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    requiere_tratamiento BOOLEAN NOT NULL DEFAULT FALSE,
+    id_cita INT NOT NULL,
+    FOREIGN KEY (id_cita) REFERENCES citas(id_cita)
+);
+
+CREATE TABLE tratamientos (
+	id_tratamiento INT auto_increment PRIMARY KEY,
+    tipo_tratamiento VARCHAR (150) NOT NULL,
+    descripcion_tratamiento TEXT,
+    fecha_inicio VARCHAR (100) NOT NULL,
+    fecha_fin VARCHAR (100) NOT NULL,
+    estado_tratamiento VARCHAR(50) NOT NULL,
+    id_resultado INT NOT NULL,
+	FOREIGN KEY (id_resultado) REFERENCES resultados(id_resultado)
+);
+
+CREATE TABLE proveedores (
+	id_proveedor INT auto_increment PRIMARY KEY,
+    nombre_compania VARCHAR(150) NOT NULL,  
+    telefono_proveedor VARCHAR(20) NOT NULL,
+    correo_proveedor VARCHAR(100) NOT NULL,
+    direccion_contacto VARCHAR(150) NOT NULL,
+    estado_proveedor ENUM('Activo','Inactivo','finalizado') DEFAULT 'Activo'
+);
+
+CREATE TABLE productos (
+	id_producto INT auto_increment PRIMARY KEY,
+    nombre_producto VARCHAR (100) NOT NULL,
+    img_producto VARCHAR (300),
+    categoria_producto VARCHAR (100) NOT NULL,
+    descripcion_producto TEXT NOT NULL,
+    estado_producto ENUM('en-stock','agotado','retirado') DEFAULT 'en-stock',
+    precio_producto DECIMAL(10,2) NOT NULL,
+    id_proveedor INT NOT NULL,
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor)
+);
+
+CREATE TABLE metodo_pago (
+	id_metodo_pago INT auto_increment PRIMARY KEY,
+    tipo_metodo ENUM('Tarjeta Crédito', 'Tarjeta Débito', 'Efectivo', 'Transferencia', 'Nequi', 'Daviplata', 'PSE') NOT NULL,
+    numero_cuenta VARCHAR(50),   
+    titular VARCHAR(100),        
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_usu INT NOT NULL,
+    FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
+);
+
+CREATE TABLE pedidos (
+	id_pedido INT auto_increment PRIMARY KEY,
+    fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado_pedido ENUM ('pendiente', 'en-proceso','cancelado','pagado') DEFAULT 'pendiente' NOT NULL,
+	total DECIMAL(10,2) NOT NULL,
+    id_metodo_pago INT NOT NULL,
+    FOREIGN KEY (id_metodo_pago) REFERENCES metodo_pago(id_metodo_pago)
+); 
+
+CREATE TABLE detalle_pedido (
+    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL CHECK (cantidad > 0),
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+);
+
+CREATE TABLE recibos (
+    id_recibo INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_recibo TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    monto_pagado DECIMAL(10,2) NOT NULL,
+    estado_recibo ENUM('emitido','anulado') DEFAULT 'emitido',
+    id_pedido INT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido)
+);
+
+
+DROP DATABASE phs_db;
