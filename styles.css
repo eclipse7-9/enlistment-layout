@@ -1,0 +1,157 @@
+    /* Estilos por defecto (modo claro) */
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    /* Estilos para el modo oscuro */
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: #121212; /* Un negro suave, común en el modo oscuro */
+            color: white;
+        }
+        /* Puedes aplicar más estilos a otros elementos */
+        h1 {
+            color: #e0e0e0;
+        }
+    }
+    
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 2px solid #00aaff;
+}
+
+header h1 {
+  font-family: cursive;
+  color: #00aaff;
+  margin: 0;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-login {
+  background: #00d084;
+  color: white;
+}
+
+.btn-signup {
+  background: #00aaff;
+  color: white;
+}
+
+main {
+  padding: 20px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.hero img {
+  max-width: 120px;
+}
+
+.banner {
+  width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.services, .preferences, .info, .map, .products {
+  margin: 40px 0;
+}
+
+.services h2,
+.preferences h2,
+.info h2,
+.map h2,
+.products h2 {
+  margin-bottom: 20px;
+}
+
+.service-options,
+.info-options,
+.product-list {
+  display: flex;
+  gap: 20px;
+}
+
+.service-card,
+.info-card,
+.product-card {
+  flex: 1;
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.service-card img,
+.info-card img,
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.preferences {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.preferences-list {
+  flex: 1;
+}
+
+.preferences img {
+  max-width: 50%;
+  border-radius: 10px;
+}
+
+footer {
+  background: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+
+footer .links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.product-card button {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.buy-btn {
+  background: #00d084;
+  color: white;
+}
+
+.info-btn {
+  background: #00aaff;
+  color: white;
+}
