@@ -1,0 +1,225 @@
+    /* Estilos por defecto (modo claro) */
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    /* Estilos para el modo oscuro */
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: #121212; /* Un negro suave, común en el modo oscuro */
+            color: white;
+        }
+        /* Puedes aplicar más estilos a otros elementos */
+        h1 {
+            color: #e0e0e0;
+        }
+    }
+    
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 2px solid #00aaff;
+}
+
+header h1 {
+  font-family: cursive;
+  color: #00aaff;
+  margin: 0;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-login {
+  background: #00d084;
+  color: white;
+}
+
+.btn-signup {
+  background: #00aaff;
+  color: white;
+}
+
+main {
+  padding: 20px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.hero img {
+  max-width: 120px;
+}
+
+.banner {
+  width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.services, .preferences, .info, .map, .products {
+  margin: 40px 0;
+}
+
+.services h2,
+.preferences h2,
+.info h2,
+.map h2,
+.products h2 {
+  margin-bottom: 20px;
+}
+
+.service-options,
+.info-options,
+.product-list {
+  display: flex;
+  gap: 20px;
+}
+
+.service-card,
+.info-card,
+.product-card {
+  flex: 1;
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.service-card img,
+.info-card img,
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.preferences {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.preferences-list {
+  flex: 1;
+}
+
+.preferences img {
+  max-width: 50%;
+  border-radius: 10px;
+}
+
+footer {
+  background: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+
+footer .links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.product-card button {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.buy-btn {
+  background: #00d084;
+  color: white;
+}
+
+.info-btn {
+  background: #00aaff;
+  color: white;
+}
+
+.slider-container {
+  width: 80%; /* Ajusta el ancho del contenedor */
+  margin: 50px auto; /* Centra el carrusel */
+  overflow: hidden; /* Oculta las imágenes que salen de la vista */
+  position: relative;
+  height: 400px; /* Ajusta la altura del contenedor */
+  background-color: #eee; /* Color de fondo del contenedor */
+}
+
+.slider-wrapper {
+  display: flex; /* Coloca las imágenes una al lado de la otra */
+  width: 400%; /* Ancho total de las imágenes (nº de imágenes * 100%) */
+  animation: slide-animation 20s infinite linear; /* Nombre, duración, y repetición */
+}
+
+.slider-item {
+  width: 25%; /* Ancho de cada imagen (100% / nº de imágenes) */
+  box-sizing: border-box;
+}
+
+.slider-item img {
+  width: 100%;
+  height: 400px; /* Asegura que las imágenes tengan la altura del contenedor */
+  object-fit: cover; /* Mantiene la proporción de la imagen */
+}
+
+@keyframes slide-animation {
+  0% {
+    margin-left: 0;
+  }
+  20% {
+    margin-left: 0;
+  }
+  25% {
+    margin-left: -100%; /* Desplaza para la segunda imagen */
+  }
+  45% {
+    margin-left: -100%;
+  }
+  50% {
+    margin-left: -200%; /* Desplaza para la tercera imagen */
+  }
+  70% {
+    margin-left: -200%;
+  }
+  75% {
+    margin-left: -300%; /* Desplaza para la cuarta imagen */
+  }
+  95% {
+    margin-left: -300%;
+  }
+  100% {
+    margin-left: 0; /* Vuelve al inicio */
+  }
+}
+
+.service-card{
+  width: 360px;
+  height: 530px;
+  transform-style: preserve-3d;
+  transition: transform .8s ease-in-out;
+  cursor: pointer;
+  border: 1.2px solid #ccc;
+  box-shadow: 10px 10px 15px rgba(0,0,0,0.5), -5px -5px 10px rgba(0,0,0,0.2);
+  border-radius: 15px;
+}
+

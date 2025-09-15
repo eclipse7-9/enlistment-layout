@@ -1,0 +1,207 @@
+/* ======== ESTILOS BASE ======== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #000000;
+}
+
+.products {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.products h2 {
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  color: #00aaff;
+}
+
+/* GRID DE 3 COLUMNAS */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* siempre 3 productos en horizontal */
+  gap: 25px;
+  justify-content: center;
+}
+
+/* ======== TARJETAS DE PRODUCTOS ======== */
+.product-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 220px;          /* todas las imágenes del mismo tamaño */
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.product-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+/* ======== BOTONES ======== */
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.3s ease;
+  margin: 4px;
+}
+
+.btn-pro {
+  background-color: #00aaff;
+}
+.btn-pro:hover {
+  background-color: #0088cc;
+}
+
+.btn-med {
+  background-color: #e57373;
+}
+.btn-med:hover {
+  background-color: #c62828;
+}
+
+.btn-ubi {
+  background-color: #00d084;
+}
+.btn-ubi:hover {
+  background-color: #00d084;
+}
+
+.info-btn {
+  background-color: #333;
+}
+.info-btn:hover {
+  background-color: #555;
+}
+
+/* ======== MODO OSCURO ======== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f0f0f0;
+  }
+
+  .products h2 {
+    color: #ffffff;
+  }
+
+  .product-card {
+    background-color: #1e1e1e;
+    border: 1px solid #2c2c2c;
+    color: #e0e0e0;
+  }
+
+  .product-card p b {
+    color: #ffffff;
+  }
+
+  .btn-pro {
+    background-color: #4cafef;
+  }
+  .btn-pro:hover {
+    background-color: #2196f3;
+  }
+
+  .btn-med {
+    background-color: #ef5350;
+  }
+  .btn-med:hover {
+    background-color: #e53935;
+  }
+
+  .btn-ubi {
+    background-color: #00d084;
+  }
+  .btn-ubi:hover {
+    background-color: #00d084;
+  }
+
+  .info-btn {
+    background-color: #444;
+  }
+  .info-btn:hover {
+    background-color: #666;
+  }
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 1024px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr); /* en tablets, 2 por fila */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: 1fr; /* en móviles, 1 por fila */
+  }
+}
+
+/* Botón de productos (azul) */
+.btn-pro {
+  background-color: #00aaff; /* Azul */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.btn-pro:hover {
+  background-color:#00aaff;
+}
+
+/* Botón de servicios médicos (verde) */
+.btn-med {
+  background-color: #00d084; /* Verde */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.btn-med:hover {
+  background-color: #00d084;
+}
+
+/* Botón de ubicaciones (también azul como productos) */
+/* Usa .btn-pro para mantener la gama */
+
+/* Botón Info (amarillo) */
+.info-btn {
+  background-color: #ffc107; /* Amarillo */
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.info-btn:hover {
+  background-color: #e0a800;
+}
