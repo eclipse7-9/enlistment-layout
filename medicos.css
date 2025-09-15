@@ -1,0 +1,172 @@
+/* ================== ESTILOS GENERALES ================== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #222;
+}
+
+h2 {
+  text-align: center;
+  color: #00aaff;
+  margin-bottom: 30px;
+}
+
+/* ================== TARJETAS DE SERVICIOS ================== */
+.services {
+  padding: 40px 20px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-card p {
+  font-size: 14px;
+  line-height: 1.4em;
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  transition: background 0.3s;
+  color: #fff;
+}
+
+.btn-med {
+  background-color: #00d084; /* verde */
+}
+
+.btn-med:hover {
+  background-color: #00a96d;
+}
+
+/* ================== FORMULARIO DE AGENDAMIENTO ================== */
+.appointment {
+  padding: 40px 20px;
+  background: #f1f1f1;
+  margin-top: 40px;
+}
+
+.appointment h2 {
+  color: #00aaff;
+  margin-bottom: 20px;
+}
+
+.appointment-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.appointment-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.appointment-form input,
+.appointment-form select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.appointment-form input:focus,
+.appointment-form select:focus {
+  border-color: #00aaff;
+}
+
+.appointment-form button {
+  background-color: #00d084;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.appointment-form button:hover {
+  background-color: #00a96d;
+}
+
+/* ================== MODO OSCURO ================== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f0f0f0;
+  }
+
+  .product-card {
+    background: #1e1e1e;
+    border: 1px solid #2c2c2c;
+    color: #e0e0e0;
+  }
+
+  .appointment {
+    background: #1a1a1a;
+  }
+
+  .appointment-form {
+    background: #222;
+    color: #f0f0f0;
+  }
+
+  .appointment-form input,
+  .appointment-form select {
+    background: #333;
+    color: #f0f0f0;
+    border: 1px solid #555;
+  }
+
+  .appointment-form input:focus,
+  .appointment-form select:focus {
+    border-color: #00aaff;
+  }
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* EXACTAMENTE 3 por fila */
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}

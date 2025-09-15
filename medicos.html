@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios Médicos - Mascotas Exóticas</title>
+  <link rel="stylesheet" href="medicos.css">
+</head>
+<body>
+
+  <section class="services">
+    <h2>SERVICIOS MÉDICOS PARA TUS ACOMPAÑANTES EXÓTICOS</h2>
+    <div class="product-list">
+
+      <!-- Servicio 1 -->
+      <div class="product-card">
+        <img src="consultaGeneral.png" alt="Consulta General">
+        <p><b>Consulta General</b><br>
+          Evaluación médica básica para reptiles, aves, roedores y más.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 2 -->
+      <div class="product-card">
+        <img src="vacunacion.png" alt="Vacunación">
+        <p><b>Vacunación</b><br>
+          Aplicación de vacunas esenciales para prevenir enfermedades.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 3 -->
+      <div class="product-card">
+        <img src="desparasitacion.png" alt="Desparasitación">
+        <p><b>Desparasitación</b><br>
+          Tratamiento interno y externo contra parásitos en especies exóticas.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 4 -->
+      <div class="product-card">
+        <img src="cirugia.png" alt="Cirugía">
+        <p><b>Cirugía Especializada</b><br>
+          Procedimientos quirúrgicos para casos complejos y emergencias.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 5 -->
+      <div class="product-card">
+        <img src="odontologia.png" alt="Odontología">
+        <p><b>Odontología</b><br>
+          Cuidado dental especializado para roedores y reptiles.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 6 -->
+      <div class="product-card">
+        <img src="nutricion.png" alt="Nutrición">
+        <p><b>Plan de Nutrición</b><br>
+          Dietas balanceadas y personalizadas según especie y edad.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 7 -->
+      <div class="product-card">
+        <img src="radiologia.png" alt="Radiología">
+        <p><b>Radiología</b><br>
+          Diagnóstico por imágenes para detectar fracturas o anomalías.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 8 -->
+      <div class="product-card">
+        <img src="analisis.png" alt="Análisis Clínicos">
+        <p><b>Análisis Clínicos</b><br>
+          Exámenes de laboratorio para control preventivo y diagnóstico.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 9 -->
+      <div class="product-card">
+        <img src="controlReproduccion.png" alt="Control Reproductivo">
+        <p><b>Control Reproductivo</b><br>
+          Manejo reproductivo seguro en aves, reptiles y mamíferos.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 10 -->
+      <div class="product-card">
+        <img src="emergencias.png" alt="Emergencias 24/7">
+        <p><b>Emergencias 24/7</b><br>
+          Atención inmediata para accidentes y enfermedades graves.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 11 -->
+      <div class="product-card">
+        <img src="oftalmologia.png" alt="Oftalmología">
+        <p><b>Oftalmología</b><br>
+          Cuidado y tratamiento de problemas oculares en exóticos.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+      <!-- Servicio 12 -->
+      <div class="product-card">
+        <img src="fisioterapia.png" alt="Fisioterapia">
+        <p><b>Fisioterapia</b><br>
+          Rehabilitación física tras lesiones o cirugías.
+        </p>
+        <button class="btn btn-med">Agendar</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Formulario de Agendamiento -->
+  <section class="appointment">
+    <h2>AGENDA TU CITA</h2>
+    <form class="appointment-form">
+      <label for="nombre">Nombre del propietario:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="mascota">Nombre de la mascota:</label>
+      <input type="text" id="mascota" name="mascota" required>
+
+      <label for="servicio">Servicio:</label>
+      <select id="servicio" name="servicio" required>
+        <option value="">-- Selecciona un servicio --</option>
+        <option value="consulta">Consulta General</option>
+        <option value="vacunacion">Vacunación</option>
+        <option value="desparasitacion">Desparasitación</option>
+        <option value="cirugia">Cirugía Especializada</option>
+        <option value="odontologia">Odontología</option>
+        <option value="nutricion">Plan de Nutrición</option>
+        <option value="radiologia">Radiología</option>
+        <option value="analisis">Análisis Clínicos</option>
+        <option value="control">Control Reproductivo</option>
+        <option value="emergencias">Emergencias 24/7</option>
+        <option value="oftalmologia">Oftalmología</option>
+        <option value="fisioterapia">Fisioterapia</option>
+      </select>
+
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" name="fecha" required>
+
+      <label for="hora">Hora:</label>
+      <input type="time" id="hora" name="hora" required>
+
+      <button type="submit" class="btn btn-med">Confirmar Cita</button>
+    </form>
+  </section>
+
+</body>
+</html>
