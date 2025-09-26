@@ -1,0 +1,110 @@
+/* --/* --- Estilos generales --- */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #E6D0B4; /* Beige claro */
+  margin: 0;
+  padding: 0;
+
+  /* Centrar contenido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Que ocupe toda la pantalla */
+  min-height: 100vh;
+}
+
+/* --- Formulario --- */
+form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  /* Que se ajuste automáticamente */
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+/* --- Título --- */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #6E7255; /* Verde oliva */
+}
+
+/* --- Etiquetas --- */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #6E7255;
+}
+
+/* --- Inputs --- */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+
+  /* 👇 Aquí forzamos colores */
+  background-color: #d8d8d8; /* Gris claro */
+  color: #333; /* Texto oscuro */
+}
+
+input:focus {
+  border-color: #6E7255;
+  box-shadow: 0 0 4px rgba(110,114,85,0.4);
+  outline: none;
+}
+
+input::placeholder {
+  color: #999; /* Texto guía gris */
+}
+
+/* --- Checkbox --- */
+input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* --- Botones --- */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background-color: #8BA870; /* Verde oliva */
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #5A5E47; /* Más oscuro */
+}
+
+/* --- Responsividad para pantallas pequeñas --- */
+@media (max-width: 500px) {
+  form {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+/* estilos login */
