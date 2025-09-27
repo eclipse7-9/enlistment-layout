@@ -1,46 +1,16 @@
-# enlistment-layout
+# React + Vite
 
-[![CI](https://github.com/eclipse7-9/enlistment-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/eclipse7-9/enlistment-layout/actions/workflows/ci.yml)
-![Último commit](https://img.shields.io/github/last-commit/eclipse7-9/enlistment-layout)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-**Estructura organizada de las carpetas del proyecto**
+Currently, two official plugins are available:
 
-```texto
-proyecto/
-│
-├── backend/                 # Backend con FastAPI (Python)
-│   ├── app/                  # Código principal
-│   │   ├── api/              # Rutas/Endpoints
-│   │   ├── core/             # Configuraciones y utilidades
-│   │   ├── models/           # Modelos de datos (SQLAlchemy)
-│   │   ├── schemas/          # Esquemas Pydantic
-│   │   ├── services/         # Lógica de negocio
-│   │   ├── db.py             # Conexión a MySQL
-│   │   ├── main.py           # Punto de entrada FastAPI
-│   ├── tests/                # Pruebas unitarias
-│   ├── requirements.txt      # Dependencias Python
-│   └── README.md
-│
-├── frontend/                 # Frontend con React
-│   ├── public/               # Archivos estáticos
-│   ├── src/                  # Código fuente
-│   │   ├── components/       # Componentes reutilizables
-│   │   ├── pages/            # Páginas
-│   │   ├── services/         # Llamadas a la API
-│   │   ├── App.js
-│   │   └── index.js
-│   ├── package.json          # Dependencias JS
-│   └── README.md
-│
-├── db/                       # Scripts y migraciones de MySQL
-│   ├── migrations/           # Archivos de migración
-│   ├── init.sql              # Script inicial de base de datos
-│   └── README.md
-│
-├── docs/                     # Documentación del proyecto
-│   ├── arquitectura.md
-│   ├── api.md
-│   └── README.md
-│
-├── docker-compose.yml        # Configuración para levantar todo el stack
-└── README.md
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## React Compiler
+
+The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
