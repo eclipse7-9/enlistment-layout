@@ -1,0 +1,133 @@
+/* --- Body --- */
+html, body {
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #E6D0B4; /* Beige claro */
+  display: flex;
+  justify-content: center;   /* centra horizontal */
+  align-items: flex-start;   /* inicia desde arriba */
+  padding: 40px 16px;        /* espacio arriba/abajo y laterales */
+  box-sizing: border-box;
+  overflow-y: auto;          /* permite scroll */
+}
+
+/* --- Formulario --- */
+.register-form {
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+
+  width: 100%;
+  max-width: 700px; /* más ancho para el título largo */
+  box-sizing: border-box;
+}
+
+/* --- Título --- */
+.form-title h2 {
+  color: #6E7255;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+
+  /* 👇 evita cortes */
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* --- Etiquetas --- */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #6E7255;
+}
+
+/* --- Inputs --- */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: #d8d8d8; /* gris claro */
+  color: #333;
+}
+
+input:focus {
+  border-color: #6E7255;
+  box-shadow: 0 0 4px rgba(110,114,85,0.4);
+  outline: none;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+/* --- Checkbox --- */
+input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* --- Botones --- */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background-color: #8BA870; /* verde oliva */
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #5A5E47;
+}
+
+/* --- Responsividad --- */
+@media (max-width: 500px) {
+  .register-form {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .form-title h2 {
+    font-size: 1.2rem;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+.progress-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 12px;
+  width: 0%;
+  background-color: #8BA870; /* mismo verde de tus botones */
+  transition: width 0.4s ease;
+}
