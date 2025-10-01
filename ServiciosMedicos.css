@@ -1,0 +1,305 @@
+/* ================== ESTILOS GENERALES ================== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e6d0b4;
+  color: #222;
+}
+
+h2 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  color: #6e7255;
+  margin-bottom: 30px;
+}
+
+/* ================== TARJETAS DE SERVICIOS ================== */
+.services {
+  padding: 40px 20px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* siempre 3 tarjetas horizontales */
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-card {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #FFFFFF; /* fondo blanco */
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-card p {
+  font-size: 14px;
+  line-height: 1.4em;
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  transition: background 0.3s;
+  color: #fff;
+}
+
+.btn-med {
+  background-color: #5A5E47; /* verde */
+}
+
+.btn-med:hover {
+  background-color: #6e7255;
+}
+
+/* ================== FORMULARIO DE AGENDAMIENTO ================== */
+.appointment {
+  padding: 40px 20px;
+  background: #f1f1f1;
+  margin-top: 40px;
+}
+
+.appointment h2 {
+  color: #6e7255;
+  margin-bottom: 20px;
+}
+
+.appointment-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #FFFFFF; /* fondo blanco uniforme */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.appointment-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.appointment-form input,
+.appointment-form select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+  background: #fff; /* inputs blancos */
+  color: #222;
+}
+
+.appointment-form input:focus,
+.appointment-form select:focus {
+  border-color: #00aaff;
+}
+
+.appointment-form button {
+  background-color: #5A5E47;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.appointment-form button:hover {
+  background-color: #6e7255;
+}
+
+/* ================== MODO OSCURO ================== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f0f0f0;
+  }
+
+  .product-card {
+    background: #FFFFFF; /* siempre blanco */
+    border: 1px solid #ddd;
+    color: #222;
+  }
+
+  .appointment {
+    background: #f1f1f1; /* mantener claro */
+  }
+
+  .appointment-form {
+    background: #FFFFFF; /* mantener blanco */
+    color: #222;
+  }
+
+  .appointment-form input,
+  .appointment-form select {
+    background: #FFFFFF; /* inputs blancos */
+    color: #222;
+    border: 1px solid #ccc;
+  }
+
+  .appointment-form input:focus,
+  .appointment-form select:focus {
+    border-color: #00aaff;
+  }
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 992px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr); /* en tablets solo 2 */
+  }
+}
+
+@media (max-width: 600px) {
+  .product-list {
+    grid-template-columns: 1fr; /* en móviles solo 1 */
+  }
+}
+
+/* ================== MODAL CON BORDES ================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px); /* fondo borroso */
+  background-color: rgba(0,0,0,0.4); /* semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content-box {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease-out;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-border-top,
+.modal-border-bottom {
+  height: 6px;
+  background: linear-gradient(90deg, #ffb347, #ffcc33);
+  width: 100%;
+}
+
+.modal-title {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #5A5E47; /* verde oliva igual al botón */
+}
+
+/* Formulario */
+.appointment-form-box {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Etiquetas en verde oliva */
+.appointment-form-box label {
+  font-weight: bold;
+  color: #5A5E47; /* verde oliva */
+}
+
+.appointment-form-box input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s;
+  color: #333;
+}
+
+.appointment-form-box input:focus {
+  border-color: #ffb347;
+  box-shadow: 0 0 8px rgba(255, 179, 71, 0.5);
+}
+
+/* Botones */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn-med {
+  background-color: #5A5E47;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-med:hover {
+  background-color: #6e7255;
+}
+
+.btn-cancel {
+  background-color: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+  background-color: #ff3b3b;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Todo el texto dentro del modal (excepto inputs) en verde oliva */
+.modal-content-box p,
+.modal-content-box span,
+.modal-content-box label {
+  color: #5A5E47; /* verde oliva */
+}
+
+/* Mantener el color de los inputs como negro */
+.appointment-form-box input {
+  color: #333;
+}
