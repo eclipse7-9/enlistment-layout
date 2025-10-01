@@ -1,0 +1,146 @@
+
+/* ================== ESTILOS GENERALES ================== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e6d0b4;
+  color: #222;
+}
+
+h2 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  color: #6e7255;
+  margin-bottom: 30px;
+}
+
+/* ================== PANEL ADMINISTRADOR ================== */
+.admin-products {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ================== FORMULARIO AGREGAR PRODUCTO ================== */
+.add-product-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.add-product-form input {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  flex: 1 1 200px;
+}
+
+.add-product-form input:focus {
+  border-color: #ffb347;
+  box-shadow: 0 0 8px rgba(255, 179, 71, 0.5);
+}
+
+.add-product-form button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #5A5E47;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-product-form button:hover {
+  background-color: #6e7255;
+}
+
+/* ================== LISTA DE PRODUCTOS ================== */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* siempre 3 tarjetas horizontales */
+  gap: 20px;
+}
+
+/* ================== TARJETAS DE PRODUCTOS ================== */
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-card p {
+  font-size: 14px;
+  line-height: 1.4em;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.product-card b {
+  color: #5A5E47; /* verde oliva */
+  font-size: 1rem;
+}
+
+/* ================== BOTONES TARJETA ================== */
+.product-card button {
+  margin: 5px 5px 0 5px;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #fff;
+}
+
+.product-card button:nth-of-type(1) {
+  background-color: #3182ce; /* azul editar */
+}
+
+.product-card button:nth-of-type(2) {
+  background-color: #e53e3e; /* rojo eliminar */
+}
+
+.product-card a button {
+  background-color: #5A5E47; /* verde oliva */
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 992px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+
+  .add-product-form input {
+    flex: 1 1 100%;
+  }
+}
