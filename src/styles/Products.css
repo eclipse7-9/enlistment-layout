@@ -1,0 +1,290 @@
+/* ===========================
+   General
+=========================== */
+.products {
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  text-align: center;
+  margin: 20px 0;
+  color: #333;
+}
+
+/* ===========================
+   Slider
+=========================== */
+.top-section {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-text {
+  flex: 1;
+  min-width: 250px;
+}
+
+.inter-font {
+  font-family: 'Inter', sans-serif;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.highlight {
+  color: #ff5722;
+}
+
+.slider-section {
+  flex: 2;
+  min-width: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.slider-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slider-item {
+  min-width: 100%;
+  position: relative;
+}
+
+.slider-item img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+
+.slider-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+}
+
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.slider-controls button {
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* 🔹 Esto hace que sea redondo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.slider-controls button:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.slider-dots {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slider-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.slider-dot.active {
+  background-color: #ff5722;
+}
+
+/* ===========================
+   Productos
+=========================== */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.product-info h3 {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.product-info p {
+  margin: 5px 0;
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.product-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.btn-buy {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-buy:hover {
+  background-color: #45a049;
+}
+
+.btn-info {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-info:hover {
+  background-color: #1976d2;
+}
+
+/* ===========================
+   Modal de pago
+=========================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.modal h3 {
+  margin-bottom: 10px;
+}
+
+.modal p {
+  margin: 10px 0;
+}
+
+.modal label {
+  display: block;
+  margin: 10px 0;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modal button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #ff5722;
+  color: white;
+}
+
+.modal button:hover {
+  opacity: 0.9;
+}
+
+/* ===========================
+   Responsivo
+=========================== */
+@media (max-width: 768px) {
+  .top-section {
+    flex-direction: column;
+  }
+
+  .slider-section {
+    width: 100%;
+  }
+
+  .product-card img {
+    height: 150px;
+  }
+}

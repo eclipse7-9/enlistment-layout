@@ -1,0 +1,153 @@
+/* Fondo semi-transparente del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenedor del modal */
+.modal {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px 25px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Título del modal */
+.modal h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Inputs y selects */
+.modal input[type="number"],
+.modal input[type="text"],
+.modal select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Etiquetas */
+.modal label {
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  color: #444;
+}
+
+/* Botones */
+.modal button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 5px;
+}
+
+.modal button:hover {
+  opacity: 0.9;
+}
+
+/* Botones de acción */
+.modal button:nth-of-type(1) {
+  background-color: #4caf50;
+  color: white;
+}
+
+.modal button:nth-of-type(2) {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Botón secundario para crear nuevo método */
+.modal > button,
+.modal div button {
+  margin-top: 10px;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  font-family: Arial, sans-serif;
+}
+
+.modal input, .modal select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 6px 0 12px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modal button {
+  margin: 6px 4px 0 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.recibo-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.recibo-footer {
+  margin-top: 15px;
+  font-weight: bold;
+}
