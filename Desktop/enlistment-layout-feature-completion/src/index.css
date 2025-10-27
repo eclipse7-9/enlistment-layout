@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: "Amazing Grotesk";
+  src: url("/fonts/AmazingGrotesk-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+};
+
+@keyframes moveBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -500px 0;
+  }
+}
+
+.animate-bg {
+  animation: moveBackground 20s linear infinite;
+}
