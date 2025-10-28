@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function Slider() {
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const slides = [
     {
       src: "https://a.storyblok.com/f/160385/312f6d02d3/veterinarios-bienestar-animal-produccion-leche.jpeg",
@@ -21,12 +22,11 @@ function Slider() {
     },
   ];
 
-  // Cambiar slide automáticamente cada 5s
+  // Cambio automático cada 5 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
-
     return () => clearInterval(interval);
   }, [currentIndex]);
 
@@ -43,39 +43,65 @@ function Slider() {
   };
 
   return (
-    <section className="slider-section">
-      <h2 className="section-title">Nuestros Servicios</h2>
-      <div className="slider-container">
+    <section className="bg-[#F9FAF8] py-16">
+      <h2 className="text-center text-3xl md:text-4xl font-extrabold text-[#7A8358] mb-8 font-[Poppins]">
+        Nuestros Servicios
+      </h2>
+
+      <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-lg">
+        {/* Slides */}
         <div
-          className="slider-wrapper"
+          className="flex transition-transform ease-in-out duration-700"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {slides.map((slide, index) => (
-            <div className="slider-item" key={index}>
-              <img src={slide.src} alt={slide.caption} />
-              <div className="slider-caption">{slide.caption}</div>
+            <div
+              key={index}
+              className="min-w-full relative flex justify-center items-center"
+            >
+              <img
+                src={slide.src}
+                alt={slide.caption}
+                className="w-full h-[500px] object-cover"
+              />
+              <div className="absolute bottom-0 w-full bg-black/40 text-white text-center py-4 text-lg md:text-xl font-semibold">
+                {slide.caption}
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="slider-controls">
-          <button className="slider-prev" onClick={prevSlide} aria-label="Anterior">
-            &lt;
-          </button>
-          <button className="slider-next" onClick={nextSlide} aria-label="Siguiente">
-            &gt;
-          </button>
-        </div>
-      </div>
+        {/* Botones de navegación */}
+        <button
+          onClick={prevSlide}
+          className="absolute top-1/2 left-4 -translate-y-1/2 bg-[#7A8358] text-white p-3 rounded-full shadow-lg hover:bg-[#5c6343] transition"
+          aria-label="Anterior"
+        >
+          ❮
+        </button>
 
-      <div className="slider-dots">
-        {slides.map((_, index) => (
-          <span
-            key={index}
-            className={`slider-dot ${index === currentIndex ? "active" : ""}`}
-            onClick={() => goToSlide(index)}
-          ></span>
-        ))}
+        <button
+          onClick={nextSlide}
+          className="absolute top-1/2 right-4 -translate-y-1/2 bg-[#7A8358] text-white p-3 rounded-full shadow-lg hover:bg-[#5c6343] transition"
+          aria-label="Siguiente"
+        >
+          ❯
+        </button>
+
+        {/* Indicadores (puntos) */}
+        <div className="flex justify-center mt-6 space-x-3">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition ${
+                currentIndex === index
+                  ? "bg-[#7A8358] scale-110"
+                  : "bg-gray-300 hover:bg-gray-400"
+              }`}
+            ></button>
+          ))}
+        </div>
       </div>
     </section>
   );
