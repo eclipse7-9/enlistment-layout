@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import Home from "./components/Home";
 import Slider from "./components/Slider";
 import Services from "./components/Services";
 import Preferences from "./components/Preferences";
@@ -11,8 +12,8 @@ import LoginForm from "./pages/LoginForm";
 import Products from "./pages/Products";
 import { useAuth } from "./context/AuthContext";
 import Medicos from "./pages/ServiciosMedicos";
-import AdminUsers from "./pages/AdminUsers";
-import './index.css'
+import AdminUsers from "./pages/AdminUsers"; 
+import './index.css'  // 👈 importar
 
 function App() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function App() {
                 <Hero />
                 <Slider />
                 <Services />
+                <Home />
                 <Preferences />
                 <Info />
               </>
@@ -45,11 +47,11 @@ function App() {
           {/* Rutas protegidas */}
           <Route
             path="/productos"
-            element={user ? <Products /> : <Navigate to="/register" />}
+            element={user ? <Products /> : <Navigate to="/login" />}
           />
           <Route
             path="/servicios"
-            element={user ? <Medicos /> : <Navigate to="/register" />}
+            element={user ? <Medicos /> : <Navigate to="/login" />}
           />
           <Route
             path="/admin/users"
