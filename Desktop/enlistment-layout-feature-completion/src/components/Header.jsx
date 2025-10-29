@@ -48,14 +48,24 @@ const Header = () => {
           {user && (
             <>
               <Link
-                to="/productos"
-                className="bg-white text-[#7A8358] font-semibold px-4 py-2 rounded-lg shadow-sm hover:bg-gray-200 transition"
+                to="/"
+                className="bg-white text-[#7A8358] font-semibold px-4 py-2 rounded-lg shadow-sm 
+                transform transition-all duration-300 ease-in-out
+                hover:scale-110 hover:rotate-2 hover:bg-gray-100 hover:shadow-xl
+                active:scale-95 active:rotate-0
+                motion-safe:hover:-translate-y-1"
               >
-                Productos
+                Inicio
               </Link>
               <button
                 onClick={logout}
-                className="bg-[#556140] hover:bg-[#6b7450] text-white font-semibold px-4 py-2 rounded-lg shadow-sm transition"
+                className="
+  bg-[#556140] hover:bg-[#6b7450] text-white font-semibold px-4 py-2 rounded-lg shadow-sm 
+  transform transition-all duration-300 ease-in-out
+  hover:scale-110 hover:rotate-2 hover:shadow-xl hover:brightness-110
+  active:scale-95 active:rotate-0
+  motion-safe:hover:-translate-y-1
+"
               >
                 Cerrar sesión
               </button>
