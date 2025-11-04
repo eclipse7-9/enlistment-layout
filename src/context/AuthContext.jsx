@@ -1,3 +1,4 @@
+// src/context/AuthContext.jsx
 import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
@@ -7,24 +8,28 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     const correo = localStorage.getItem("correo");
     const id_usuario = localStorage.getItem("id_usuario");
-    const id_rol = localStorage.getItem("id_rol"); // 👈 recuperar rol también
+    const id_rol = localStorage.getItem("id_rol");
     return token && correo && id_usuario && id_rol
-      ? { correo, token, id_usuario: Number(id_usuario), id_rol: Number(id_rol) }
+      ? {
+          correo,
+          token,
+          id_usuario: Number(id_usuario),
+          id_rol: Number(id_rol),
+        }
       : null;
   });
 
   const login = (userData) => {
-    // userData debe contener: { correo, token, id_usuario, id_rol }
     localStorage.setItem("token", userData.token);
     localStorage.setItem("correo", userData.correo);
     localStorage.setItem("id_usuario", userData.id_usuario);
-    localStorage.setItem("id_rol", userData.id_rol); // 👈 guardar rol
+    localStorage.setItem("id_rol", userData.id_rol);
 
     setUser({
       correo: userData.correo,
       token: userData.token,
       id_usuario: userData.id_usuario,
-      id_rol: userData.id_rol, // 👈 incluir rol en el estado
+      id_rol: userData.id_rol,
     });
   };
 
@@ -32,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("correo");
     localStorage.removeItem("id_usuario");
-    localStorage.removeItem("id_rol"); // 👈 limpiar también
+    localStorage.removeItem("id_rol");
     setUser(null);
   };
 

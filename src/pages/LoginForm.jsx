@@ -79,16 +79,19 @@ function LoginForm() {
       });
 
       // 🔑 Redirección según rol
-      switch (userData.id_rol) {
-        case 1:
-          navigate("/admin/users");
-          break;
-        case 3:
-          navigate("/domiciliario");
-          break;
-        default:
-          navigate("/");
-      }
+      switch (Number(userData.id_rol)) {  // convertimos a número
+  case 1:
+    navigate("/admin/users");
+    break;
+  case 2:
+    navigate("/Veterinarios"); 
+    break;
+  case 3:
+    navigate("/domiciliario");
+    break;
+  default:
+    navigate("/"); 
+}
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -215,7 +218,7 @@ function LoginForm() {
               <motion.button
                 type="submit"
                 className="w-full bg-[#7a8358] hover:bg-[#69724c] text-white font-semibold py-2 rounded-lg transition-colors"
-                whileHover={{ scale: 1.05 }}a
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 Ingresar

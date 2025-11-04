@@ -16,12 +16,15 @@ import AdminUsers from "./pages/AdminUsers";
 import NavbarAdmin from "./components/NavbarAdmin";
 import NavbarDomiciliarios from "./components/NavbarDomiciliario";
 import Domiciliary from "./pages/Domiciliario";       
+import Ubicaciones from "./pages/Ubicaciones";
+import Veterinarios from "./pages/Veterinarios";
 import "./index.css";
 
 // Definir roles
 const ROLES = {
   ADMIN: 1,
   DOMICILIARIO: 3,
+  EMPRENDEDOR: 2
 };
 
 const ProtectedRoute = ({ children, role }) => {
@@ -85,12 +88,21 @@ function App() {
                 <Products />
               </ProtectedRoute>
             }
+           
           />
           <Route
             path="/servicios"
             element={
               <ProtectedRoute>
                 <Medicos />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ubicaciones"
+            element={
+              <ProtectedRoute>
+                <Ubicaciones />
               </ProtectedRoute>
             }
           />
@@ -102,6 +114,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+           <Route
+            path="/Veterinarios"
+            element={
+              <ProtectedRoute role={ROLES.EMPRENDEDOR}>
+                <Veterinarios />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/domiciliario"
             element={
@@ -109,6 +129,25 @@ function App() {
                 <Domiciliary />
               </ProtectedRoute>
             }
+          />
+
+          {/* Ruta 404 - debe ir al final */}
+          <Route 
+            path="*" 
+            element={
+              <div className="min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                  <h1 className="text-4xl font-bold text-[#7a8358] mb-4">404</h1>
+                  <p className="text-gray-600 mb-4">Página no encontrada</p>
+                  <button 
+                    onClick={() => navigate(-1)}
+                    className="bg-[#7a8358] text-white px-4 py-2 rounded-lg hover:bg-[#5f6943]"
+                  >
+                    Volver
+                  </button>
+                </div>
+              </div>
+            } 
           />
         </Routes>
       </main>

@@ -21,7 +21,7 @@ export default function DomiciliaryNavbar() {
       <ul className="flex gap-6 items-center font-medium">
         <li>
           <a
-            href="/domiciliario/home"
+            href="/domiciliario"
             className="hover:text-gray-200 transition-colors duration-200"
           >
             Inicio
