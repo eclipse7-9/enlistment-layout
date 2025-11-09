@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal
-from models import Pedido, DetallePedido, Recibo, MetodoPago, Usuario
+from models import Pedido, DetallePedido, Recibo, MetodoPago, Usuario, Domicilio
+from schemas import DomicilioCreate
 from auth import get_current_user
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from decimal import Decimal
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -29,6 +30,8 @@ class CheckoutCreate(BaseModel):
     id_metodo_pago: int
     total: Decimal
     items: List[CheckoutItem]
+    # opcional: datos para crear un domicilio asociado al pedido
+    domicilio: Optional[DomicilioCreate] = None
 
 
 @router.post("/")
@@ -55,12 +58,31 @@ def process_checkout(
                 detail="Método de pago no válido o no pertenece al usuario"
             )
 
+        # Si se enviaron datos de domicilio, crear el domicilio y obtener su id
+        id_domicilio = None
+        if payload.domicilio:
+            dom_data = payload.domicilio
+            nuevo_dom = Domicilio(
+                alias_domicilio=dom_data.alias_domicilio or "Principal",
+                direccion_completa=dom_data.direccion_completa,
+                codigo_postal=dom_data.codigo_postal,
+                es_principal=dom_data.es_principal or False,
+                id_region=dom_data.id_region,
+                id_ciudad=dom_data.id_ciudad,
+                id_usuario=current_user.id_usuario,
+            )
+            db.add(nuevo_dom)
+            db.commit()
+            db.refresh(nuevo_dom)
+            id_domicilio = nuevo_dom.id_domicilio
+
         # 1) Crear pedido con estado 'pagado'
         pedido = Pedido(
             total=Decimal(payload.total),
             id_metodo_pago=payload.id_metodo_pago,
             estado_pedido="pagado",
-            id_usuario=current_user.id_usuario  # Añadimos el id_usuario
+            id_usuario=current_user.id_usuario,  # Añadimos el id_usuario
+            id_domicilio=id_domicilio,
         )
         db.add(pedido)
         db.commit()

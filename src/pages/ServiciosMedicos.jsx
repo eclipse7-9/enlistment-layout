@@ -1,142 +1,196 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
-import AppointmentForm from "../components/AppointmentForm.jsx";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const MedicalServices = () => {
-  const [showForm, setShowForm] = useState(false);
-  const [selectedService, setSelectedService] = useState("");
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [expandedId, setExpandedId] = useState(null);
+export default function ServiciosMedicos() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [formData, setFormData] = useState({
+    tipo_servicio: "",
+    estado_servicio: "Activo",
+    descripcion_servicio: "",
+    imagen_servicio: null,
+  });
 
-  const handleAgendar = (servicio) => {
-    setSelectedService(servicio);
-    setShowForm(true);
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  };
+  // Redirigir si no es emprendedor
+  if (!user || user.id_rol !== 2) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f5f3ee]">
+        <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-[#7a8358] mb-4">Acceso Restringido</h2>
+          <p className="text-gray-600 mb-4">Esta página es solo para emprendedores.</p>
+          <button
+            onClick={() => navigate("/")}
+            className="bg-[#7a8358] text-white px-6 py-2 rounded-lg hover:bg-[#5f6943] transition-colors"
+          >
+            Volver al inicio
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    const fetchServicios = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("http://localhost:8000/servicios/");
-        console.log("Respuesta del servidor:", response.data);
-
-        // Mapear campos del backend al frontend
-        const mappedServices = response.data.map((s) => ({
-          id_servicio: s.id_servicio,
-          nombre: s.tipo_servicio,
-          descripcion: s.descripcion_servicio,
-          precio: s.precio || 0, // si aún no tienes precio, usar 0
-          duracion: s.duracion || 30, // si quieres duración por defecto
-        }));
-
-        setServices(mappedServices);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error al cargar servicios:", err);
-        setError(err.message);
-        setLoading(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("tipo_servicio", formData.tipo_servicio);
+      formDataToSend.append("descripcion_servicio", formData.descripcion_servicio);
+      formDataToSend.append("estado_servicio", formData.estado_servicio);
+      formDataToSend.append("id_usuario", user.id_usuario);
+      
+      if (formData.imagen_servicio) {
+        formDataToSend.append("imagen_servicio", formData.imagen_servicio);
       }
-    };
 
-    fetchServicios();
-  }, []);
+      await axios.post(
+        "http://localhost:8000/servicios/",
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          },
+        }
+      );
 
-  const toggle = (id) => {
-    setExpandedId((prev) => (prev === id ? null : id));
+      await Swal.fire({
+        icon: "success",
+        title: "¡Éxito!",
+        text: "Servicio creado correctamente",
+        confirmButtonColor: "#7a8358",
+      });
+
+      setFormData({
+        tipo_servicio: "",
+        descripcion_servicio: "",
+        estado_servicio: "Activo",
+        imagen_servicio: null,
+      });
+
+      navigate("/servicios");
+    } catch (error) {
+      console.error("Error al crear el servicio:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.response?.data?.detail || "Error al crear el servicio",
+        confirmButtonColor: "#7a8358",
+      });
+    }
   };
 
-  if (error)
-    return (
-      <div className="text-center text-red-500 p-4">Error: {error}</div>
-    );
-
-  if (loading)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#52734D]"></div>
-        <span className="ml-3">Cargando servicios...</span>
-      </div>
-    );
-
-  if (services.length === 0)
-    return (
-      <div className="text-center text-gray-600 p-4">
-        No hay servicios disponibles.
-      </div>
-    );
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "imagen_servicio") {
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
 
   return (
-    <section className="bg-[#F6F8F2] min-h-screen py-16 px-6 md:px-12 font-[Poppins]">
-      <h2 className="text-center text-4xl md:text-5xl font-extrabold text-[#4A5B2E] mb-12 tracking-wide">
-        🩺 Servicios <span className="text-[#7A8358]">Médicos</span>
-      </h2>
+    <section className="min-h-screen bg-[#f5f3ee] py-12 px-6 md:px-16">
+      <div className="max-w-6xl mx-auto">
+        <motion.div 
+          className="bg-white/90 backdrop-blur-sm border border-[#d8c6aa] shadow-lg rounded-2xl p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-3xl font-bold text-[#7a8358] mb-8 text-center">
+            Crear Nuevo Servicio Médico
+          </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service) => (
-          <div
-            key={service.id_servicio}
-            className="bg-white rounded-lg shadow-md p-4"
-          >
-            <button
-              onClick={() => toggle(service.id_servicio)}
-              className="w-full text-left flex items-center justify-between focus:outline-none"
-              aria-expanded={expandedId === service.id_servicio}
-            >
-              <h3 className="text-lg font-semibold text-[#52734D]">
-                {service.nombre}
-              </h3>
-              <span className="text-sm text-gray-500">
-                {expandedId === service.id_servicio ? "▲" : "▼"}
-              </span>
-            </button>
-
-            <div
-              className={`mt-3 text-gray-700 transition-all duration-200 ${
-                expandedId === service.id_servicio
-                  ? "max-h-96 opacity-100"
-                  : "max-h-0 opacity-0 overflow-hidden"
-              }`}
-            >
-              <p className="mb-3">{service.descripcion}</p>
-              <div className="flex items-center justify-between">
-                <span className="text-[#52734D] font-bold">
-                  ${service.precio}
-                </span>
-                {service.duracion !== undefined && (
-                  <span className="text-sm text-gray-500">
-                    Duración: {service.duracion} min
-                  </span>
-                )}
+          {/* Formulario de creación */}
+          <div className="border border-[#d8c6aa] p-6 rounded-lg bg-white">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Tipo de servicio:<span className="text-red-500"> *</span></label>
+                  <input
+                    type="text"
+                    name="tipo_servicio"
+                    value={formData.tipo_servicio}
+                    onChange={handleChange}
+                    required
+                    placeholder="Tipo de servicio"
+                    className="p-3 border border-[#d8c6aa] rounded-lg focus:ring-2 focus:ring-[#7a8358] focus:border-transparent w-full"
+                  />
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium">Estado:<span className="text-red-500"> *</span></label>
+                  <select
+                    name="estado_servicio"
+                    value={formData.estado_servicio}
+                    onChange={handleChange}
+                    required
+                    className="p-3 border border-[#d8c6aa] rounded-lg focus:ring-2 focus:ring-[#7a8358] focus:border-transparent w-full"
+                  >
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                </select>
+                </div>
               </div>
-            </div>
 
-            <div className="mt-4 flex justify-center">
-              <button
-                onClick={() => handleAgendar(service.nombre)}
-                className="bg-[#556140] hover:bg-[#6b7450] text-white font-semibold px-4 py-2 rounded-lg shadow-sm transform transition-all duration-300 ease-in-out
-                hover:scale-110 hover:rotate-2 hover:shadow-xl
-                active:scale-95 active:rotate-0 motion-safe:hover:-translate-y-1"
-              >
-                Agendar
-              </button>
-            </div>
+              <textarea
+                name="descripcion_servicio"
+                value={formData.descripcion_servicio}
+                onChange={handleChange}
+                required
+                placeholder="Descripción del servicio..."
+                rows="3"
+                className="w-full p-3 border border-[#d8c6aa] rounded-lg focus:ring-2 focus:ring-[#7a8358] focus:border-transparent"
+              />
+
+              <div>
+                <input
+                  type="file"
+                  name="imagen_servicio"
+                  onChange={handleChange}
+                  accept="image/*"
+                  className="w-full text-sm text-[#4e5932]
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-[#7a8358] file:text-white
+                    hover:file:bg-[#5c6142]
+                    cursor-pointer"
+                />
+                <p className="mt-1 text-sm text-gray-500">
+                  Selecciona una imagen para el servicio (opcional)
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => navigate("/servicios")}
+                  className="px-6 py-2 border border-[#7a8358] text-[#7a8358] rounded-lg hover:bg-[#f5f3ee] transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-[#7a8358] text-white rounded-lg hover:bg-[#5c6142] transition-colors"
+                >
+                  Crear Servicio
+                </button>
+              </div>
+            </form>
           </div>
-        ))}
+        </motion.div>
       </div>
-
-      {showForm && (
-        <div className="mt-16">
-          <AppointmentForm
-            servicio={selectedService}
-            onClose={() => setShowForm(false)}
-          />
-        </div>
-      )}
     </section>
   );
-};
+}
 
-export default MedicalServices;

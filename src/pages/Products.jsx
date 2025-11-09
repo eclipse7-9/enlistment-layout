@@ -219,44 +219,75 @@ function ProductModal({ producto, onClose }) {
 
 
 
-/* 🔹 Tarjeta de producto estilo Services */
+/* 🔹 Tarjeta de producto — versión mejorada */
 function ProductCard({ producto, onView }) {
+  const { addToCart } = useCart();
+
+  const precio = producto.precio_producto
+    ? `${Number(producto.precio_producto).toFixed(2)} USD`
+    : "Precio no disponible";
+
+  const descripcionCorta = producto.descripcion_producto
+    ? producto.descripcion_producto.length > 100
+      ? producto.descripcion_producto.slice(0, 100) + "..."
+      : producto.descripcion_producto
+    : "Sin descripción";
+
+  const estaEnStock = producto.stock !== undefined ? producto.stock > 0 : true;
+
+  const handleAdd = (e) => {
+    e.stopPropagation();
+    if (addToCart) addToCart(producto);
+  };
+
   return (
     <div
-      className="relative group rounded-2xl overflow-hidden shadow-lg cursor-pointer"
       onClick={() => onView(producto)}
+      className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer group"
+      role="button"
+      tabIndex={0}
+      onKeyPress={(e) => { if (e.key === 'Enter') onView(producto); }}
     >
-      <img
-        src={getImageSrc(producto.imagen_producto)}
-        alt={producto.nombre_producto}
-        className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-      />
-      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center px-6">
-        <h3 className="text-2xl font-semibold text-white mb-3">
-          {producto.nombre_producto}
-        </h3>
-        <p className="text-gray-200 mb-4">
-          {producto.descripcion_producto?.length > 90
-            ? producto.descripcion_producto.slice(0, 90) + "..."
-            : producto.descripcion_producto}
-        </p>
-        <p className="text-xl font-bold text-[#E6E6E6] mb-5">
-          {producto.precio_producto
-            ? `${Number(producto.precio_producto).toFixed(2)} USD`
-            : "Sin precio"}
-        </p>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onView(producto);
-          }}
-          className="px-5 py-2 bg-[#7A8358] text-white rounded-xl hover:bg-[#69774a] transition"
-        >
-          👁️ Ver producto
-        </button>
+      <div className="relative">
+        <img
+          src={getImageSrc(producto.imagen_producto)}
+          alt={producto.nombre_producto}
+          className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+
+        {/* Stock badge */}
+        <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-medium shadow ${estaEnStock ? 'bg-[#E6F2E1] text-[#2F4532]' : 'bg-red-100 text-red-700'}`}>
+          {estaEnStock ? 'En stock' : 'Agotado'}
+        </div>
+
+        {/* Price pill */}
+        <div className="absolute top-3 right-3 bg-gradient-to-r from-[#7A8358] to-[#A4BA74] text-white px-3 py-1 rounded-full text-sm font-semibold shadow">
+          {precio}
+        </div>
       </div>
-      <div className="absolute bottom-0 bg-black/50 text-white w-full py-3 text-lg font-semibold text-center group-hover:opacity-0 transition-opacity duration-300">
-        {producto.nombre_producto}
+
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-[#2F4532]">{producto.nombre_producto}</h3>
+        <p className="text-sm text-gray-600 mt-2 min-h-[48px]">{descripcionCorta}</p>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <button
+            onClick={(e) => { e.stopPropagation(); onView(producto); }}
+            className="flex-1 px-4 py-2 bg-[#7A8358] text-white rounded-lg font-medium hover:bg-[#69774a] transition"
+            aria-label={`Ver ${producto.nombre_producto}`}
+          >
+            👁️ Ver
+          </button>
+
+          <button
+            onClick={handleAdd}
+            disabled={!estaEnStock}
+            className={`px-4 py-2 rounded-lg font-medium transition ${estaEnStock ? 'bg-white border border-[#7A8358] text-[#7A8358] hover:bg-[#F5F7ED]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+            aria-label={`Añadir ${producto.nombre_producto} al carrito`}
+          >
+            🛒 Añadir
+          </button>
+        </div>
       </div>
     </div>
   );

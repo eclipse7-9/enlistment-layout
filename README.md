@@ -3,102 +3,92 @@
 
 [![CI](https://github.com/eclipse7-9/enlistment-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/eclipse7-9/enlistment-layout/actions/workflows/ci.yml)
 ![Último commit](https://img.shields.io/github/last-commit/eclipse7-9/enlistment-layout)
+# Pet Health Services — Fullstack (React + FastAPI)
 
-**Estructura organizada de las carpetas del proyecto**
+Proyecto fullstack para gestión de servicios veterinarios y domicilios. Incluye frontend con React + Vite y backend con FastAPI + SQLAlchemy.
 
-```texto
-proyecto/
-│
-├── backend/                 # Backend con FastAPI (Python)
-│   ├── app/                  # Código principal
-│   │   ├── api/              # Rutas/Endpoints
-│   │   ├── core/             # Configuraciones y utilidades
-│   │   ├── models/           # Modelos de datos (SQLAlchemy)
-│   │   ├── schemas/          # Esquemas Pydantic
-│   │   ├── services/         # Lógica de negocio
-│   │   ├── db.py             # Conexión a MySQL
-│   │   ├── main.py           # Punto de entrada FastAPI
-│   ├── tests/                # Pruebas unitarias
-│   ├── requirements.txt      # Dependencias Python
-│   └── README.md
-│
-├── frontend/                 # Frontend con React
-│   ├── public/               # Archivos estáticos
-│   ├── src/                  # Código fuente
-│   │   ├── components/       # Componentes reutilizables
-│   │   ├── pages/            # Páginas
-│   │   ├── services/         # Llamadas a la API
-│   │   ├── App.js
-│   │   └── index.js
-│   ├── package.json          # Dependencias JS
-│   └── README.md
-│
-├── db/                       # Scripts y migraciones de MySQL
-│   ├── migrations/           # Archivos de migración
-│   ├── init.sql              # Script inicial de base de datos
-│   └── README.md
-│
-├── docs/                     # Documentación del proyecto
-│   ├── arquitectura.md
-│   ├── api.md
-│   └── README.md
-│
-├── docker-compose.yml        # Configuración para levantar todo el stack
-└── README.md
-=======
-# Buscador de Usuarios
+Este README resume cómo ejecutar el proyecto localmente, variables de entorno importantes, y notas sobre las funcionalidades recientes (modales, alertas y edición de perfil).
 
-Este proyecto es una aplicación web construida con React que permite buscar usuarios de manera interactiva. Utiliza una API simulada con JSON Server y muestra los resultados en tarjetas, cada una con un botón de "Seguir" reutilizable.
+## Resumen rápido
+- Frontend: React (Vite), Tailwind CSS, framer-motion.
+- Backend: FastAPI, SQLAlchemy, Pydantic.
+- BD: MySQL (u otra compatible; ajustar conexión en `backend/database.py`).
 
-## Características principales
+## Estructura importante
+- `backend/` — código Python (FastAPI). Revisa `backend/main.py`, `backend/models.py`, `backend/routes/`.
+- `src/` — frontend React. Componentes en `src/components/`, páginas en `src/pages/`.
+- `public/`, `static/` — recursos estáticos y uploads.
 
-- **Búsqueda en tiempo real:** Filtra usuarios por nombre, correo, perfil o intereses mientras escribes.
-- **Interfaz amigable:** Los usuarios se muestran en tarjetas organizadas en 3 columnas.
-- **Botón de seguir:** Cada tarjeta incluye un botón de seguir, reutilizando el componente `TwFollowCard`.
-- **Indicador de carga:** Muestra un círculo de carga mientras se realiza la búsqueda.
+## Requisitos
+- Node.js >= 18 (para Vite)
+- Python 3.10+
+- MySQL (u otra BD) para el backend
 
-## Instalación y uso
+## Variables de entorno (ejemplos)
+- Backend (usar `.env` o variables del entorno):
+  - `DATABASE_URL` = mysql+pymysql://user:pass@localhost:3306/dbname
+  - `SECRET_KEY` = tu_secreto
+  - `CORS_ORIGINS` = http://localhost:5173
 
-1. Instala las dependencias:
-	```bash
-	npm install
-	```
-2. Inicia el servidor de la API simulada:
-	```bash
-	npm run server-api
-	```
-	Esto levantará JSON Server en `http://localhost:3001` usando el archivo `db.json`.
-3. Inicia la aplicación React:
-	```bash
-	npm run dev
-	```
-4. Abre tu navegador en `http://localhost:5173` (o el puerto que indique Vite).
+## Ejecutar localmente
 
-## Estructura del proyecto
+### Backend (virtualenv recomendado)
 
-- `src/App.jsx`: Componente principal, maneja la búsqueda y muestra los usuarios.
-- `src/components/Card.jsx`: Tarjeta de usuario.
-- `src/components/TwFollowCard.jsx`: Botón de seguir reutilizable.
-- `src/components/SearchInput.jsx`: Input de búsqueda.
-- `db.json`: Base de datos simulada para los usuarios.
+1. Crear entorno e instalar dependencias:
 
-## Personalización
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
 
-Puedes modificar los campos de búsqueda o el diseño de las tarjetas editando los componentes en la carpeta `src/components`.
+2. Ajusta variables de entorno (`DATABASE_URL`, `SECRET_KEY`) y ejecuta las migraciones si aplicas Alembic / scripts SQL.
+
+3. Levantar backend:
+
+```powershell
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### Frontend
+
+1. Instalar dependencias, installar pillow y levantar dev server:
+
+```powershell
+cd ..\src
+npm install
+npm run dev
+```
+
+2. Abrir `http://localhost:5173` (o el puerto que indique Vite).
+
+## Notas sobre migraciones
+- El backend fue actualizado para aceptar uploads de imagen en servicios y para soportar notificaciones; si la base de datos no tiene las columnas nuevas (por ejemplo `imagen_servicio`) debes ejecutar las migraciones o ajustar la tabla manualmente.
+
+## Funcionalidades destacadas (recientes)
+- Modal de reserva con blur en el fondo (mejora UX).
+- Sistema de alertas animadas (toasts) globales usando `AlertContext` y `AnimatedAlert`.
+- Las alertas de inicio de sesión mantienen modal (SweetAlert2) y ahora muestran un mensaje de bienvenida según el rol (Administrador, Veterinario, Domiciliario, Cliente).
+- Edición de perfil por campo (vista de domiciliario): cada campo tiene un botón "Editar" que abre un modal con efecto blur y permite guardar solo ese campo.
+- Asteriscos rojos añadidos a etiquetas de campos obligatorios.
+
+## Testing y calidad
+- Frontend: si hay tests configurados, ejecuta `npm run test` desde `src/`.
+- Backend: ejecuta `pytest` desde `backend/` si hay pruebas.
+
+## Problemas comunes y soluciones
+- `imagen_servicio` o columnas nuevas: crea la columna manualmente o aplica la migración correspondiente.
+- CORS: ajusta `CORS_ORIGINS` en la configuración del backend si ves errores de origen.
+
+## Desarrollo y contribuciones
+- Para cambios en modelos, añade migraciones (Alembic / SQL) y documenta en `db/migrations`.
+- Mantén las dependencias actualizadas en `package.json` y `requirements.txt`.
+
+## ¿Qué puedo hacer por ti?
+- Puedo añadir scripts PowerShell para levantar backend+frontend en un solo comando.
+- Puedo generar instrucciones de migraciones Alembic si quieres usar ese flujo.
 
 ---
 
-¡Listo! Ahora tienes un buscador de usuarios moderno y fácil de usar.
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
->>>>>>> 0759b72 (avance con fastapi y react)
+Si quieres, actualizo el README con más detalles específicos sobre tu entorno (por ejemplo, credenciales de MySQL, comandos de migración exactos, o scripts de ayuda).

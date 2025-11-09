@@ -7,6 +7,7 @@ import { FaEdit, FaExchangeAlt } from "react-icons/fa";
 export default function AdminUsers() {
   const { user } = useAuth();
   const [usuarios, setUsuarios] = useState([]);
+  const [query, setQuery] = useState("");
   const [editUser, setEditUser] = useState(null);
   const [estadoUser, setEstadoUser] = useState(null);
   const [formData, setFormData] = useState({
@@ -21,6 +22,16 @@ export default function AdminUsers() {
   useEffect(() => {
     fetchUsuarios();
   }, []);
+
+  const filteredUsuarios = usuarios.filter((u) => {
+    if (!query) return true;
+    const q = query.toLowerCase();
+    return (
+      (u.nombre_usuario || "").toLowerCase().includes(q) ||
+      (u.apellido_usuario || "").toLowerCase().includes(q) ||
+      (u.correo_usuario || "").toLowerCase().includes(q)
+    );
+  });
 
   const fetchUsuarios = () => {
     axios
@@ -77,6 +88,19 @@ export default function AdminUsers() {
           Gestión de Usuarios
         </motion.h1>
 
+        <div className="flex items-center justify-between mb-6">
+          <div />
+          <div className="w-full max-w-sm">
+            <input
+              type="search"
+              placeholder="Buscar usuario por nombre o correo..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full p-2 border border-[#cfc7b2] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7a8358]"
+            />
+          </div>
+        </div>
+
         <div className="overflow-x-auto">
           <table className="min-w-full border border-[#d8c6aa] rounded-lg overflow-hidden">
             <thead className="bg-[#7a8358] text-white text-left">
@@ -92,7 +116,7 @@ export default function AdminUsers() {
             </thead>
 
             <tbody className="text-[#4e5932] bg-white">
-              {usuarios.map((u, index) => {
+              {filteredUsuarios.map((u, index) => {
                 const isAdmin = Number(u.id_rol) === 1; // Rol 1 = admin
 
                 return (

@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Home from "./components/Home";
 import Slider from "./components/Slider";
@@ -16,14 +16,27 @@ import { CartProvider } from "./context/CartContext";
 import Medicos from "./pages/ServiciosMedicos";
 import AdminUsers from "./pages/AdminUsers";
 import NavbarAdmin from "./components/NavbarAdmin";
+import NavbarEmprendedor from "./components/NavbarEmprendedor";
+import AdminRegister from "./components/AdminRegister";
+import DomiciliarioRegister from "./components/DomiciliarioRegister";
 import NavbarDomiciliarios from "./components/NavbarDomiciliario";
 import Domiciliary from "./pages/Domiciliario";       
 import Ubicaciones from "./pages/Ubicaciones";
 import Veterinarios from "./pages/Veterinarios";
+import MiPerfilDomiciliario from "./pages/MiPerfilDomiciliario";
 import AdminProducts from "./pages/AdminProducts";
 import AdminPedidos from "./pages/AdminPedidos";
 import AdminServicios from "./pages/AdminServicios";
+import ServiciosMedicos from "./pages/ServiciosMedicos";
+import MiCuentaEmprendedor from "./pages/MiCuentaEmprendedor";
+import MisServicios from "./pages/MisServicios";
+import CitasEmprendedor from "./pages/CitasEmprendedor";
+import ReservarServicios from "./pages/ReservarServicios";
 import AdminCitas from "./pages/AdminCitas";
+import EmprendedorRegister from "./pages/EmprendedorRegister";
+import RegisterCliente from "./pages/RegisterCliente";
+import PoliticasPrivacidad from "./pages/PoliticasPrivacidad";
+import Comments from "./components/Comments";
 import "./index.css";
 
 // Definir roles
@@ -59,8 +72,10 @@ function App() {
         return <NavbarAdmin />;
       case ROLES.DOMICILIARIO:
         return <NavbarDomiciliarios />;
+      case ROLES.EMPRENDEDOR:
+        return <NavbarEmprendedor />;
       default:
-        return <Header />;
+        return <Navbar />;
     }
   };
 
@@ -74,18 +89,26 @@ function App() {
           <Route
             path="/"
             element={
-              <>
-                <Hero />
-                <Slider />
-                <Services />
-                <Home />
-                <Preferences />
-                <Info />
-              </>
+              user?.id_rol === ROLES.EMPRENDEDOR ? (
+                <Navigate to="/crear-servicio" replace />
+              ) : (
+                <>
+                  <Hero />
+                  <Slider />
+                  <Services />
+                  <Home />
+                  <Preferences />
+                  <Info />
+                </>
+              )
             }
           />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/register-cliente" element={<RegisterCliente />} />
+          <Route path="/register-admin" element={<AdminRegister />} />
+          <Route path="/register-domiciliario" element={<DomiciliarioRegister />} />
+          <Route path="/register-emprendedor" element={<EmprendedorRegister />} />
 
           {/* Rutas protegidas */}
           <Route
@@ -97,11 +120,36 @@ function App() {
             }
            
           />
+          {/* Página de reserva de servicios (ver ReservarServicios) */}
           <Route
-            path="/servicios"
+            path="/crear-servicio"
+            element={
+              <ProtectedRoute role={ROLES.EMPRENDEDOR}>
+                <ServiciosMedicos />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mis-servicios"
+            element={
+              <ProtectedRoute role={ROLES.EMPRENDEDOR}>
+                <MisServicios />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citas-recibidas"
+            element={
+              <ProtectedRoute role={ROLES.EMPRENDEDOR}>
+                <CitasEmprendedor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reservar-servicios"
             element={
               <ProtectedRoute>
-                <Medicos />
+                <ReservarServicios />
               </ProtectedRoute>
             }
           />
@@ -109,10 +157,11 @@ function App() {
             path="/mi-cuenta"
             element={
               <ProtectedRoute>
-                <MiCuenta />
+                {user?.id_rol === ROLES.EMPRENDEDOR ? <MiCuentaEmprendedor /> : <MiCuenta />}
               </ProtectedRoute>
             }
           />
+          <Route path="/politicas-privacidad" element={<PoliticasPrivacidad />} />
           <Route
             path="/ubicaciones"
             element={
@@ -177,6 +226,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/domiciliario/perfil"
+            element={
+              <ProtectedRoute role={ROLES.DOMICILIARIO}>
+                <MiPerfilDomiciliario />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Ruta 404 - debe ir al final */}
           <Route 
@@ -199,7 +256,8 @@ function App() {
         </Routes>
       </main>
 
-      {!hideLayout && <Footer />}
+  {!hideLayout && <Comments />}
+  {!hideLayout && <Footer />}
     </CartProvider>
   );
 }

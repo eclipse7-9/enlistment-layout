@@ -20,11 +20,14 @@ class Usuario(Base):
     correo_usuario = Column(String(50), nullable=False, unique=True)
     telefono_usuario = Column(String(20), nullable=False)   
     password_usuario = Column(String(255), nullable=False)
-    direccion_usuario = Column(String(50), nullable=False)
-    codigo_postal_usuario = Column(String(60), nullable=False)  
+    # direccion and codigo_postal moved to Domicilio table in the DB schema
+    # (no longer stored directly on Usuario)
     # Guardamos la imagen como data URL (base64). Usar Text para evitar truncamientos por longitud.
     imagen_usuario = Column(Text)
     id_rol = Column(Integer, ForeignKey("rol_usuarios.id_rol"), nullable=False)
+    # now include region and city as FKs
+    id_region = Column(Integer, ForeignKey("regiones.id_region"), nullable=False)
+    id_ciudad = Column(Integer, ForeignKey("ciudades.id_ciudad"), nullable=False)
     estado_usuario = Column(String(25), nullable=False)
 
     rol = relationship("RolUsuario", back_populates="usuarios")
@@ -33,6 +36,9 @@ class Usuario(Base):
     domicilios = relationship("Domicilio", back_populates="usuario")
     metodos_pago = relationship("MetodoPago", back_populates="usuario")
     pedidos = relationship("Pedido", back_populates="usuario")
+    region = relationship("Region")
+    ciudad = relationship("Ciudad")
+    notificaciones = relationship("Notificacion", back_populates="usuario_destino")
 
 
 RolUsuario.usuarios = relationship("Usuario", back_populates="rol")
@@ -56,16 +62,21 @@ class Mascota(Base):
 
 class Domicilio(Base):
     __tablename__ = "domicilios"
-
     id_domicilio = Column(Integer, primary_key=True, autoincrement=True)
-    departamento_domicilio = Column(String(100), nullable=False)
-    ciudad_domicilio = Column(String(100), nullable=False)
-    calle_domicilio = Column(String(250), nullable=False)
-    codigo_postal_domicilio = Column(String(60), nullable=False)
+    alias_domicilio = Column(String(100), default='Principal')
+    direccion_completa = Column(String(250), nullable=False)
+    codigo_postal = Column(String(20))
+    es_principal = Column(Boolean, default=False)
+    # estado del domicilio: pendiente, en entrega, entregado, cancelado
+    estado_domicilio = Column(Enum('Pendiente', 'En-entrega', 'Entregado', 'Cancelado'), default='Pendiente')
 
+    id_region = Column(Integer, ForeignKey("regiones.id_region"), nullable=False)
+    id_ciudad = Column(Integer, ForeignKey("ciudades.id_ciudad"), nullable=False)
     id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
 
-    usuario = relationship("Usuario", back_populates="domicilios")  
+    usuario = relationship("Usuario", back_populates="domicilios")
+    region = relationship("Region")
+    ciudad = relationship("Ciudad")
 
 
 class Servicio(Base):
@@ -75,6 +86,7 @@ class Servicio(Base):
     tipo_servicio = Column(String(75), nullable=False)
     estado_servicio = Column(String(25), nullable=False)
     descripcion_servicio = Column(String(255), nullable=False)
+    imagen_servicio = Column(String(300))
     fecha_creacion = Column(TIMESTAMP)
     fecha_actualizacion = Column(TIMESTAMP)
 
@@ -82,6 +94,38 @@ class Servicio(Base):
 
     usuario = relationship("Usuario", back_populates="servicios")
     citas = relationship("Cita", back_populates="servicio")
+
+
+class Notificacion(Base):
+    __tablename__ = "notificaciones"
+
+    id_notificacion = Column(Integer, primary_key=True, autoincrement=True)
+    id_usuario_destino = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+    titulo = Column(String(150), nullable=False)
+    mensaje = Column(String(500), nullable=False)
+    url = Column(String(300))
+    leida = Column(Boolean, default=False)
+    fecha_creacion = Column(TIMESTAMP)
+    id_cita = Column(Integer, ForeignKey("citas.id_cita"), nullable=True)
+
+    usuario_destino = relationship("Usuario", back_populates="notificaciones")
+
+
+class Region(Base):
+    __tablename__ = "regiones"
+
+    id_region = Column(Integer, primary_key=True, autoincrement=True)
+    nombre_region = Column(String(100), nullable=False, unique=True)
+
+
+class Ciudad(Base):
+    __tablename__ = "ciudades"
+
+    id_ciudad = Column(Integer, primary_key=True, autoincrement=True)
+    nombre_ciudad = Column(String(100), nullable=False)
+    id_region = Column(Integer, ForeignKey("regiones.id_region"), nullable=False)
+
+    region = relationship("Region")
 
 
 class Cita(Base):

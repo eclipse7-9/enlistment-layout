@@ -146,7 +146,7 @@ const Header = () => {
                 Productos
               </Link>
               <Link
-                to="/servicios"
+                to="/reservar-servicios"
                 onClick={handleLinkClick}
                 className="block bg-[#F2E6D0] text-[#000000] font-semibold px-4 py-2 rounded-lg hover:bg-gray-200 transition"
               >

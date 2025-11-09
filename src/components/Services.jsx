@@ -33,7 +33,7 @@ const Services = () => {
         "Consultas veterinarias, vacunación, cirugías y programas de salud reproductiva para tus animales.",
       imagen:
         "https://axoncomunicacion.net/wp-content/uploads/2021/12/young-male-worker-of-large-animal-farm-sitting-on-squats-by-paddock-with-purebred-cattle-and-examining-one-of-several-black-and-white-cows.jpg",
-      path: "/servicios",
+      path: "/reservar-servicios",
       boton: "Servicios médicos",
     },
     {

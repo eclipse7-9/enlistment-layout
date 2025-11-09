@@ -14,48 +14,66 @@ export default function RegistrarMascotaModal({ show, setShow, petForm = {}, set
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg border border-[#d6b991]">
         <h3 className="text-2xl font-bold text-[#7A8358] mb-4">Registrar nueva mascota</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Nombre"
-            className="p-2 border rounded-lg"
-            value={petForm.nombre_mascota || ""}
-            onChange={(e) => setPetForm({ ...petForm, nombre_mascota: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Peso"
-            className="p-2 border rounded-lg"
-            value={petForm.peso_mascota || ""}
-            onChange={(e) => setPetForm({ ...petForm, peso_mascota: parseFloat(e.target.value) || 0 })}
-          />
-          <input
-            type="text"
-            placeholder="Especie"
-            className="p-2 border rounded-lg"
-            value={petForm.especie_mascota || ""}
-            onChange={(e) => setPetForm({ ...petForm, especie_mascota: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Raza"
-            className="p-2 border rounded-lg"
-            value={petForm.raza_mascota || ""}
-            onChange={(e) => setPetForm({ ...petForm, raza_mascota: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Edad"
-            className="p-2 border rounded-lg"
-            value={petForm.edad_mascota || ""}
-            onChange={(e) => setPetForm({ ...petForm, edad_mascota: parseInt(e.target.value) || 0 })}
-          />
-          <input
-            type="number"
-            placeholder="Altura"
-            className="p-2 border rounded-lg"
-            value={petForm.altura_mascota || ""}
-            onChange={(e) => setPetForm({ ...petForm, altura_mascota: parseFloat(e.target.value) || 0 })}
-          />
+          <div>
+            <label className="text-sm font-medium">Nombre:<span className="text-red-500"> *</span></label>
+            <input
+              type="text"
+              placeholder="Nombre"
+              className="p-2 border rounded-lg w-full"
+              value={petForm.nombre_mascota || ""}
+              onChange={(e) => setPetForm({ ...petForm, nombre_mascota: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Peso:</label>
+            <input
+              type="number"
+              placeholder="Peso"
+              className="p-2 border rounded-lg w-full"
+              value={petForm.peso_mascota || ""}
+              onChange={(e) => setPetForm({ ...petForm, peso_mascota: parseFloat(e.target.value) || 0 })}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Especie:<span className="text-red-500"> *</span></label>
+            <input
+              type="text"
+              placeholder="Especie"
+              className="p-2 border rounded-lg w-full"
+              value={petForm.especie_mascota || ""}
+              onChange={(e) => setPetForm({ ...petForm, especie_mascota: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Raza:<span className="text-red-500"> *</span></label>
+            <input
+              type="text"
+              placeholder="Raza"
+              className="p-2 border rounded-lg w-full"
+              value={petForm.raza_mascota || ""}
+              onChange={(e) => setPetForm({ ...petForm, raza_mascota: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Edad:</label>
+            <input
+              type="number"
+              placeholder="Edad"
+              className="p-2 border rounded-lg w-full"
+              value={petForm.edad_mascota || ""}
+              onChange={(e) => setPetForm({ ...petForm, edad_mascota: parseInt(e.target.value) || 0 })}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Altura:</label>
+            <input
+              type="number"
+              placeholder="Altura"
+              className="p-2 border rounded-lg w-full"
+              value={petForm.altura_mascota || ""}
+              onChange={(e) => setPetForm({ ...petForm, altura_mascota: parseFloat(e.target.value) || 0 })}
+            />
+          </div>
         </div>
         <div className="flex justify-end gap-3 mt-6">
           <button

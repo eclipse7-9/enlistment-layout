@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { useAlert } from "../context/AlertContext";
+import Swal from "sweetalert2";
 import ReceiptToast from "./ReceiptToast";
 
 const AppointmentModal = ({ servicio, onClose }) => {
@@ -18,6 +20,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
   const [misMascotas, setMisMascotas] = useState([]);
   const [servicios, setServicios] = useState([]);
   const { user } = useAuth();
+  const { showAlert } = useAlert();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,11 +64,11 @@ const AppointmentModal = ({ servicio, onClose }) => {
   }, [user]);
 
   const createCita = async () => {
-    if (!user) return alert('Debes iniciar sesión');
-    if (!formData.mascota) return alert('Selecciona una mascota');
-    if (!formData.fecha || !formData.hora) return alert('Selecciona fecha y hora');
-  if (!paymentMethod) return alert('Selecciona método de pago');
-    if (!formData.servicio && !servicio) return alert('Selecciona un servicio');
+  if (!user) { await Swal.fire('Inicia sesión', 'Debes iniciar sesión', 'warning'); return; }
+    if (!formData.mascota) { showAlert({ type: 'warning', message: 'Selecciona una mascota' }); return; }
+    if (!formData.fecha || !formData.hora) { showAlert({ type: 'warning', message: 'Selecciona fecha y hora' }); return; }
+    if (!paymentMethod) { showAlert({ type: 'warning', message: 'Selecciona método de pago' }); return; }
+    if (!formData.servicio && !servicio) { showAlert({ type: 'warning', message: 'Selecciona un servicio' }); return; }
 
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
@@ -83,7 +86,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
       setStep(3);
     } catch (err) {
       console.error('Error creando cita:', err.response?.data || err);
-      alert('No se pudo crear la cita: ' + (err.response?.data?.detail || err.message));
+      showAlert({ type: 'error', message: 'No se pudo crear la cita: ' + (err.response?.data?.detail || err.message) });
     }
   };
 
@@ -117,7 +120,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
             className="flex flex-col gap-3 px-6 py-6 text-[#333]"
             onSubmit={handleConfirm}
           >
-            <label className="font-medium">Nombre del propietario:</label>
+            <label className="font-medium">Nombre del propietario:<span className="text-red-500"> *</span></label>
             <input
               type="text"
               name="nombre"
@@ -127,7 +130,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7A8358]/60"
             />
 
-            <label className="font-medium">Selecciona mascota:</label>
+            <label className="font-medium">Selecciona mascota:<span className="text-red-500"> *</span></label>
             <select
               name="mascota"
               value={formData.mascota}
@@ -141,7 +144,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
               ))}
             </select>
 
-            <label className="font-medium">Servicio:</label>
+            <label className="font-medium">Servicio:<span className="text-red-500"> *</span></label>
             <select
               name="servicio"
               value={formData.servicio || servicio || ""}
@@ -155,7 +158,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
               ))}
             </select>
 
-            <label className="font-medium">Fecha:</label>
+            <label className="font-medium">Fecha:<span className="text-red-500"> *</span></label>
             <input
               type="date"
               name="fecha"
@@ -165,7 +168,7 @@ const AppointmentModal = ({ servicio, onClose }) => {
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7A8358]/60"
             />
 
-            <label className="font-medium">Hora:</label>
+            <label className="font-medium">Hora:<span className="text-red-500"> *</span></label>
             <input
               type="time"
               name="hora"

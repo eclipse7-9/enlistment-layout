@@ -1,9 +1,12 @@
 # routes/servicios.py
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from models import Servicio
 from database import SessionLocal
-from schemas import ServicioCreate
+from typing import Optional
+import os
+import shutil
+import time
 
 router = APIRouter(prefix="/servicios", tags=["Servicios"])
 
@@ -15,10 +18,47 @@ def get_db():
     finally:
         db.close()
 
-# Crear un servicio
+
+# Crear un servicio (acepta multipart/form-data con archivo opcional)
 @router.post("/")
-def create_servicio(servicio: ServicioCreate, db: Session = Depends(get_db)):
-    nuevo_servicio = Servicio(**servicio.dict())
+def create_servicio(
+    tipo_servicio: str = Form(...),
+    descripcion_servicio: str = Form(...),
+    estado_servicio: str = Form(...),
+    id_usuario: int = Form(...),
+    imagen_servicio: Optional[UploadFile] = File(None),
+    db: Session = Depends(get_db),
+):
+    # Guardar el archivo si fue enviado
+    imagen_path = None
+    if imagen_servicio is not None:
+        # Determinar directorio de uploads en backend/static/uploads
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        uploads_dir = os.path.join(base_dir, "static", "uploads")
+        os.makedirs(uploads_dir, exist_ok=True)
+        # Generar nombre único
+        timestamp = int(time.time())
+        safe_filename = f"{timestamp}_{imagen_servicio.filename}"
+        dest_path = os.path.join(uploads_dir, safe_filename)
+        try:
+            with open(dest_path, "wb") as buffer:
+                shutil.copyfileobj(imagen_servicio.file, buffer)
+        finally:
+            # Asegurar cerrar el archivo subido
+            try:
+                imagen_servicio.file.close()
+            except Exception:
+                pass
+        # Ruta relativa que se puede guardar en la BD
+        imagen_path = f"/static/uploads/{safe_filename}"
+
+    nuevo_servicio = Servicio(
+        tipo_servicio=tipo_servicio,
+        descripcion_servicio=descripcion_servicio,
+        estado_servicio=estado_servicio,
+        imagen_servicio=imagen_path,
+        id_usuario=id_usuario,
+    )
     db.add(nuevo_servicio)
     db.commit()
     db.refresh(nuevo_servicio)

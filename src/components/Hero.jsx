@@ -1,4 +1,6 @@
 // src/components/Hero.jsx
+import { Link } from "react-router-dom";
+
 function Hero() {
   return (
     <section className="bg-[#F5F3EE] flex flex-col md:flex-row items-center justify-between px-8 md:px-16 lg:px24 py-16 md:py-24">
@@ -11,7 +13,7 @@ function Hero() {
           productos y asesoramiento para mantener a tus animales saludables y
           productivos.
         </p>
-        <button className="btn btn-primary">¡Conoce nuestros servicios!</button>
+  <Link to="/reservar-servicios" className="btn btn-primary inline-block text-center">¡Conoce nuestros servicios!</Link>
       </div>
       <div className="hero-image">
         <img

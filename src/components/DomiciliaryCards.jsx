@@ -12,7 +12,7 @@ const DomiciliaryCards = ({ pedido, onSelect }) => {
       >
         <div>
           <h3 className="text-xl font-semibold text-[#4A5B2E] mb-3">
-            Pedido #{pedido.id}
+            Domicilio #{pedido.id}
           </h3>
           <div className="space-y-1 text-gray-700">
             {pedido.cliente && (

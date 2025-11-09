@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { useAlert } from "../context/AlertContext";
+import Swal from "sweetalert2";
 
 // Importar tus componentes
 import EditarUsuarioModal from "../components/EditUsuario.jsx";
@@ -8,6 +10,7 @@ import RegistrarMascotaModal from "../components/RegistrarMascota.jsx";
 
 export default function MiCuenta() {
   const { user, setUser, logout } = useAuth();
+  const { showAlert } = useAlert();
 
   const getProfileImageSrc = (img) => {
     if (!img)
@@ -59,20 +62,60 @@ export default function MiCuenta() {
   });
 
   // Actualizar usuario
-  const handleUpdateUser = async () => {
+  const handleUpdateUser = async (field) => {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      const response = await axios.patch(
-        `http://localhost:8000/usuarios/${user.id_usuario}`,
-        editData,
-        { headers }
-      );
-      setUser(response.data);
-      alert("Datos actualizados correctamente");
-      setShowEditModal(false);
+      
+  if (editData.type === 'password') {
+        // Validar contraseñas
+        if (!editData.current_password || !editData.new_password) {
+          showAlert({ type: 'warning', message: 'Ingresa la contraseña actual y la nueva contraseña' });
+          return;
+        }
+        // Actualizar contraseña
+        await axios.put(
+          `http://localhost:8000/usuarios/${user.id_usuario}/password`,
+          {
+            current_password: editData.current_password,
+            new_password: editData.new_password
+          },
+          { headers }
+        );
+  showAlert({ type: 'success', message: 'Contraseña actualizada correctamente' });
+        setEditData(prev => ({ ...prev, current_password: '', new_password: '' }));
+      } else {
+        // Actualizar campo específico
+        const updateData = {};
+        if (field === 'correo') {
+          updateData.correo_usuario = editData.correo;
+        } else if (field === 'nombre_usuario') {
+          updateData.nombre_usuario = editData.nombre_usuario;
+        } else if (field === 'apellido_usuario') {
+          updateData.apellido_usuario = editData.apellido_usuario;
+        } else if (field === 'telefono_usuario') {
+          updateData.telefono_usuario = editData.telefono_usuario;
+        }
+        
+        const response = await axios.put(
+          `http://localhost:8000/usuarios/${user.id_usuario}`,
+          updateData,
+          { headers }
+        );
+
+        // Actualizar el estado del usuario con el campo específico
+        setUser(prev => ({
+          ...prev,
+          correo: field === 'correo' ? response.data.correo_usuario : prev.correo,
+          nombre_usuario: field === 'nombre_usuario' ? response.data.nombre_usuario : prev.nombre_usuario,
+          apellido_usuario: field === 'apellido_usuario' ? response.data.apellido_usuario : prev.apellido_usuario,
+          telefono_usuario: field === 'telefono_usuario' ? response.data.telefono_usuario : prev.telefono_usuario
+        }));
+
+  showAlert({ type: 'success', message: 'Datos actualizados correctamente' });
+      }
     } catch (err) {
       console.error(err);
-      alert("Error al actualizar datos del usuario");
+      showAlert({ type: 'error', message: err.response?.data?.detail || 'Error al actualizar usuario' });
     }
   };
 
@@ -82,8 +125,8 @@ export default function MiCuenta() {
       if (!user) return;
 
       // validar campos mínimos
-      if (!petForm.nombre_mascota || !petForm.especie_mascota || !petForm.raza_mascota) {
-        alert('Completa nombre, especie y raza');
+        if (!petForm.nombre_mascota || !petForm.especie_mascota || !petForm.raza_mascota) {
+        showAlert({ type: 'warning', message: 'Completa nombre, especie y raza' });
         return;
       }
 
@@ -99,7 +142,7 @@ export default function MiCuenta() {
 
       const headers = { Authorization: `Bearer ${user.token}` };
       await axios.post("http://localhost:8000/mascotas", mascotaData, { headers });
-      alert("Mascota registrada correctamente");
+  showAlert({ type: 'success', message: 'Mascota registrada correctamente' });
       setShowPetModal(false);
       setPetForm({
         nombre_mascota: "",
@@ -114,7 +157,7 @@ export default function MiCuenta() {
       await fetchMascotas();
     } catch (err) {
       console.error('Error al registrar mascota:', err.response?.data || err);
-      alert('Error al registrar la mascota: ' + (err.response?.data?.detail || err.message));
+      showAlert({ type: 'error', message: 'Error al registrar la mascota: ' + (err.response?.data?.detail || err.message) });
     }
   };
 
@@ -193,8 +236,8 @@ export default function MiCuenta() {
 
   // Crear método de pago
   const handleCreateMetodoPago = async () => {
-    if (!user) return alert('Debes iniciar sesión');
-    if (!paymentForm.tipo_metodo) return alert('Selecciona tipo de método');
+    if (!user) { await Swal.fire('Inicia sesión', 'Debes iniciar sesión', 'warning'); return; }
+    if (!paymentForm.tipo_metodo) { showAlert({ type: 'warning', message: 'Selecciona tipo de método' }); return; }
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
       const payload = {
@@ -203,13 +246,13 @@ export default function MiCuenta() {
         titular: paymentForm.titular || null,
       };
       const res = await axios.post("http://localhost:8000/metodo_pago/", payload, { headers });
-      alert('Método de pago creado correctamente');
+  showAlert({ type: 'success', message: 'Método de pago creado correctamente' });
       setPaymentForm({ tipo_metodo: '', numero_cuenta: '', titular: '' });
       // refrescar lista
       await fetchMetodosPago();
     } catch (err) {
       console.error('Error creando método de pago:', err.response?.data || err);
-      alert('No se pudo crear el método de pago: ' + (err.response?.data?.detail || err.message));
+      showAlert({ type: 'error', message: 'No se pudo crear el método de pago: ' + (err.response?.data?.detail || err.message) });
     }
   };
 
@@ -218,11 +261,11 @@ export default function MiCuenta() {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
       await axios.delete(`http://localhost:8000/metodo_pago/${id}`, { headers });
-      alert('Método eliminado');
+      showAlert({ type: 'success', message: 'Método eliminado' });
       await fetchMetodosPago();
     } catch (err) {
       console.error('Error eliminando método:', err.response?.data || err);
-      alert('No se pudo eliminar el método: ' + (err.response?.data?.detail || err.message));
+      showAlert({ type: 'error', message: 'No se pudo eliminar el método: ' + (err.response?.data?.detail || err.message) });
     }
   };
 
@@ -232,12 +275,12 @@ export default function MiCuenta() {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
       await axios.put(`http://localhost:8000/usuarios/${user.id_usuario}`, { estado_usuario: 'Inactivo' }, { headers });
-      alert('Tu cuenta ha sido marcada como inactiva. Se cerrará la sesión.');
+      showAlert({ type: 'info', message: 'Tu cuenta ha sido marcada como inactiva. Se cerrará la sesión.' });
       // cerrar sesión en frontend
       logout();
     } catch (err) {
       console.error('Error desactivando cuenta:', err.response?.data || err);
-      alert('No se pudo desactivar la cuenta: ' + (err.response?.data?.detail || err.message));
+      showAlert({ type: 'error', message: 'No se pudo desactivar la cuenta: ' + (err.response?.data?.detail || err.message) });
     }
   };
 
@@ -256,7 +299,7 @@ export default function MiCuenta() {
       setCitas(citasActualizadas);
     } catch (err) {
       console.error('Error actualizando cita:', err.response?.data || err);
-      alert('No se pudo actualizar el estado de la cita: ' + (err.response?.data?.detail || err.message));
+      showAlert({ type: 'error', message: 'No se pudo actualizar el estado de la cita: ' + (err.response?.data?.detail || err.message) });
     }
   };
 
@@ -360,10 +403,22 @@ export default function MiCuenta() {
 
               <div className="mt-4 flex gap-4">
                 <button
-                  onClick={() => setShowEditModal(true)}
+                  onClick={() => {
+                    setEditData(prev => ({...prev, type: 'datos'}));
+                    setShowEditModal(true);
+                  }}
                   className="px-5 py-2 bg-[#7A8358] hover:bg-[#90a06a] text-white rounded-full font-semibold shadow-md transition"
                 >
-                  📝 Editar usuario
+                  📝 Editar datos
+                </button>
+                <button
+                  onClick={() => {
+                    setEditData(prev => ({...prev, type: 'password'}));
+                    setShowEditModal(true);
+                  }}
+                  className="px-5 py-2 bg-[#2b6cb0] hover:bg-[#225e9a] text-white rounded-full font-semibold shadow-md transition"
+                >
+                  🔒 Cambiar contraseña
                 </button>
                 <button
                   onClick={() => setShowPetModal(true)}
@@ -425,7 +480,7 @@ export default function MiCuenta() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-medium mb-2">Crear nuevo método</h3>
-              <label className="block text-sm font-medium text-gray-700">Tipo de método</label>
+              <label className="block text-sm font-medium text-gray-700">Tipo de método<span className="text-red-500"> *</span></label>
               <select
                 className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm"
                 value={paymentForm.tipo_metodo}

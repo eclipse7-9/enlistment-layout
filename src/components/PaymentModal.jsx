@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { useAlert } from "../context/AlertContext";
+import Swal from "sweetalert2";
 import { useCart } from "../context/CartContext";
 
 export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
   const { user } = useAuth();
   const { clearCart } = useCart();
+  const { showAlert } = useAlert();
 
   const [metodosExistentes, setMetodosExistentes] = useState([]);
   const [metodoSeleccionado, setMetodoSeleccionado] = useState(null);
@@ -14,6 +17,16 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
   const [tipo, setTipo] = useState("Tarjeta Crédito");
   const [numero, setNumero] = useState("");
   const [titular, setTitular] = useState("");
+
+  // domicilio fields (opcional)
+  const [codigoPostal, setCodigoPostal] = useState("");
+  const [aliasDomicilio, setAliasDomicilio] = useState("Principal");
+  const [direccionCompleta, setDireccionCompleta] = useState("");
+  const [esPrincipal, setEsPrincipal] = useState(false);
+  const [regiones, setRegiones] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedCiudad, setSelectedCiudad] = useState(null);
 
   const [recibo, setRecibo] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -38,6 +51,32 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
     fetchMetodos();
   }, [user]);
 
+  // fetch regiones
+  useEffect(() => {
+    const fetchRegiones = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/ubicaciones/regiones");
+        setRegiones(res.data || []);
+      } catch (err) {
+        console.error("Error cargando regiones", err);
+      }
+    };
+    fetchRegiones();
+  }, []);
+
+  useEffect(() => {
+    const fetchCiudades = async () => {
+      if (!selectedRegion) return setCiudades([]);
+      try {
+        const res = await axios.get("http://localhost:8000/ubicaciones/ciudades", { params: { region_id: selectedRegion } });
+        setCiudades(res.data || []);
+      } catch (err) {
+        console.error("Error cargando ciudades", err);
+      }
+    };
+    fetchCiudades();
+  }, [selectedRegion]);
+
   if (!cart || cart.length === 0) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6">
@@ -50,7 +89,7 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
   }
 
   const handleCrearMetodo = async () => {
-    if (!user) return alert('Debes iniciar sesión para agregar un método de pago');
+    if (!user) { await Swal.fire('Inicia sesión', 'Debes iniciar sesión para agregar un método de pago', 'warning'); return; }
     try {
       const res = await axios.post(
         "http://localhost:8000/metodo_pago/",
@@ -62,7 +101,7 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
       await fetchMetodos();
     } catch (err) {
       console.error(err);
-      alert("Error al crear método");
+      showAlert({ type: 'error', message: 'Error al crear método' });
     }
   };
 
@@ -75,6 +114,15 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
         id_metodo_pago: metodoSeleccionado,
         total,
         items: cart.map((it) => ({ id_producto: it.id_producto, cantidad: it.cantidad, subtotal: Number(it.precio_producto) * Number(it.cantidad) })),
+        // si el usuario completó datos de domicilio, enviarlos para crear el domicilio y ligar al pedido
+    domicilio: (direccionCompleta || selectedRegion || selectedCiudad) ? {
+      alias_domicilio: aliasDomicilio,
+      direccion_completa: direccionCompleta,
+            codigo_postal: codigoPostal,
+            es_principal: esPrincipal,
+            id_region: selectedRegion,
+            id_ciudad: selectedCiudad,
+          } : undefined,
       };
 
       const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
@@ -89,7 +137,7 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
       if (onPaymentSuccess) onPaymentSuccess(pedido, reciboData);
     } catch (err) {
       console.error("Error en el flujo de pago:", err);
-      alert("No se pudo procesar el pago. Revisa la consola para más detalles.");
+      showAlert({ type: 'error', message: 'No se pudo procesar el pago. Revisa la consola para más detalles.' });
     } finally {
       setLoading(false);
     }
@@ -111,7 +159,7 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
             </div>
 
             <div className="mb-4">
-              <h3 className="font-semibold mb-2">Métodos de pago</h3>
+              <h3 className="font-semibold mb-2">Métodos de pago<span className="text-red-500"> *</span></h3>
               {metodosExistentes.length > 0 ? (
                 <select
                   value={metodoSeleccionado || ""}
@@ -128,6 +176,32 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
               ) : (
                 <p className="text-sm text-gray-600">No tienes métodos guardados</p>
               )}
+            </div>
+
+            <div className="mb-4">
+              <h3 className="font-semibold mb-2">Dirección de envío (opcional)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <input className="p-2 border rounded md:col-span-2" placeholder="Alias (ej. Casa, Trabajo)" value={aliasDomicilio} onChange={(e) => setAliasDomicilio(e.target.value)} />
+                <input className="p-2 border rounded md:col-span-2" placeholder="Dirección completa (calle, número)" value={direccionCompleta} onChange={(e) => setDireccionCompleta(e.target.value)} />
+                <select className="p-2 border rounded" value={selectedRegion || ""} onChange={(e) => setSelectedRegion(Number(e.target.value) || null)}>
+                  <option value="">-- Selecciona región --</option>
+                  {regiones.map(r => (
+                    <option key={r.id_region} value={r.id_region}>{r.nombre_region}</option>
+                  ))}
+                </select>
+                <select className="p-2 border rounded" value={selectedCiudad || ""} onChange={(e) => setSelectedCiudad(Number(e.target.value) || null)}>
+                  <option value="">-- Selecciona ciudad --</option>
+                  {ciudades.map(c => (
+                    <option key={c.id_ciudad} value={c.id_ciudad}>{c.nombre_ciudad}</option>
+                  ))}
+                </select>
+                <input className="p-2 border rounded" placeholder="Código postal" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} />
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={esPrincipal} onChange={(e) => setEsPrincipal(e.target.checked)} />
+                  <span>Marcar como dirección principal</span>
+                </label>
+              </div>
+              <p className="text-sm text-gray-500 mt-2">Si dejas esto vacío se usará la dirección de tu cuenta (si existe).</p>
             </div>
 
             {!showCrearNuevo ? (

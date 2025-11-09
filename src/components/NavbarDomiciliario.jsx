@@ -1,5 +1,5 @@
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function DomiciliaryNavbar() {
   const { logout } = useAuth();
@@ -20,36 +20,10 @@ export default function DomiciliaryNavbar() {
 
       <ul className="flex gap-6 items-center font-medium">
         <li>
-          <a
-            href="/domiciliario"
-            className="hover:text-gray-200 transition-colors duration-200"
-          >
-            Inicio
-          </a>
+          <Link to="/domiciliario" className="hover:text-gray-200 transition-colors duration-200">Inicio</Link>
         </li>
         <li>
-          <a
-            href="/domiciliario/pedidos"
-            className="hover:text-gray-200 transition-colors duration-200"
-          >
-            Pedidos
-          </a>
-        </li>
-        <li>
-          <a
-            href="/domiciliario/historial"
-            className="hover:text-gray-200 transition-colors duration-200"
-          >
-            Historial
-          </a>
-        </li>
-        <li>
-          <a
-            href="/domiciliario/perfil"
-            className="hover:text-gray-200 transition-colors duration-200"
-          >
-            Perfil
-          </a>
+          <Link to="/domiciliario/perfil" className="hover:text-gray-200 transition-colors duration-200">Perfil</Link>
         </li>
         <li>
           <button

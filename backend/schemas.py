@@ -10,8 +10,9 @@ class RegisterRequest(BaseModel):
     correo_usuario: EmailStr
     telefono_usuario: str
     password_usuario: str
-    direccion_usuario: str
-    codigo_postal_usuario: str
+    # now store region and city instead of free-text address
+    id_region: int
+    id_ciudad: int
     imagen_usuario: str | None = None
     id_rol: int = 4  # por defecto cliente
     estado_usuario: str = "activo"
@@ -34,14 +35,50 @@ class MascotaCreate(BaseModel):
     class Config:
         orm_mode = True
 
-#domicilio
+# domicilios (nueva estructura con regiones/ciudades)
 class DomicilioCreate(BaseModel):
-    departamento_domicilio: str
-    ciudad_domicilio: str
-    calle_domicilio: str
-    codigo_postal_domicilio: str
-    id_usuario: int
-    
+    alias_domicilio: Optional[str] = "Principal"
+    direccion_completa: str
+    codigo_postal: Optional[str] = None
+    es_principal: Optional[bool] = False
+    id_region: int
+    id_ciudad: int
+    id_usuario: int | None = None
+    estado_domicilio: Optional[str] = "Pendiente"
+
+    class Config:
+        orm_mode = True
+
+
+# esquema para actualizar domicilio (parcial)
+class DomicilioUpdate(BaseModel):
+    alias_domicilio: Optional[str] = None
+    direccion_completa: Optional[str] = None
+    codigo_postal: Optional[str] = None
+    es_principal: Optional[bool] = None
+    id_region: Optional[int] = None
+    id_ciudad: Optional[int] = None
+    id_usuario: Optional[int] = None
+    estado_domicilio: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
+
+# regiones y ciudades
+class RegionSchema(BaseModel):
+    id_region: int
+    nombre_region: str
+
+    class Config:
+        orm_mode = True
+
+
+class CiudadSchema(BaseModel):
+    id_ciudad: int
+    nombre_ciudad: str
+    id_region: int
+
     class Config:
         orm_mode = True
    

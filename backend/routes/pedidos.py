@@ -46,8 +46,14 @@ def create_pedido(request: PedidoCreate, db: Session = Depends(get_db), current_
 @router.get("/")
 def get_pedidos(db: Session = Depends(get_db), current_user: Usuario = Depends(get_current_user)):
     # Si es admin (id_rol == 1) devolver todos, si no devolver solo los del usuario
-    if getattr(current_user, "id_rol", None) == 1:
+    user_role = getattr(current_user, "id_rol", None)
+    if user_role == 1:
+        # administrador: ver todos los pedidos
         return db.query(Pedido).all()
+    if user_role == 3:
+        # domiciliario: ver pedidos disponibles (pendiente o en-proceso)
+        return db.query(Pedido).filter(Pedido.estado_pedido.in_(["pendiente", "en-proceso"])) .all()
+    # cliente u otros: ver solo sus pedidos
     return db.query(Pedido).filter(Pedido.id_usuario == current_user.id_usuario).all()
 
 # Obtener por ID

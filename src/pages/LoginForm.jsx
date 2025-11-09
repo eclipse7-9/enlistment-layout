@@ -6,6 +6,7 @@ import { FaPaw } from "react-icons/fa";
 import { GiCow, GiPig } from "react-icons/gi";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import PasswordRecovery from "../components/PasswordRecovery";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -15,6 +16,29 @@ function LoginForm() {
     correo_usuario: "",
     password_usuario: "",
   });
+  
+  const [showRecovery, setShowRecovery] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [blockTimeRemaining, setBlockTimeRemaining] = useState(0);
+  
+  // Función para manejar el bloqueo
+  const handleLoginBlock = () => {
+    setIsBlocked(true);
+    setBlockTimeRemaining(30);
+
+    const timer = setInterval(() => {
+      setBlockTimeRemaining((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setIsBlocked(false);
+          setLoginAttempts(0);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -25,6 +49,18 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (isBlocked) {
+      Swal.fire({
+        icon: "error",
+        title: "Cuenta bloqueada",
+        text: `Demasiados intentos fallidos. Por favor, espera ${blockTimeRemaining} segundos.`,
+        confirmButtonColor: "#7a8358",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      return;
+    }
 
     if (!formData.correo_usuario || !formData.password_usuario) {
       Swal.fire({
@@ -72,10 +108,19 @@ function LoginForm() {
 
         login(userData);
 
+        // Mostrar mensaje de bienvenida según rol
+        const roleMap = {
+          1: 'admin',
+          2: 'veterinario',
+          3: 'domiciliario',
+          4: 'cliente'
+        };
+        const roleLabel = roleMap[Number(userData.id_rol)] || 'usuario';
+
         await Swal.fire({
           icon: "success",
-          title: "¡Bienvenido!",
-          text: `Inicio de sesión exitoso, ${userData.nombre}.`,
+          title: `¡Bienvenido ${roleLabel}!`,
+          text: `Hola ${userData.nombre}. Has iniciado sesión como ${roleLabel}.`,
           showConfirmButton: false,
           timer: 2000,
           background: "#f9fff6",
@@ -96,6 +141,13 @@ function LoginForm() {
             navigate("/");
         }
       } else {
+        setLoginAttempts(prev => {
+          const newAttempts = prev + 1;
+          if (newAttempts >= 5) {
+            handleLoginBlock();
+          }
+          return newAttempts;
+        });
         // Usuario o contraseña incorrectos
         Swal.fire({
           icon: "error",
@@ -106,6 +158,13 @@ function LoginForm() {
         });
       }
     } catch (error) {
+      setLoginAttempts(prev => {
+        const newAttempts = prev + 1;
+        if (newAttempts >= 5) {
+          handleLoginBlock();
+        }
+        return newAttempts;
+      });
       console.error(error);
       Swal.fire({
         icon: "error",
@@ -228,13 +287,36 @@ function LoginForm() {
                 />
               </div>
 
+              <button
+                type="button"
+                onClick={() => setShowRecovery(true)}
+                className="w-full text-[#7a8358] text-sm text-center hover:text-[#5c6142] mb-4"
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+
+              {loginAttempts > 0 && loginAttempts < 5 && !isBlocked && (
+                <p className="text-amber-600 text-sm mb-2">
+                  Te quedan {5 - loginAttempts} intentos antes del bloqueo temporal
+                </p>
+              )}
+              {isBlocked && (
+                <p className="text-red-600 text-sm mb-2">
+                  Cuenta bloqueada. Espera {blockTimeRemaining} segundos
+                </p>
+              )}
               <motion.button
                 type="submit"
-                className="w-full bg-[#7a8358] hover:bg-[#69724c] text-white font-semibold py-2 rounded-lg transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className={`w-full font-semibold py-2 rounded-lg transition-colors ${
+                  isBlocked 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-[#7a8358] hover:bg-[#69724c] text-white'
+                }`}
+                whileHover={isBlocked ? {} : { scale: 1.05 }}
+                whileTap={isBlocked ? {} : { scale: 0.95 }}
+                disabled={isBlocked}
               >
-                Ingresar
+                {isBlocked ? `Bloqueado (${blockTimeRemaining}s)` : 'Ingresar'}
               </motion.button>
 
               <motion.button
@@ -250,6 +332,7 @@ function LoginForm() {
           </motion.div>
         </div>
       </div>
+      {showRecovery && <PasswordRecovery onClose={() => setShowRecovery(false)} />}
     </div>
   );
 }
