@@ -29,18 +29,24 @@ const Navbar = () => {
 
           <div className="flex items-center gap-4">
             {user ? (
-              <div className="hidden md:flex items-center gap-3">
-                <Link to="/mi-cuenta" className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-lg hover:bg-white/20">
-                  <FiUser />
-                  <span className="text-sm">{user.correo}</span>
-                </Link>
-                <button
-                  onClick={() => logout()}
-                  className="px-3 py-1 bg-red-500 rounded-lg text-white text-sm hover:bg-red-600 flex items-center gap-2"
-                >
-                  <FiLogOut /> Salir
-                </button>
-              </div>
+              user.is_proveedor ? (
+                <div className="hidden md:flex items-center gap-3">
+                  {/* Provider menu moved to app-level header */}
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-3">
+                  <Link to="/mi-cuenta" className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-lg hover:bg-white/20">
+                    <FiUser />
+                    <span className="text-sm">{user.correo}</span>
+                  </Link>
+                  <button
+                    onClick={() => logout()}
+                    className="px-3 py-1 bg-red-500 rounded-lg text-white text-sm hover:bg-red-600 flex items-center gap-2"
+                  >
+                    <FiLogOut /> Salir
+                  </button>
+                </div>
+              )
             ) : (
               <div className="hidden md:flex items-center gap-2">
                 <Link to="/login" className="px-3 py-1 bg-white/20 rounded-lg hover:bg-white/30">Iniciar sesión</Link>
@@ -61,7 +67,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu panel */}
-      <div className={`${open ? "block" : "hidden"} md:hidden bg-gradient-to-b from-[#6f774f] to-[#59603e]`}>
+  <div className={`${open ? "block" : "hidden"} md:hidden bg-linear-to-b from-[#6f774f] to-[#59603e]`}>
         <div className="px-4 pt-4 pb-6 space-y-3">
           <Link to="/productos" className="block text-white/95 px-3 py-2 rounded-md">Productos</Link>
           <Link to="/reservar-servicios" className="block text-white/95 px-3 py-2 rounded-md">Servicios</Link>
@@ -70,6 +76,12 @@ const Navbar = () => {
             <>
               <Link to="/login" className="block mt-2 px-3 py-2 bg-white/20 rounded-md">Iniciar sesión</Link>
               <Link to="/register" className="block mt-1 px-3 py-2 bg-white rounded-md text-[#4e5932] font-semibold">Registrarse</Link>
+            </>
+          ) : user.is_proveedor ? (
+            <>
+              <Link to="/proveedor/products" className="block mt-2 px-3 py-2 bg-white/10 rounded-md">Mis productos</Link>
+              <Link to="/proveedor/products?focus=create" className="block mt-1 px-3 py-2 bg-white/10 rounded-md">Agregar producto</Link>
+              <button onClick={() => logout()} className="w-full text-left mt-1 px-3 py-2 bg-red-500 rounded-md text-white">Cerrar sesión</button>
             </>
           ) : (
             <>

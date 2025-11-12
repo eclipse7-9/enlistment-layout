@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Home from "./components/Home";
@@ -39,6 +39,7 @@ import EmprendedorRegister from "./pages/EmprendedorRegister";
 import RegisterCliente from "./pages/RegisterCliente";
 import PoliticasPrivacidad from "./pages/PoliticasPrivacidad";
 import Comments from "./components/Comments";
+import ProviderMenu from "./components/ProviderMenu";
 import "./index.css";
 
 // Definir roles
@@ -71,10 +72,43 @@ function App() {
     location.pathname === "/login" ||
     location.pathname === "/register";
 
+  // Mini header/footer for proveedores
+  const ProviderMiniHeader = () => {
+    const navigate = useNavigate();
+    return (
+      <header className="w-full bg-white border-b border-[#e6dfc7]">
+        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+          <div className="flex items-center gap-3">
+            <img src="/img/logo.png" alt="logo" className="w-10 h-10 rounded-full" />
+            <div>
+              <div className="font-semibold text-[#7a8358]">{user?.nombre_compania}</div>
+              <div className="text-xs text-gray-500">Panel de proveedor</div>
+            </div>
+          </div>
+          {/* Mostrar el menú exclusivo de proveedor en el header */}
+          <div className="hidden md:block">
+            <ProviderMenu />
+          </div>
+        </div>
+      </header>
+    );
+  };
+
+  const ProviderMiniFooter = () => (
+    <footer className="w-full bg-white border-t border-[#e6dfc7] mt-6">
+      <div className="max-w-6xl mx-auto flex items-center justify-center p-6">
+        <img src="/img/logo.png" alt="logo" className="w-10 h-10 rounded-full" />
+      </div>
+    </footer>
+  );
+
   // Función para determinar qué navbar mostrar
   const renderNavbar = () => {
     if (hideLayout) return null;
     
+  // Para proveedores, mostrar un header minimal con logo, nombre y dos botones
+  if (user?.is_proveedor) return <ProviderMiniHeader />;
+
     switch (user?.id_rol) {
       case ROLES.ADMIN:
         return <NavbarAdmin />;
