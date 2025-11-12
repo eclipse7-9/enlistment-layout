@@ -1,0 +1,69 @@
+Lista de chequeo — Pet Health Services
+
+Propósito: lista breve y técnica (pero legible) de puntos a evaluar en la próxima revisión. Marca cada ítem como OK/FAIL/NA cuando lo pruebes.
+
+1) Autenticación y roles
+   - Inicio de sesión funciona y muestra mensaje de bienvenida por rol (1=Admin,2=Veterinario,3=Domiciliario,4=Cliente).
+   - Token almacenado en `localStorage` y usado en cabeceras Authorization.
+   - Accesos protegidos bloquean usuarios no autenticados.
+
+2) Navegación / Navbar
+   - Navbar de cada rol muestra las opciones correctas (emprendedor, domiciliario, admin, cliente).
+   - En `NavbarDomiciliario` ya no aparecen "Pedidos" ni "Historial".
+
+3) Formularios y validaciones
+   - Campos obligatorios muestran asterisco rojo.
+   - Validación básica en frontend (email, campos requeridos, formatos) y mensajes claros al usuario.
+   - No hay alerts nativas; usar toasts animados o Swal para login.
+
+4) Reservas y modales
+   - Reservar abre modal con efecto blur de fondo y bloquea scroll de fondo.
+   - Modal envía datos correctamente (FormData si hay fichero) y muestra toast/Swal según caso.
+
+5) Subida de archivos
+   - Creación/edición de servicios usa multipart/form-data y backend guarda en `backend/static/uploads`.
+   - Verificar que `imagen_servicio` existe en la BD o migración aplicada.
+
+6) Backend / API
+   - Endpoints principales funcionan: /usuarios, /servicios, /citas, /pedidos, /domicilios, /recibos, /notificaciones.
+   - Respuestas HTTP coherentes (200/201/400/401/404/500) y errores manejados en frontend.
+
+7) Notificaciones y recibos
+   - Notificaciones se crean en acciones relevantes (reserva, confirmación, cancelación).
+   - Recibos generados después de crear pedido/pago y disponibles para ver/descargar.
+
+8) UX: Alertas y toasts
+   - Sistema de toasts animados (`AlertContext` + `AnimatedAlert`) visible y no intrusivo.
+   - Mantener SweetAlert2 para alertas de login/errores críticos.
+
+9) Perfil de usuario
+   - Página de perfil permite ver datos y editar por campo mediante modal con blur.
+   - Al guardar, se actualiza `AuthContext` y la UI refleja el cambio.
+
+10) Seguridad y CORS
+   - CORS configurado para origen del frontend (revisar `CORS_ORIGINS`).
+   - No exponer secretos en frontend; revisar variables de entorno en backend.
+
+11) Responsive / Accesibilidad
+   - UI responsiva en móviles/tablets (componentes clave: Navbar, modales, cards).
+   - Controles accesibles (etiquetas, focus visible, texto contrastado).
+
+12) Documentación y despliegue
+   - `README.md` actualizado con pasos para levantar frontend y backend.
+   - Notas sobre migraciones DB incluidas (imagen_servicio, notificaciones).
+
+Aceptación mínima para pasar la revisión: items 1, 3, 4, 5, 6 y 9 deben ser OK; resto idealmente OK o NA.
+
+-- Fin --
+
+Extras sugeridos (opcional, útil para revisión):
+   - Logs y monitoreo: revisar que errores importantes queden en logs backend y que haya trazabilidad (request id / timestamps).
+   - Límites y validación en backend: tamaño máximo de uploads, tipos MIME aceptados y límites de campos.
+   - Rendimiento: comprobar tiempos de respuesta en endpoints críticos (citas/servicios) < 500ms en primario entorno local.
+   - Seguridad: cabeceras HTTP (Content-Security-Policy, X-Content-Type-Options), y rate-limiting básico en endpoints de login.
+   - Backup/restore: documentación mínima de cómo exportar/importar la base de datos (script o dump).
+   - Emails y notificaciones: validar que envíos (recuperación de contraseña, notificaciones) estén configurados o documentados.
+   - Tests mínimos: tener al menos 1 test de API para creación de cita y 1 test de componente crítico en frontend.
+   - Optimización de imágenes: verificar que las imágenes subidas se sirven de forma eficiente (optimización/compresión o servir miniaturas).
+
+-- Fin ampliado --
