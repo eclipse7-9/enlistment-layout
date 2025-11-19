@@ -79,8 +79,7 @@ const Navbar = () => {
             </>
           ) : user.is_proveedor ? (
             <>
-              <Link to="/proveedor/products" className="block mt-2 px-3 py-2 bg-white/10 rounded-md">Mis productos</Link>
-              <Link to="/proveedor/products?focus=create" className="block mt-1 px-3 py-2 bg-white/10 rounded-md">Agregar producto</Link>
+              <Link to="/proveedor/profile" className="block mt-2 px-3 py-2 bg-white/10 rounded-md">Perfil</Link>
               <button onClick={() => logout()} className="w-full text-left mt-1 px-3 py-2 bg-red-500 rounded-md text-white">Cerrar sesión</button>
             </>
           ) : (

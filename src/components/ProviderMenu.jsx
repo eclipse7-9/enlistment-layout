@@ -38,7 +38,7 @@ export default function ProviderMenu() {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setOpen((s) => !s)}
-        className="flex items-center gap-3 bg-white/10 hover:bg-white/20 px-3 py-1 rounded-md"
+        className="flex items-center gap-3 bg-[#7a8358] hover:bg-[#678048] px-3 py-1 rounded-md text-white"
       >
         <img src="/img/logo.png" alt="logo" className="w-8 h-8 rounded-full" />
         <span className="hidden sm:inline font-medium text-sm">{user.nombre_compania}</span>
@@ -46,8 +46,9 @@ export default function ProviderMenu() {
 
       {open && (
         <div className="absolute right-0 mt-2 w-44 bg-white border rounded shadow-md z-40">
-          <button className="w-full text-left px-4 py-2 hover:bg-gray-50" onClick={goMy}>Mis productos</button>
-          <button className="w-full text-left px-4 py-2 hover:bg-gray-50" onClick={goAdd}>Agregar producto</button>
+          <button className="w-full text-left px-4 py-2 hover:bg-gray-50" onClick={() => { setOpen(false); navigate('/proveedor/profile#perfil'); }}>
+            Perfil
+          </button>
           <div className="border-t" />
           <button className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-50" onClick={handleLogout}>Cerrar sesión</button>
         </div>

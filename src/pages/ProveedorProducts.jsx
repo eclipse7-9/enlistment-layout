@@ -11,6 +11,7 @@ export default function ProveedorProducts() {
   const location = useLocation();
   const [productos, setProductos] = useState([]);
   const [form, setForm] = useState({ nombre_producto: "", imagen_producto: "", categoria_producto: "", descripcion_producto: "", estado_producto: "en-stock", precio_producto: "", });
+  const PLACEHOLDER_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='90'%3E%3Crect fill='%23f5f3ee' width='100%25' height='100%25'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='12'%3ESin imagen%3C/text%3E%3C/svg%3E";
 
   useEffect(() => { fetchProductos(); }, []);
 
@@ -53,21 +54,18 @@ export default function ProveedorProducts() {
       setForm({ nombre_producto: "", imagen_producto: "", categoria_producto: "", descripcion_producto: "", estado_producto: "en-stock", precio_producto: "" });
       fetchProductos();
       alert('Producto creado');
-    } catch (err) { console.error(err); alert('Error creando producto'); }
+    } catch (err) {
+      console.error('Error creating product:', err);
+      if (err.response) {
+        console.error('Server response:', err.response.status, err.response.data);
+        alert('Error creando producto: ' + (err.response.data?.detail || JSON.stringify(err.response.data)));
+      } else {
+        alert('Error creando producto: ' + err.message);
+      }
+    }
   };
 
-  // Nota: Los proveedores sólo pueden crear (no editar). Por tanto no exponemos
-  // la lógica de edición en la UI; el servidor aún valida propiedad/permiso.
-
-  const handleDelete = async (id) => {
-    if (!confirm('Eliminar producto?')) return;
-    try {
-      const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
-      await axios.delete(`http://localhost:8000/productos/${id}`, { headers });
-      fetchProductos();
-      alert('Producto eliminado');
-    } catch (err) { console.error(err); alert('Error eliminando producto'); }
-  };
+  // Nota: Los proveedores sólo pueden crear (no editar ni eliminar) desde esta UI.
 
   if (!user || !user.is_proveedor) return <p className="p-6">Acceso no autorizado.</p>;
 
@@ -111,25 +109,20 @@ export default function ProveedorProducts() {
                 <th className="px-4 py-3">Categoría</th>
                 <th className="px-4 py-3">Precio</th>
                 <th className="px-4 py-3">Estado</th>
-                <th className="px-4 py-3 text-center">Acciones</th>
+              
               </tr>
             </thead>
             <tbody className="bg-white text-[#4e5932]">
               {productos.map((p) => (
                 <tr key={p.id_producto} className="border-t border-[#e0d8c6] hover:bg-[#f7f4ef]">
                   <td className="px-4 py-3">
-                    <img src={p.imagen_producto || 'https://via.placeholder.com/120x90?text=Sin+imagen'} alt={p.nombre_producto} className="w-28 h-20 object-cover rounded" />
+                    <img src={p.imagen_producto || PLACEHOLDER_SVG} alt={p.nombre_producto} className="w-28 h-20 object-cover rounded" />
                   </td>
                   <td className="px-4 py-3">{p.nombre_producto}</td>
                   <td className="px-4 py-3">{p.categoria_producto}</td>
                   <td className="px-4 py-3">${Number(p.precio_producto).toFixed(2)} COP</td>
                   <td className="px-4 py-3">{p.estado_producto}</td>
-                  <td className="px-4 py-3 text-center">
-                    <div className="flex justify-center gap-2">
-                      {/* Edición deshabilitada para proveedores: sólo creación y eliminación */}
-                      <button onClick={()=>handleDelete(p.id_producto)} className="px-3 py-1 bg-red-500 text-white rounded">Eliminar</button>
-                    </div>
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>

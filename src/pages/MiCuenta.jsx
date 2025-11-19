@@ -409,15 +409,7 @@ export default function MiCuenta() {
                 >
                   📝 Editar datos
                 </button>
-                <button
-                  onClick={() => {
-                    setEditData(prev => ({...prev, type: 'password'}));
-                    setShowEditModal(true);
-                  }}
-                  className="px-5 py-2 bg-[#2b6cb0] hover:bg-[#225e9a] text-white rounded-full font-semibold shadow-md transition"
-                >
-                  🔒 Cambiar contraseña
-                </button>
+                {/* Opción de cambiar contraseña removida del perfil de usuario (según solicitud) */}
                 <button
                   onClick={() => setShowPetModal(true)}
                   className="px-5 py-2 bg-[#c8a67a] hover:bg-[#b18f65] text-white rounded-full font-semibold shadow-md transition"
@@ -659,9 +651,39 @@ export default function MiCuenta() {
                     <div className="flex items-center gap-3">
                       {pedidoRecibo ? (
                         <button
-                          onClick={() => {
-                            setSelectedRecibo(pedidoRecibo);
-                            setShowReciboModal(true);
+                          onClick={async () => {
+                            try {
+                              // obtener detalles y productos para mostrar precio por producto
+                              const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
+                              const [detRes, prodRes] = await Promise.all([
+                                axios.get('http://localhost:8000/detalle_pedido/', { headers }),
+                                axios.get('http://localhost:8000/productos/', { headers })
+                              ]);
+                              const detalles = Array.isArray(detRes.data) ? detRes.data : [];
+                              const productos = Array.isArray(prodRes.data) ? prodRes.data : [];
+                              const items = detalles
+                                .filter(d => d.id_pedido === p.id_pedido)
+                                .map(d => {
+                                  const prod = productos.find(x => x.id_producto === d.id_producto) || {};
+                                  return {
+                                    id_detalle: d.id_detalle_pedido,
+                                    id_producto: d.id_producto,
+                                    nombre_producto: prod.nombre_producto || 'Producto',
+                                    precio_unitario: prod.precio_producto ? Number(prod.precio_producto) : (d.subtotal ? Number(d.subtotal) : 0),
+                                    cantidad: d.cantidad,
+                                    subtotal: Number(d.subtotal)
+                                  };
+                                });
+
+                              // attach items to the recibo object for the modal
+                              setSelectedRecibo({ ...pedidoRecibo, items, pedido: p });
+                              setShowReciboModal(true);
+                            } catch (err) {
+                              console.error('Error cargando detalles del recibo', err);
+                              // fallback: mostrar recibo sin detalles
+                              setSelectedRecibo(pedidoRecibo);
+                              setShowReciboModal(true);
+                            }
                           }}
                           className="px-4 py-2 bg-[#7A8358] text-white rounded-full"
                         >
@@ -699,6 +721,26 @@ export default function MiCuenta() {
                   <strong>Monto:</strong> $
                   {Number(selectedRecibo.monto_pagado).toFixed(2)}
                 </p>
+                {/* Mostrar items del pedido con precio unitario si están disponibles */}
+                {selectedRecibo.items && selectedRecibo.items.length > 0 && (
+                  <div className="mt-3">
+                    <h4 className="font-semibold mb-2">Detalle</h4>
+                    <div className="space-y-2">
+                      {selectedRecibo.items.map(it => (
+                        <div key={it.id_detalle} className="flex justify-between text-sm text-gray-700">
+                          <div>
+                            <div className="font-medium">{it.nombre_producto}</div>
+                            <div className="text-xs text-gray-500">Cantidad: {it.cantidad}</div>
+                          </div>
+                          <div className="text-right">
+                            <div>${Number(it.precio_unitario).toFixed(2)}</div>
+                            <div className="text-xs text-gray-500">Subtotal: ${Number(it.subtotal).toFixed(2)}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <p>
                   <strong>Estado:</strong> {selectedRecibo.estado_recibo}
                 </p>

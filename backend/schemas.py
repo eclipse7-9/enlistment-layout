@@ -170,7 +170,8 @@ class ProductoCreate(BaseModel):
     descripcion_producto: str
     estado_producto: str = "en-stock"
     precio_producto: Decimal
-    id_proveedor: int
+    # id_proveedor puede ser provisto por el actor (token) en backend, así que lo hacemos opcional
+    id_proveedor: Optional[int] = None
 
     class Config:
         orm_mode = True

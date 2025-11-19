@@ -26,6 +26,7 @@ import Veterinarios from "./pages/Veterinarios";
 import MiPerfilDomiciliario from "./pages/MiPerfilDomiciliario";
 import AdminProducts from "./pages/AdminProducts";
 import ProveedorProducts from "./pages/ProveedorProducts";
+import ProveedorProfile from "./pages/ProveedorProfile";
 import AdminPedidos from "./pages/AdminPedidos";
 import AdminServicios from "./pages/AdminServicios";
 import ServiciosMedicos from "./pages/ServiciosMedicos";
@@ -38,7 +39,7 @@ import AdminReport from "./pages/AdminReport";
 import EmprendedorRegister from "./pages/EmprendedorRegister";
 import RegisterCliente from "./pages/RegisterCliente";
 import PoliticasPrivacidad from "./pages/PoliticasPrivacidad";
-import Comments from "./components/Comments";
+// Comments removed from global layout by request
 import ProviderMenu from "./components/ProviderMenu";
 import "./index.css";
 
@@ -76,15 +77,22 @@ function App() {
   const ProviderMiniHeader = () => {
     const navigate = useNavigate();
     return (
-      <header className="w-full bg-white border-b border-[#e6dfc7]">
-        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <header className="w-full bg-[#f5f3ee] border-b border-[#e6dfc7] relative">
+        <div className="max-w-6xl mx-auto flex items-center justify-between p-4 relative">
           <div className="flex items-center gap-3">
             <img src="/img/logo.png" alt="logo" className="w-10 h-10 rounded-full" />
             <div>
-              <div className="font-semibold text-[#7a8358]">{user?.nombre_compania}</div>
-              <div className="text-xs text-gray-500">Panel de proveedor</div>
+              <div className="text-lg font-bold text-[#7a8358]">Proveedor</div>
             </div>
           </div>
+
+          {/* Título exclusivo para la vista de proveedores: centrado absolutamente */}
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <button onClick={() => navigate('/proveedor/products')} className="text-2xl font-extrabold text-[#7a8358] hover:opacity-90 focus:outline-none cursor-pointer transform transition duration-150 ease-in-out hover:scale-105 active:translate-y-0.5 hover:shadow-md focus:ring-2 focus:ring-[#9cc07a] rounded" title="Ir al panel de productos de proveedor">
+              PET HEALT SERVICE`S
+            </button>
+          </div>
+
           {/* Mostrar el menú exclusivo de proveedor en el header */}
           <div className="hidden md:block">
             <ProviderMenu />
@@ -237,6 +245,14 @@ function App() {
             }
           />
           <Route
+            path="/proveedor/profile"
+            element={
+              <ProviderRoute>
+                <ProveedorProfile />
+              </ProviderRoute>
+            }
+          />
+          <Route
             path="/admin/orders"
             element={
               <ProtectedRoute role={ROLES.ADMIN}>
@@ -312,9 +328,7 @@ function App() {
             } 
           />
         </Routes>
-      </main>
-
-  {!hideLayout && <Comments />}
+    </main>
   {!hideLayout && <Footer />}
     </CartProvider>
   );
