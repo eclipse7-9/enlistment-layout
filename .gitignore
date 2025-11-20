@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 node_modules/ 
 =======
 # Logs
@@ -26,3 +27,6 @@ dist-ssr
 *.sln
 *.sw?
 >>>>>>> 0759b72 (avance con fastapi y react)
+=======
+node_modules/ 
+>>>>>>> 62e6b3d3fa00b660688f0383e879cf2c3d3ef106
