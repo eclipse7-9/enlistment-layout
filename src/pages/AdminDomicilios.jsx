@@ -61,36 +61,7 @@ export default function AdminDomicilios() {
 
   // Nota: se eliminó el almacenamiento/visualización del motivo de cancelación.
 
-  const handleSendMessage = async (domicilio) => {
-    const { value: message } = await Swal.fire({
-      title: `Enviar mensaje al domiciliario`,
-      input: "textarea",
-      inputPlaceholder: "Escribe tu mensaje...",
-      showCancelButton: true,
-    });
-
-    if (!message) return;
-
-    try {
-      const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
-
-      await axios.post(
-        "http://localhost:8000/notificaciones/",
-        {
-          tipo: "mensaje_admin",
-          mensaje: message,
-          domicilio_id: domicilio.id_domicilio || domicilio.id,
-          destinatario: domicilio.id_usuario || null,
-        },
-        { headers }
-      );
-
-      Swal.fire("Enviado", "Mensaje enviado correctamente", "success");
-    } catch (err) {
-      console.error(err);
-      Swal.fire("Error", "No se pudo enviar el mensaje", "error");
-    }
-  };
+  // El envío de mensajes al domiciliario fue eliminado del panel del admin.
 
   const handleChangeEstado = async (domicilio, estado) => {
     try {
@@ -159,7 +130,6 @@ export default function AdminDomicilios() {
                   <th className="px-4 py-3">Cliente</th>
                   <th className="px-4 py-3">Dirección</th>
                   <th className="px-4 py-3">Estado</th>
-                  <th className="px-4 py-3">Domiciliario</th>
                   <th className="px-4 py-3">Acciones</th>
                 </tr>
               </thead>
@@ -188,11 +158,7 @@ export default function AdminDomicilios() {
                       {d.estado_domicilio || d.estado || "-"}
                     </td>
 
-                    <td className="px-4 py-3">
-                      {d.domiciliarioInfo
-                        ? `${d.domiciliarioInfo.nombre_usuario || ''} ${d.domiciliarioInfo.apellido_usuario || ''}`.trim() + (d.domiciliarioInfo.correo_usuario ? ` (${d.domiciliarioInfo.correo_usuario})` : '')
-                        : "-"}
-                    </td>
+                    
 
                     <td className="px-4 py-3">
                       <button
@@ -238,15 +204,7 @@ export default function AdminDomicilios() {
 
               {/* Motivo de cancelación eliminado */}
 
-              <button
-                onClick={() => {
-                  handleSendMessage(optionsModal);
-                  setOptionsModal(null);
-                }}
-                className="px-4 py-3 rounded-lg bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
-              >
-                Enviar mensaje
-              </button>
+              {/* Enviar mensaje al domiciliario eliminado */}
 
               <button
                 onClick={() => {

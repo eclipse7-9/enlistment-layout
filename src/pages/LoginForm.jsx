@@ -17,7 +17,7 @@ function LoginForm() {
     correo_usuario: "",
     password_usuario: "",
   });
-  const [loginAsProvider, setLoginAsProvider] = useState(false);
+  // provider login option removed — only user login is supported
   
   const [showRecovery, setShowRecovery] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
@@ -75,11 +75,8 @@ function LoginForm() {
     }
 
     try {
-      const url = loginAsProvider ? "http://127.0.0.1:8000/proveedores/login" : "http://127.0.0.1:8000/usuarios/login";
-      const payload = loginAsProvider
-        ? { correo_proveedor: formData.correo_usuario, password_proveedor: formData.password_usuario }
-        : { correo_usuario: formData.correo_usuario, password_usuario: formData.password_usuario };
-
+      const url = "http://127.0.0.1:8000/usuarios/login";
+      const payload = { correo_usuario: formData.correo_usuario, password_usuario: formData.password_usuario };
       const response = await axios.post(url, payload);
       const data = response.data;
 
@@ -100,19 +97,6 @@ function LoginForm() {
       if (data.access_token || data.access_token === undefined && data.access_token === undefined) { /* placeholder */ }
 
       if (data.access_token) {
-        if (loginAsProvider) {
-          const providerData = {
-            token: data.access_token,
-            correo_proveedor: data.correo_proveedor,
-            id_proveedor: data.id_proveedor,
-            nombre_compania: data.nombre_compania,
-          };
-          login({ token: providerData.token, correo: providerData.correo_proveedor, id_proveedor: providerData.id_proveedor, nombre_compania: providerData.nombre_compania });
-          await Swal.fire({ icon: 'success', title: `Bienvenido proveedor`, showConfirmButton: false, timer: 1400 });
-          navigate('/proveedor/products');
-          return;
-        }
-
         const userData = {
           correo: data.correo,
           nombre: data.nombre_usuario,
@@ -126,7 +110,7 @@ function LoginForm() {
         // Mostrar mensaje de bienvenida según rol
         const roleMap = {
           1: 'admin',
-          2: 'veterinario',
+          2: 'emprendedor',
           3: 'domiciliario',
           4: 'cliente'
         };
@@ -147,10 +131,10 @@ function LoginForm() {
             navigate("/admin/users");
             break;
           case 2:
-            navigate("/Veterinarios");
+            navigate("/crear-servicio-guia");
             break;
           case 3:
-            navigate("/domiciliario");
+            navigate("/manual-domiciliario");
             break;
           default:
             navigate("/");
@@ -272,10 +256,7 @@ function LoginForm() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-sm">
-                <input id="provider-toggle" type="checkbox" checked={loginAsProvider} onChange={(e)=>setLoginAsProvider(e.target.checked)} className="w-4 h-4" />
-                <label htmlFor="provider-toggle" className="text-sm text-[#4e5932]">Iniciar sesión como proveedor</label>
-              </div>
+              {/* Provider login option removed; only usuario login available */}
 
               <div>
                 <label className="block text-[#4e5932] font-semibold mb-1">

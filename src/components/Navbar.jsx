@@ -26,7 +26,8 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-6">
             <Link to="/productos" className="hover:underline hover:opacity-90">Productos</Link>
             <Link to="/reservar-servicios" className="hover:underline hover:opacity-90">Servicios</Link>
-            <Link to="/ubicaciones" className="hover:underline hover:opacity-90">Ubicaciones</Link>
+            <span className="mx-6" />
+            <Link to="/faqs" className="hover:underline hover:opacity-90">FAQS</Link>
           </div>
 
           <div className="flex items-center gap-4">
@@ -74,7 +75,8 @@ const Navbar = () => {
         <div className="px-4 pt-4 pb-6 space-y-3">
           <Link to="/productos" className="block text-white/95 px-3 py-2 rounded-md">Productos</Link>
           <Link to="/reservar-servicios" className="block text-white/95 px-3 py-2 rounded-md">Servicios</Link>
-          <Link to="/ubicaciones" className="block text-white/95 px-3 py-2 rounded-md">Ubicaciones</Link>
+          <div className="border-t border-white/20 my-2"></div>
+          <Link to="/faqs" className="block text-white/95 px-3 py-2 rounded-md">FAQS</Link>
           {!user ? (
             <>
               <Link to="/login" className="block mt-2 px-3 py-2 bg-white/20 rounded-md">Iniciar sesión</Link>

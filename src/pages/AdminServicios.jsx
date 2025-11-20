@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 export default function AdminServicios() {
   const { user } = useAuth();
   const [servicios, setServicios] = useState([]);
-  const [form, setForm] = useState({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "" });
+  const [form, setForm] = useState({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "", precio_servicio: "0.00" });
+  const [editingId, setEditingId] = useState(null);
 
   useEffect(() => { fetchServicios(); }, []);
 
@@ -20,12 +21,35 @@ export default function AdminServicios() {
   const handleCreate = async () => {
     try {
       const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
-      const payload = { tipo_servicio: form.tipo_servicio, estado_servicio: form.estado_servicio, descripcion_servicio: form.descripcion_servicio, id_usuario: user?.id_usuario || 1, imagen_servicio: form.imagen_servicio || '' };
-      await axios.post("http://localhost:8000/servicios/", payload, { headers });
+      const payload = { tipo_servicio: form.tipo_servicio, estado_servicio: form.estado_servicio, descripcion_servicio: form.descripcion_servicio, precio_servicio: Number(form.precio_servicio || 0), id_usuario: user?.id_usuario || 1, imagen_servicio: form.imagen_servicio || '' };
+      if (editingId) {
+        // Guardar cambios
+        await axios.put(`http://localhost:8000/servicios/${editingId}`, payload, { headers });
+        setEditingId(null);
+        alert('Servicio actualizado');
+      } else {
+        await axios.post("http://localhost:8000/servicios/", payload, { headers });
+        alert('Servicio creado');
+      }
       setForm({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "" });
       fetchServicios();
-      alert('Servicio creado');
     } catch (err) { console.error(err); alert('Error creando servicio'); }
+  };
+
+  const startEdit = (s) => {
+    setEditingId(s.id_servicio);
+    setForm({
+      tipo_servicio: s.tipo_servicio || "",
+      estado_servicio: s.estado_servicio || "Activo",
+      descripcion_servicio: s.descripcion_servicio || "",
+      imagen_servicio: s.imagen_servicio || "",
+      precio_servicio: s.precio_servicio ? Number(s.precio_servicio).toFixed(2) : "0.00",
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setForm({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "", precio_servicio: "0.00" });
   };
 
   const handleDelete = async (id) => {
@@ -53,9 +77,11 @@ export default function AdminServicios() {
             </select>
             <input className="p-2 border col-span-2" placeholder="Descripción" value={form.descripcion_servicio} onChange={(e)=>setForm({...form,descripcion_servicio:e.target.value})} />
             <input className="p-2 border" placeholder="Imagen URL" value={form.imagen_servicio} onChange={(e)=>setForm({...form,imagen_servicio:e.target.value})} />
+            <input className="p-2 border" placeholder="Precio" type="number" step="0.01" value={form.precio_servicio} onChange={(e)=>setForm({...form,precio_servicio:e.target.value})} />
           </div>
           <div className="mt-3">
-            <button onClick={handleCreate} className="px-4 py-2 bg-[#7a8358] text-white rounded">Crear servicio</button>
+            <button onClick={handleCreate} className="px-4 py-2 bg-[#7a8358] text-white rounded">{editingId ? 'Guardar cambios' : 'Crear servicio'}</button>
+            {editingId && <button onClick={cancelEdit} className="ml-3 px-4 py-2 bg-gray-300 rounded">Cancelar</button>}
           </div>
         </div>
 
@@ -76,9 +102,10 @@ export default function AdminServicios() {
                   <td className="px-4 py-3">{s.tipo_servicio}</td>
                   <td className="px-4 py-3">{s.estado_servicio}</td>
                   <td className="px-4 py-3">{s.descripcion_servicio}</td>
-                  <td className="px-4 py-3">-</td>
+                  <td className="px-4 py-3">{s.usuario ? (s.usuario.nombre_usuario + ' ' + (s.usuario.apellido_usuario || '')).trim() : (s.correo_usuario || s.email || `#${s.id_usuario || '-'}`)}</td>
                   <td className="px-4 py-3 text-center">
                     <div className="flex justify-center gap-2">
+                      <button onClick={()=>startEdit(s)} className="px-3 py-1 bg-yellow-400 rounded">Editar</button>
                       <button onClick={()=>handleDelete(s.id_servicio)} className="px-3 py-1 bg-red-500 text-white rounded">Eliminar</button>
                     </div>
                   </td>

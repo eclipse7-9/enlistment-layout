@@ -43,13 +43,14 @@ export default function AdminProducts() {
 
   const handleSaveNew = async () => {
     try {
+      const precioNumber = Number(parseFloat(String(form.precio_producto || 0)).toFixed(2));
       const payload = {
         nombre_producto: form.nombre_producto,
         imagen_producto: form.imagen_producto || null,
         categoria_producto: form.categoria_producto,
         descripcion_producto: form.descripcion_producto,
         estado_producto: form.estado_producto,
-        precio_producto: Number(form.precio_producto) || 0,
+        precio_producto: precioNumber,
         id_proveedor: Number(form.id_proveedor) || 1,
       };
       const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
@@ -78,13 +79,14 @@ export default function AdminProducts() {
 
   const handleSaveEdit = async () => {
     try {
+      const precioNumber = Number(parseFloat(String(form.precio_producto || 0)).toFixed(2));
       const payload = {
         nombre_producto: form.nombre_producto,
         imagen_producto: form.imagen_producto || null,
         categoria_producto: form.categoria_producto,
         descripcion_producto: form.descripcion_producto,
         estado_producto: form.estado_producto,
-        precio_producto: Number(form.precio_producto) || 0,
+        precio_producto: precioNumber,
         id_proveedor: Number(form.id_proveedor) || 1,
       };
       const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
@@ -122,8 +124,16 @@ export default function AdminProducts() {
           <h3 className="font-semibold mb-2">Crear / Editar producto</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <input className="p-2 border" placeholder="Nombre" value={form.nombre_producto} onChange={(e)=>setForm({...form,nombre_producto:e.target.value})} />
-            <input className="p-2 border" placeholder="Categoría" value={form.categoria_producto} onChange={(e)=>setForm({...form,categoria_producto:e.target.value})} />
-            <input className="p-2 border" placeholder="Precio" value={form.precio_producto} onChange={(e)=>setForm({...form,precio_producto:e.target.value})} />
+            <select className="p-2 border" value={form.categoria_producto} onChange={(e)=>setForm({...form,categoria_producto:e.target.value})}>
+              <option value="">Selecciona categoría</option>
+              <option value="comida">comida</option>
+              <option value="accesorios">accesorios</option>
+              <option value="salud">salud</option>
+            </select>
+            <div className="flex items-center gap-2">
+              <input type="number" step="0.01" min="0" className="p-2 border flex-1" placeholder="Precio (COP)" value={form.precio_producto} onChange={(e)=>setForm({...form,precio_producto:e.target.value})} />
+              <span className="text-sm text-gray-600">COP</span>
+            </div>
             <select className="p-2 border" value={form.id_proveedor} onChange={(e)=>setForm({...form,id_proveedor:e.target.value})}>
               <option value="">Selecciona proveedor</option>
               {proveedores.map(pr => (<option key={pr.id_proveedor} value={pr.id_proveedor}>{pr.nombre_compania}</option>))}

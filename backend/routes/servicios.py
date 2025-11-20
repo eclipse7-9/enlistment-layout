@@ -98,3 +98,39 @@ def delete_servicio(servicio_id: int, db: Session = Depends(get_db)):
     db.delete(servicio)
     db.commit()
     return {"detail": "Servicio eliminado"}
+
+
+# Actualizar un servicio (JSON body). Permite al propietario o al admin editar campos.
+@router.put("/{servicio_id}")
+def update_servicio(
+    servicio_id: int,
+    tipo_servicio: Optional[str] = None,
+    descripcion_servicio: Optional[str] = None,
+    estado_servicio: Optional[str] = None,
+    precio_servicio: Optional[float] = None,
+    imagen_servicio: Optional[str] = None,
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user),
+):
+    servicio = db.query(Servicio).filter(Servicio.id_servicio == servicio_id).first()
+    if not servicio:
+        raise HTTPException(status_code=404, detail="Servicio no encontrado")
+
+    # Permitir edición solo al propietario o al admin
+    if servicio.id_usuario != current_user.id_usuario and getattr(current_user, "id_rol", None) != 1:
+        raise HTTPException(status_code=403, detail="No autorizado para editar este servicio")
+
+    if tipo_servicio is not None:
+        servicio.tipo_servicio = tipo_servicio
+    if descripcion_servicio is not None:
+        servicio.descripcion_servicio = descripcion_servicio
+    if estado_servicio is not None:
+        servicio.estado_servicio = estado_servicio
+    if precio_servicio is not None:
+        servicio.precio_servicio = precio_servicio
+    if imagen_servicio is not None:
+        servicio.imagen_servicio = imagen_servicio
+
+    db.commit()
+    db.refresh(servicio)
+    return servicio

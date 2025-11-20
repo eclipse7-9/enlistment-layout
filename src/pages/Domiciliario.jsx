@@ -32,7 +32,15 @@ const Domiciliary = () => {
         });
         const domiciliosRaw = res.data || [];
 
-        // enriquecer cada domicilio con el usuario asociado
+        // Cargar regiones y ciudades para mostrar nombres
+        const [regRes, citiesRes] = await Promise.all([
+          axios.get("http://localhost:8000/ubicaciones/regiones"),
+          axios.get("http://localhost:8000/ubicaciones/ciudades"),
+        ]);
+        const regionesMap = Object.fromEntries((regRes.data || []).map(r => [r.id_region, r.nombre_region]));
+        const ciudadesMap = Object.fromEntries((citiesRes.data || []).map(c => [c.id_ciudad, c.nombre_ciudad]));
+
+        // enriquecer cada domicilio con el usuario y nombres de region/ciudad
         const domiciliosEnriquecidos = await Promise.all(
           domiciliosRaw.map(async (dom) => {
             let usuario = null;
@@ -47,6 +55,8 @@ const Domiciliary = () => {
               ...dom,
               id: dom.id_domicilio || dom.id,
               usuario,
+              region: regionesMap[dom.id_region] || null,
+              ciudad: ciudadesMap[dom.id_ciudad] || null,
             };
           })
         );
@@ -138,37 +148,25 @@ const Domiciliary = () => {
   };
 
   return (
-    <section className="relative min-h-screen overflow-hidden font-[Poppins] text-[#4A5B2E]">
-      {/* 🌄 Fondo con degradado animado */}
-      <div className="absolute inset-0 bg-linear-to-br from-[#C7D8A5] via-[#F2F7EB] to-[#7A8358] bg-[length:300%_300%] animate-gradient-slow"></div>
+    <section className="relative min-h-screen overflow-hidden font-[Poppins] text-[#33461e] bg-[#f3f6ef] py-10">
+      {/* subtle decorative background */}
+      <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_top_left,_#e8f6d9,_transparent_30%)] pointer-events-none"></div>
 
-      {/* ✨ Capa translúcida */}
-      <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
-
-      {/* 🌿 Contenido principal */}
-      <div className="relative z-10 max-w-6xl mx-auto p-6 md:p-10">
-        {/* Descripción */}
-        <div className="max-w-3xl mx-auto text-center mb-6">
-          <div className="flex items-center justify-center gap-4">
-            <p className="text-lg text-[#556140]">
-              Aquí tienes una lista de domicilios registrados. Selecciona uno para ver sus detalles.
-            </p>
-
-            {/* Perfil accesible desde el navbar; botón eliminado para evitar duplicados */}
-          </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
+        <div className="max-w-4xl mx-auto text-center mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-[#58783a] mb-2">Panel de Domiciliarios</h1>
+          <p className="text-sm text-gray-600">Lista de domicilios disponibles y asignados — pulsa en una tarjeta para ver y actualizar el estado.</p>
         </div>
 
-        {/* 🛍 Pedidos disponibles */}
-        <section className="mt-6 min-h-[320px] w-full bg-gradient-to-r from-[#A9D7A6] via-[#CAF2FF] to-[#FFFDD8] rounded-2xl p-8">
+        <section className="w-full bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e6ead8]">
           {loading ? (
-            <p className="text-center text-gray-600 animate-pulse">
-              Cargando domicilios...
-            </p>
+            <div className="py-12 text-center">
+              <p className="text-gray-600 animate-pulse">Cargando domicilios...</p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayPedidos && displayPedidos.length > 0 ? (
                 displayPedidos.map((pedido) => {
-                  // normalizar datos para la tarjeta
                   const display = {
                     id: pedido.id_pedido || pedido.id,
                     cliente:
@@ -181,6 +179,7 @@ const Domiciliary = () => {
                       (pedido.pedidos && pedido.pedidos.flatMap((pp) => (pp.productos || []).map((pr) => pr.nombre_producto || pr.nombre || pr)))
                       || (pedido.productos ? pedido.productos.map((p) => p.nombre || p) : pedido.productos || [])
                     ),
+                    estado_domicilio: pedido.estado_domicilio || pedido.estado || null,
                   };
 
                   return (
@@ -192,96 +191,116 @@ const Domiciliary = () => {
                   );
                 })
               ) : (
-                <p className="text-center text-gray-500 col-span-full">
-                  No hay pedidos disponibles por ahora.
-                </p>
+                <div className="col-span-full py-16 text-center">
+                  <p className="text-gray-500">No hay domicilios disponibles por ahora.</p>
+                </div>
               )}
             </div>
           )}
         </section>
 
-        {/* 🪟 Modal Detalle Pedido */}
+        {/* 🪟 Modal Detalle Pedido mejorado */}
         {selectedPedido && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
             <div
               className="absolute inset-0 bg-black/50"
               onClick={() => setSelectedPedido(null)}
             />
-            <div className="relative bg-white rounded-2xl shadow-xl p-6 w-full max-w-2xl z-10">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl font-bold text-[#556140]">
-                  Detalle Domicilio #{selectedPedido.id_domicilio || selectedPedido.id}
-                </h3>
+
+            <div className="relative bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-3xl z-10">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-2xl font-bold text-[#2f4f20]">Detalle Domicilio #{selectedPedido.id_domicilio || selectedPedido.id}</h3>
+                  <p className="text-sm text-gray-500 mt-1">Información del domicilio y acciones rápidas para domiciliarios.</p>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {selectedPedido.estado_domicilio && (
+                    <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${selectedPedido.estado_domicilio === 'Entregado' ? 'bg-green-100 text-green-800' : selectedPedido.estado_domicilio === 'En-entrega' ? 'bg-yellow-100 text-yellow-800' : selectedPedido.estado_domicilio === 'Cancelado' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'}`}>
+                      {selectedPedido.estado_domicilio}
+                    </span>
+                  )}
+
+                  <button onClick={() => setSelectedPedido(null)} className="text-gray-600 hover:text-gray-800">Cerrar ✕</button>
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                <div className="space-y-3">
+                  <div>
+                    <div className="text-xs text-gray-500">Cliente</div>
+                    <div className="font-medium text-gray-800">{(selectedPedido.usuario && `${selectedPedido.usuario.nombre_usuario || ''} ${selectedPedido.usuario.apellido_usuario || ''}`.trim()) || selectedPedido.usuario?.correo_usuario || 'Cliente desconocido'}</div>
+                  </div>
+
+                  <div>
+                    <div className="text-xs text-gray-500">Dirección</div>
+                    <div className="text-sm text-gray-800">{selectedPedido.direccion_completa || (selectedPedido.domicilio && selectedPedido.domicilio.direccion_completa) || '-'}</div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div>
+                      <div className="text-xs text-gray-500">Código postal</div>
+                      <div className="text-sm text-gray-800">{selectedPedido.codigo_postal || '-'}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-500">Región / Ciudad</div>
+                      <div className="text-sm text-gray-800">{(selectedPedido.region && selectedPedido.region.nombre_region) || selectedPedido.id_region || '-'} / {(selectedPedido.ciudad && selectedPedido.ciudad.nombre_ciudad) || selectedPedido.id_ciudad || '-'}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div>
+                    <div className="text-xs text-gray-500">Productos a entregar</div>
+                    <ul className="list-disc list-inside ml-3 mt-2 text-sm text-gray-700 max-h-40 overflow-auto">
+                      {(selectedPedido.pedidos || []).flatMap(p => p.productos || []).map((prod, i) => (
+                        <li key={i}>{prod.nombre_producto || prod.nombre || prod}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <div className="text-xs text-gray-500">Estado del domicilio</div>
+                    <div className="mt-2 flex items-center gap-3">
+                      <select
+                        value={estadoDomicilio}
+                        onChange={(e) => setEstadoDomicilio(e.target.value)}
+                        className="border rounded p-2 bg-white"
+                        disabled={user?.id_rol !== 3}
+                      >
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En-entrega">En-entrega</option>
+                        <option value="Cancelado">Cancelado</option>
+                      </select>
+
+                      {user?.id_rol === 3 && (
+                        <button
+                          onClick={() => updateEstadoDomicilio(selectedPedido.id_domicilio || selectedPedido.id, estadoDomicilio)}
+                          className="px-4 py-2 bg-gradient-to-r from-[#2f8a3a] to-[#276428] text-white rounded-lg hover:from-[#2a7a33] hover:to-[#205522]"
+                        >
+                          Guardar
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-3">
                 <button
                   onClick={() => setSelectedPedido(null)}
-                  className="text-gray-600 hover:text-gray-800"
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
                 >
                   Cerrar
                 </button>
-              </div>
-
-              <div className="space-y-3 text-gray-700">
-                <p>
-                  <strong>Dirección (completa):</strong> {selectedPedido.direccion_completa || "-"}
-                </p>
-                <p>
-                  <strong>Dirección completa:</strong> {selectedPedido.direccion_completa || "-"}
-                </p>
-                <p>
-                  <strong>Código postal:</strong> {selectedPedido.codigo_postal || "-"}
-                </p>
-                <p>
-                  <strong>Región / Ciudad:</strong> {selectedPedido.id_region || "-"} / {selectedPedido.id_ciudad || "-"}
-                </p>
-                <p>
-                  <strong>Cliente:</strong>{" "}
-                  {selectedPedido.usuario
-                    ? `${selectedPedido.usuario.nombre_usuario || ''} ${selectedPedido.usuario.apellido_usuario || ''}`.trim()
-                    : selectedPedido.usuario?.correo_usuario}
-                </p>
-
-                {/* Estado del domicilio: editable por domiciliarios */}
-                <div className="mt-3">
-                  <label className="block font-semibold mb-1">Estado del domicilio:</label>
-                  <select
-                    value={estadoDomicilio}
-                    onChange={(e) => setEstadoDomicilio(e.target.value)}
-                    className="border rounded p-2"
-                    disabled={user?.id_rol !== 3}
-                  >
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="En-entrega">En-entrega</option>
-                    <option value="Entregado">Entregado</option>
-                    <option value="Cancelado">Cancelado</option>
-                  </select>
-                </div>
-
-                <div className="mt-4">
-                  <strong>Productos a entregar:</strong>
-                  <ul className="list-disc list-inside ml-4 mt-2">
-                    {(selectedPedido.pedidos || []).flatMap(p => p.productos || []).map((prod, i) => (
-                      <li key={i}>{prod.nombre_producto || prod.nombre || prod}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex gap-3 mt-4">
-                  {user?.id_rol === 3 && (
-                    <button
-                      onClick={() => updateEstadoDomicilio(selectedPedido.id_domicilio || selectedPedido.id, estadoDomicilio)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                    >
-                      Guardar estado
-                    </button>
-                  )}
-
+                {user?.id_rol === 3 && (
                   <button
-                    onClick={() => setSelectedPedido(null)}
-                    className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded"
+                    onClick={() => { handleAceptar(selectedPedido); setSelectedPedido(null); }}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                   >
-                    Cerrar
+                    Aceptar pedido
                   </button>
-                </div>
+                )}
               </div>
             </div>
           </div>

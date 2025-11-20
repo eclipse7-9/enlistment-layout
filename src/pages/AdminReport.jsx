@@ -86,7 +86,6 @@ export default function AdminReport() {
                 <th className="px-3 py-2">Precio</th>
                 <th className="px-3 py-2">Estado</th>
                 <th className="px-3 py-2">Proveedor</th>
-                <th className="px-3 py-2">Creación / Actualización</th>
               </tr>
             </thead>
             <tbody className="bg-white text-[#4e5932]">
@@ -97,7 +96,6 @@ export default function AdminReport() {
                   <td className="px-3 py-2">${Number(p.precio_producto).toFixed(2)}</td>
                   <td className="px-3 py-2">{p.estado_producto}</td>
                   <td className="px-3 py-2">{proveedorMap[p.id_proveedor] || '-'}</td>
-                  <td className="px-3 py-2">{p.fecha_creacion || p.fecha_actualizacion || '-'}</td>
                 </tr>
               ))}
             </tbody>
@@ -116,7 +114,6 @@ export default function AdminReport() {
                 <th className="px-3 py-2">Precio</th>
                 <th className="px-3 py-2">Estado</th>
                 <th className="px-3 py-2">Emprendedor</th>
-                <th className="px-3 py-2">Creación / Actualización</th>
                 <th className="px-3 py-2">Imagen</th>
               </tr>
             </thead>
@@ -137,7 +134,6 @@ export default function AdminReport() {
                       '-'
                     )}
                   </td>
-                  <td className="px-3 py-2">{s.fecha_creacion || s.fecha_actualizacion || '-'}</td>
                   <td className="px-3 py-2">
                     {s.imagen_servicio ? (
                       <a href={s.imagen_servicio} target="_blank" rel="noreferrer" className="text-blue-600 underline">Ver</a>

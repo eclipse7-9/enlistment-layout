@@ -61,7 +61,6 @@ export default function AdminPedidos() {
                   <th className="px-4 py-3">Usuario</th>
                   <th className="px-4 py-3">Total</th>
                   <th className="px-4 py-3">Estado</th>
-                  <th className="px-4 py-3">Método</th>
                   <th className="px-4 py-3">Fecha</th>
                   <th className="px-4 py-3 text-center">Acciones</th>
                 </tr>
@@ -69,10 +68,9 @@ export default function AdminPedidos() {
               <tbody className="bg-white text-[#4e5932]">
                 {pedidos.map(p => (
                   <tr key={p.id_pedido} className="border-t border-[#e0d8c6] hover:bg-[#f7f4ef]">
-                    <td className="px-4 py-3">{p.nombre_usuario}</td>
+                    <td className="px-4 py-3">{p.usuario && p.usuario.correo_usuario ? p.usuario.correo_usuario : (p.correo_usuario || p.email || `#${p.id_usuario || p.id_pedido}`)}</td>
                     <td className="px-4 py-3">${Number(p.total).toFixed(2)}</td>
                     <td className="px-4 py-3">{p.estado_pedido}</td>
-                    <td className="px-4 py-3">{p.metodo_pago}</td>
                     <td className="px-4 py-3">{p.fecha_pedido ? new Date(p.fecha_pedido).toLocaleString() : 'N/A'}</td>
                     <td className="px-4 py-3 text-center">
                       <div className="flex justify-center gap-2">

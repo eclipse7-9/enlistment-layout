@@ -45,6 +45,7 @@ import ProviderMenu from "./components/ProviderMenu";
 import "./index.css";
 import CrearServicioGuia from "./pages/CrearServicioGuia";
 import ManualDomiciliario from "./pages/ManualDomiciliario";
+import FAQS from "./pages/FAQS";
 
 // Definir roles
 const ROLES = {
@@ -233,6 +234,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/faqs" element={<FAQS />} />
           <Route
             path="/admin/users"
             element={
