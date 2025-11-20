@@ -1,0 +1,318 @@
+CREATE DATABASE phs_db;
+USE phs_db;
+
+-- Tabla de roles
+CREATE TABLE rol_usuarios (
+    id_rol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL UNIQUE,
+    descripcion_rol VARCHAR(150)
+) ENGINE=InnoDB;
+
+-- 🆕 Tabla de regiones (departamentos)
+CREATE TABLE regiones (
+    id_region INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_region VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+-- 🆕 Tabla de ciudades (asociadas a regiones)
+CREATE TABLE ciudades (
+    id_ciudad INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_ciudad VARCHAR(100) NOT NULL,
+    id_region INT NOT NULL,
+    FOREIGN KEY (id_region) REFERENCES regiones(id_region),
+    UNIQUE(nombre_ciudad, id_region)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) NOT NULL,
+    apellido_usuario VARCHAR(50) NOT NULL,
+    correo_usuario VARCHAR(50) NOT NULL UNIQUE,
+    telefono_usuario VARCHAR(20) NOT NULL,
+    password_usuario VARCHAR(255) NOT NULL,
+    imagen_usuario VARCHAR(255),
+    id_rol INT NOT NULL,
+    id_region INT NOT NULL,
+    id_ciudad INT NOT NULL,
+    estado_usuario VARCHAR(25) NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES rol_usuarios(id_rol),
+    FOREIGN KEY (id_region) REFERENCES regiones(id_region),
+    FOREIGN KEY (id_ciudad) REFERENCES ciudades(id_ciudad)
+) ENGINE=InnoDB;
+
+
+
+CREATE TABLE mascotas (
+    id_mascota INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_mascota VARCHAR(25) NOT NULL,
+    peso_mascota INT NOT NULL,
+    especie_mascota ENUM('Canino','Bobino','Porcino', 'Felino', 'OvÍparo', 'équidos') NOT NULL,
+    raza_mascota VARCHAR(70) NOT NULL,
+    edad_mascota INT NOT NULL,
+    altura_mascota INT NOT NULL,
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+ALTER TABLE mascotas
+MODIFY COLUMN especie_mascota ENUM('Canino','Bovino','Porcino', 'Felino', 'Oviparo', 'equidos') NOT NULL;
+
+-- ===========================================================
+-- 🏠 DOMICILIOS (usando FK hacia ciudades y regiones)
+-- ===========================================================
+
+CREATE TABLE domicilios (
+    id_domicilio INT AUTO_INCREMENT PRIMARY KEY,
+    alias_domicilio VARCHAR(100) DEFAULT 'Principal',
+    direccion_completa VARCHAR(250) NOT NULL,
+    codigo_postal VARCHAR(20),
+    es_principal BOOLEAN DEFAULT FALSE,
+    id_region INT NOT NULL,
+    id_ciudad INT NOT NULL,
+    id_usuario INT NOT NULL,
+    -- Nuevo: referencia al domiciliario asignado (opcional)
+    id_domiciliario INT NULL,
+    estado_domicilio ENUM('Pendiente','En-entrega','Entregado','Cancelado') DEFAULT 'Pendiente',
+    FOREIGN KEY (id_region) REFERENCES regiones(id_region),
+    FOREIGN KEY (id_ciudad) REFERENCES ciudades(id_ciudad),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_domiciliario) REFERENCES usuarios(id_usuario)
+    /* Nota: el FK a usuarios para id_domiciliario se puede crear después con ALTER TABLE
+       si prefieres añadirlo cuando estés seguro de no romper datos existentes. */
+) ENGINE=InnoDB;
+
+
+
+CREATE TABLE servicios (
+    id_servicio INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_servicio VARCHAR(75) NOT NULL,
+    estado_servicio ENUM('activo', 'inactivo') NOT NULL,
+    descripcion_servicio VARCHAR(255) NOT NULL,
+    imagen_servicio VARCHAR(300),
+    precio_servicio DECIMAL(10,2) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+CREATE TABLE citas (
+    id_cita INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_cita DATE NOT NULL,
+    hora_cita TIME NOT NULL,
+    metodo_pago ENUM('Tarjeta Crédito', 'Tarjeta Débito', 'Efectivo', 'Transferencia', 'Nequi', 'Daviplata', 'PSE') NOT NULL,
+    estado_cita ENUM('pendiente', 'confirmada', 'cancelada', 'finalizada') DEFAULT 'pendiente',
+    id_usuario INT NOT NULL,
+    id_mascota INT NOT NULL,
+    id_servicio INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_mascota) REFERENCES mascotas(id_mascota),
+    FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio)
+) ENGINE=InnoDB;
+
+
+-- Notificaciones: mensajes para usuarios (creadas por el sistema)
+CREATE TABLE notificaciones (
+    id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario_destino INT NOT NULL,
+    titulo VARCHAR(150) NOT NULL,
+    mensaje VARCHAR(500) NOT NULL,
+    url VARCHAR(300),
+    leida BOOLEAN DEFAULT FALSE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_cita INT NULL,
+    domicilio_id INT NULL,
+    FOREIGN KEY (id_usuario_destino) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_cita) REFERENCES citas(id_cita),
+    FOREIGN KEY (domicilio_id) REFERENCES domicilios(id_domicilio)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE resultados (
+    id_resultado INT AUTO_INCREMENT PRIMARY KEY,
+    diagnostico VARCHAR(255) NOT NULL,
+    observaciones TEXT,
+    fecha_resultado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    requiere_tratamiento BOOLEAN NOT NULL DEFAULT FALSE,
+    id_cita INT NOT NULL,
+    FOREIGN KEY (id_cita) REFERENCES citas(id_cita)
+) ENGINE=InnoDB;
+
+
+-- Mensajes entre dueño del servicio y cliente, vinculados a una cita
+CREATE TABLE mensajes (
+    id_mensaje INT AUTO_INCREMENT PRIMARY KEY,
+    id_cita INT NOT NULL,
+    id_emisor INT NOT NULL,
+    id_receptor INT NOT NULL,
+    mensaje TEXT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    denunciado BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_cita) REFERENCES citas(id_cita),
+    FOREIGN KEY (id_emisor) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_receptor) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+-- Bloqueos: cuando un emprendedor denuncia a un usuario, se bloquea el envío de mensajes
+CREATE TABLE bloqueos (
+    id_bloqueo INT AUTO_INCREMENT PRIMARY KEY,
+    id_emprendedor INT NOT NULL,
+    id_usuario INT NOT NULL,
+    motivo VARCHAR(255),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_emprendedor) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+-- Denuncias: reportes enviados por cualquier usuario para que los admins revisen
+CREATE TABLE denuncias (
+    id_denuncia INT AUTO_INCREMENT PRIMARY KEY,
+    id_cita INT NULL,
+    id_reportador INT NOT NULL,
+    id_objetivo INT NULL,
+    motivo VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    resuelta BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_cita) REFERENCES citas(id_cita),
+    FOREIGN KEY (id_reportador) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_objetivo) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+CREATE TABLE tratamientos (
+    id_tratamiento INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_tratamiento VARCHAR(150) NOT NULL,
+    descripcion_tratamiento TEXT,
+    fecha_inicio VARCHAR(100) NOT NULL,
+    fecha_fin VARCHAR(100) NOT NULL,
+    estado_tratamiento VARCHAR(50) NOT NULL,
+    id_resultado INT NOT NULL,
+    FOREIGN KEY (id_resultado) REFERENCES resultados(id_resultado)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE proveedores (
+    id_proveedor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_compania VARCHAR(150) NOT NULL,
+    telefono_proveedor VARCHAR(20) NOT NULL,
+    correo_proveedor VARCHAR(100) NOT NULL,
+    direccion_contacto VARCHAR(150) NOT NULL,
+    estado_proveedor ENUM('Activo','Inactivo','Finalizado') DEFAULT 'Activo'
+) ENGINE=InnoDB;
+
+ALTER TABLE proveedores
+ADD COLUMN password_proveedor VARCHAR(255) NOT NULL AFTER direccion_contacto;
+
+
+
+CREATE TABLE productos (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_producto VARCHAR(100) NOT NULL,
+    imagen_producto VARCHAR(300),
+    categoria_producto VARCHAR(100) NOT NULL,
+    descripcion_producto TEXT NOT NULL,
+    estado_producto ENUM('en-stock','agotado','retirado') DEFAULT 'en-stock',
+    precio_producto DECIMAL(10,2) NOT NULL,
+    id_proveedor INT NOT NULL,
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor)
+) ENGINE=InnoDB;
+
+
+
+CREATE TABLE metodo_pago (
+    id_metodo_pago INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_metodo ENUM('Tarjeta Crédito', 'Tarjeta Débito', 'Efectivo', 'Transferencia', 'Nequi', 'Daviplata', 'PSE') NOT NULL,
+    numero_cuenta VARCHAR(50),
+    titular VARCHAR(100),
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+CREATE TABLE pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado_pedido ENUM('pendiente', 'en-proceso','cancelado','pagado') DEFAULT 'pendiente' NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    id_usuario INT NOT NULL,
+    id_metodo_pago INT NOT NULL,
+    id_domicilio INT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_metodo_pago) REFERENCES metodo_pago(id_metodo_pago),
+    FOREIGN KEY (id_domicilio) REFERENCES domicilios(id_domicilio)
+) ENGINE=InnoDB;
+
+CREATE TABLE detalle_pedido (
+    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL CHECK (cantidad > 0),
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+) ENGINE=InnoDB;
+
+CREATE TABLE recibos (
+    id_recibo INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_recibo TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    monto_pagado DECIMAL(10,2) NOT NULL,
+    estado_recibo ENUM('emitido','anulado','pagado') DEFAULT 'emitido',
+    id_pedido INT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido)
+) ENGINE=InnoDB;
+
+
+
+-- Regiones y ciudades
+INSERT INTO regiones (nombre_region) VALUES 
+('Antioquia'), ('Cundinamarca'), ('Valle del Cauca'), ('Atlántico');
+
+INSERT INTO ciudades (nombre_ciudad, id_region) VALUES
+('Medellín', 1), ('Envigado', 1),
+('Bogotá', 2), ('Cali', 3),
+('Barranquilla', 4);
+
+-- Roles
+INSERT INTO rol_usuarios (id_rol, nombre_rol, descripcion_rol)
+VALUES
+(1, 'Administrador', 'Acceso total a la página para gestionarla'),
+(2, 'Emprendedor', 'Puede promocionar sus servicios'),
+(3, 'Domiciliario', 'Puede consultar los pedidos que le son asignados'),
+(4, 'Cliente', 'Puede ver los servicios, productos, crear su cuenta, consultar sus datos y eliminarla');
+
+INSERT INTO usuarios (nombre_usuario, apellido_usuario, correo_usuario, telefono_usuario, password_usuario, imagen_usuario, id_rol, id_region, id_ciudad, estado_usuario)
+VALUES
+('Sting', 'Ton', 'sado@gmail.com', '3142552434', '123456789', '', 4, 1, 1, 'Activo'),
+('Emprend', 'Sokaso', 'emprendedor1@gmail.com', '23091039', '123456789', '', 2, 2, 3, 'Activo'),
+('Luis', 'Spinetta', 'admin1@gmail.com', '123981938', '123456789', '', 1, 3, 4, 'Activo'),
+('Car', 'Ro', 'domiciliario1@gmail.com', '721837813', '123456789', '', 3, 4, 5, 'Activo');
+
+-- Servicios iniciales
+INSERT INTO servicios 
+(tipo_servicio, estado_servicio, descripcion_servicio, imagen_servicio, precio_servicio, id_usuario)
+VALUES
+('Salud', 'activo', 'Consulta veterinaria general, vacunación, desparasitación y control sanitario de ganado y aves.', '', 50.00, 2),
+('Salud', 'activo', 'Aplicación de tratamientos antiparasitarios y control de enfermedades en el ganado y aves de corral.', '', 45.00, 2),
+('Nutrición', 'activo', 'Asesoría en dietas balanceadas para vacas, caballos, ovejas, cerdos, aves, etc.', '', 60.00, 2),
+('Reproducción', 'activo', 'Servicios de inseminación artificial, control de gestación y asesoría en cría.', '', 70.00, 2),
+('Infraestructura', 'activo', 'Diseño, construcción y mantenimiento de establos, corrales y gallineros.', '', 150.00, 2);
+
+INSERT INTO proveedores (nombre_compania, telefono_proveedor, correo_proveedor, direccion_contacto, estado_proveedor, password_proveedor)
+VALUES
+('AgroVet S.A.S', '3101234567', 'contacto@agrovet.com', 'Calle 10 #45-67', 'Activo', '123456789'),
+('InsumosRural', '3209876543', 'ventas@insumosrural.com', 'Carrera 5 #23-11', 'Activo', '123456789');
+
+-- Insertar productos de ejemplo
+INSERT INTO productos (nombre_producto, imagen_producto, categoria_producto, descripcion_producto, estado_producto, precio_producto, id_proveedor)
+VALUES
+('Antiparasitario Oral', '', 'Medicamentos', 'Solución antiparasitaria para bovinos y equinos. Dosis según peso.', 'en-stock', 35000.00, 1),
+('Vacuna Multi-Especie', '', 'Vacunas', 'Vacuna combinada para protección básica en ganado y aves.', 'en-stock', 10000.50, 1),
+('Suplemento Energético', '', 'Nutrición', 'Suplemento en polvo para recuperación y aumento de peso.', 'en-stock', 2500.00, 2),
+('Paneles para Gallineros', '', 'Infraestructura', 'Paneles prefabricados para construcción de gallineros resistentes.', 'en-stock', 12000.00, 2),
+('Jeringas Desechables 10ml (100u)', '', 'Insumos', 'Paquete de 100 jeringas desechables, uso veterinario.', 'en-stock', 80000.00, 1);
+
+
+-- OMITIR al ejecutar: DROP DATABASE phs_db;
