@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Annotated, Optional
 from decimal import Decimal
 
@@ -32,8 +32,7 @@ class MascotaCreate(BaseModel):
     edad_mascota: int
     altura_mascota: float | None = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # domicilios (nueva estructura con regiones/ciudades)
 class DomicilioCreate(BaseModel):
@@ -44,8 +43,7 @@ class DomicilioCreate(BaseModel):
     id_usuario: int | None = None
     estado_domicilio: Optional[str] = "Pendiente"
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # esquema para actualizar domicilio (parcial)
@@ -57,8 +55,7 @@ class DomicilioUpdate(BaseModel):
     id_usuario: Optional[int] = None
     estado_domicilio: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # regiones y ciudades
@@ -66,8 +63,7 @@ class RegionSchema(BaseModel):
     id_region: int
     nombre_region: str
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CiudadSchema(BaseModel):
@@ -75,8 +71,7 @@ class CiudadSchema(BaseModel):
     nombre_ciudad: str
     id_region: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
    
 #servicio     
 class ServicioCreate(BaseModel):
@@ -87,8 +82,7 @@ class ServicioCreate(BaseModel):
     imagen_servicio: str | None = None
     id_usuario: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 #cita
 class CitaCreate(BaseModel):
@@ -98,8 +92,7 @@ class CitaCreate(BaseModel):
     id_mascota: int
     id_servicio: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class CitaUpdateEstado(BaseModel):
     estado_cita: str
@@ -111,8 +104,7 @@ class ResultadoCreate(BaseModel):
     requiere_tratamiento: bool = False
     id_cita: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ResultadoUpdate(BaseModel):
     diagnostico: str | None = None
@@ -128,8 +120,7 @@ class TratamientoCreate(BaseModel):
     estado_tratamiento: str
     id_resultado: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TratamientoUpdate(BaseModel):
     tipo_tratamiento: str | None = None
@@ -147,8 +138,7 @@ class ProveedorCreate(BaseModel):
     estado_proveedor: str = "Activo"  # por defecto
     password_proveedor: str | None = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
         
 class ProveedorUpdate(BaseModel):
     nombre_compania: Optional[str] = None
@@ -169,8 +159,7 @@ class ProductoCreate(BaseModel):
     # id_proveedor puede ser provisto por el actor (token) en backend, así que lo hacemos opcional
     id_proveedor: Optional[int] = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ProductoUpdate(BaseModel):
     nombre_producto: Optional[str] = None
@@ -198,8 +187,7 @@ class PedidoCreate(BaseModel):
     id_metodo_pago: int
     estado_pedido: Optional[str] = "pendiente"
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class PedidoUpdate(BaseModel):
     total: Optional[Decimal] = None
@@ -214,8 +202,7 @@ class DetallePedidoCreate(BaseModel):
     cantidad: int
     subtotal: Decimal
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class DetallePedidoUpdate(BaseModel):
     id_pedido: Optional[int] = None
@@ -229,8 +216,7 @@ class ReciboCreate(BaseModel):
     estado_recibo: Optional[str] = "emitido"
     id_pedido: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ReciboUpdate(BaseModel):
     monto_pagado: Optional[Decimal] = None

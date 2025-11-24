@@ -31,6 +31,7 @@ import AdminServicios from "./pages/AdminServicios";
 import ServiciosMedicos from "./pages/ServiciosMedicos";
 import MiCuentaEmprendedor from "./pages/MiCuentaEmprendedor";
 import MisServicios from "./pages/MisServicios";
+import MisEntregas from "./pages/MisEntregas";
 import CitasEmprendedor from "./pages/CitasEmprendedor";
 import ReservarServicios from "./pages/ReservarServicios";
 import AdminCitas from "./pages/AdminCitas";
@@ -344,6 +345,14 @@ function App() {
             element={
               <ProtectedRoute role={ROLES.DOMICILIARIO}>
                 <MiPerfilDomiciliario />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mis-entregas"
+            element={
+              <ProtectedRoute role={ROLES.DOMICILIARIO}>
+                <MisEntregas />
               </ProtectedRoute>
             }
           />

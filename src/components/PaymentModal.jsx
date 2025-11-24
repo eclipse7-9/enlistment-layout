@@ -126,10 +126,10 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
     if (!metodoSeleccionado) return alert('Selecciona o crea un método de pago');
     setLoading(true);
     try {
-      // If user provided any address fields, require both region and ciudad to avoid DB NOT NULL errors
-      const anyAddressProvided = direccionCompleta || codigoPostal;
-      if (anyAddressProvided && (!selectedRegion || !selectedCiudad)) {
-        showAlert({ type: 'error', message: 'Si vas a crear una dirección completa, selecciona región y ciudad.' });
+      // Require an address: either a saved domicilio or a full new address (direccionCompleta + region + ciudad)
+      const addressProvided = selectedSavedDomicilioId || (direccionCompleta && selectedRegion && selectedCiudad);
+      if (!addressProvided) {
+        showAlert({ type: 'error', message: 'Debes proporcionar una dirección de envío (selecciona una dirección guardada o completa Dirección, Región y Ciudad).' });
         setLoading(false);
         return;
       }
@@ -144,12 +144,12 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
           id_domicilio: selectedSavedDomicilioId,
           direccion_completa: direccionCompleta || undefined,
           codigo_postal: codigoPostal || undefined,
-        } : ((direccionCompleta || selectedRegion || selectedCiudad) ? {
+        } : {
           direccion_completa: direccionCompleta,
           codigo_postal: codigoPostal,
           id_region: selectedRegion,
           id_ciudad: selectedCiudad,
-        } : undefined),
+        },
       };
 
       const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
@@ -206,7 +206,7 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
             </div>
 
             <div className="mb-4">
-              <h3 className="font-semibold mb-2">Dirección de envío (opcional)</h3>
+              <h3 className="font-semibold mb-2">Dirección de envío<span className="text-red-500"> *</span></h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {savedDomicilios.length > 0 && (
                 <div className="md:col-span-2">
@@ -230,7 +230,10 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
                   </select>
                 </div>
               )}
-                <input className="p-2 border rounded md:col-span-2" placeholder="Dirección completa (calle, número)" value={direccionCompleta} onChange={(e) => setDireccionCompleta(e.target.value)} />
+                <div className="md:col-span-2">
+                  <label className="text-sm font-medium">Dirección completa:<span className="text-red-500"> *</span></label>
+                  <input className="p-2 border rounded w-full" placeholder="Dirección completa (calle, número)" value={direccionCompleta} onChange={(e) => setDireccionCompleta(e.target.value)} />
+                </div>
                 <select className="p-2 border rounded" value={selectedRegion || ""} onChange={(e) => setSelectedRegion(Number(e.target.value) || null)}>
                   <option value="">-- Selecciona región --</option>
                   {regiones.map(r => (
@@ -243,10 +246,13 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
                     <option key={c.id_ciudad} value={c.id_ciudad}>{c.nombre_ciudad}</option>
                   ))}
                 </select>
-                <input className="p-2 border rounded" placeholder="Código postal" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} />
+                <div>
+                  <label className="text-sm font-medium">Código postal:<span className="text-red-500"> *</span></label>
+                  <input className="p-2 border rounded w-full" placeholder="Código postal" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} />
+                </div>
                 
               </div>
-              <p className="text-sm text-gray-500 mt-2">Si dejas esto vacío se usará la dirección de tu cuenta (si existe).</p>
+              <p className="text-sm text-gray-500 mt-2">La dirección de envío es obligatoria: selecciona una dirección guardada o completa Dirección, Región y Ciudad.</p>
             </div>
 
             {!showCrearNuevo ? (
@@ -256,7 +262,7 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
             ) : (
               <div className="space-y-2 mb-4">
                 <label className="block">
-                  Tipo
+                  Tipo<span className="text-red-500"> *</span>
                   <select className="w-full p-2 border rounded" value={tipo} onChange={(e) => setTipo(e.target.value)}>
                     <option>Tarjeta Crédito</option>
                     <option>Tarjeta Débito</option>
@@ -268,15 +274,18 @@ export default function PaymentModal({ onClose, cart = [], onPaymentSuccess }) {
                   </select>
                 </label>
                 <label className="block">
-                  Número de cuenta
+                  Número de cuenta<span className="text-red-500"> *</span>
                   <input className="w-full p-2 border rounded" value={numero} onChange={(e) => setNumero(e.target.value)} />
                 </label>
                 <label className="block">
-                  Titular
+                  Titular<span className="text-red-500"> *</span>
                   <input className="w-full p-2 border rounded" value={titular} onChange={(e) => setTitular(e.target.value)} />
                 </label>
                 <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-[#69774A] text-white rounded" onClick={handleCrearMetodo}>Guardar</button>
+                  <button className="px-4 py-2 bg-[#69774A] text-white rounded" onClick={async () => {
+                    if (!numero || !titular) { await Swal.fire('Campos requeridos', 'Número y Titular son obligatorios', 'warning'); return; }
+                    await handleCrearMetodo();
+                  }}>Guardar</button>
                   <button className="px-4 py-2 bg-gray-200 rounded" onClick={() => setShowCrearNuevo(false)}>Cancelar</button>
                 </div>
               </div>

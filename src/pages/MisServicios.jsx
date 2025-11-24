@@ -34,8 +34,7 @@ export default function MisServicios() {
       html:
         `<input id="tipo" class="swal2-input" placeholder="Tipo de servicio" value="${currentData.tipo_servicio}" />` +
         `<input id="estado" class="swal2-input" placeholder="Estado" value="${currentData.estado_servicio}" />` +
-        `<textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${currentData.descripcion_servicio}</textarea>` +
-        `<input id="imagen" class="swal2-input" placeholder="Imagen URL" value="${currentData.imagen_servicio || ''}" />`,
+        `<textarea id="descripcion" class="swal2-textarea" placeholder="Descripción">${currentData.descripcion_servicio}</textarea>`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#7a8358",
@@ -47,7 +46,6 @@ export default function MisServicios() {
           tipo_servicio: document.getElementById("tipo").value,
           estado_servicio: document.getElementById("estado").value,
           descripcion_servicio: document.getElementById("descripcion").value,
-          imagen_servicio: document.getElementById("imagen").value,
         };
       },
     });

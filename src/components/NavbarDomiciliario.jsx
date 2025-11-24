@@ -30,6 +30,9 @@ export default function DomiciliaryNavbar() {
           <Link to="/manual-domiciliario" className="hover:text-gray-200 transition-colors duration-200">Manual</Link>
         </li>
         <li>
+          <Link to="/mis-entregas" className="hover:text-gray-200 transition-colors duration-200">Mis entregas</Link>
+        </li>
+        <li>
           <Link to="/domiciliario/perfil" className="hover:text-gray-200 transition-colors duration-200">Perfil</Link>
         </li>
         <li>

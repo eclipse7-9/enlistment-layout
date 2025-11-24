@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export default function AdminServicios() {
   const { user } = useAuth();
   const [servicios, setServicios] = useState([]);
-  const [form, setForm] = useState({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "", precio_servicio: "0.00" });
+  const [form, setForm] = useState({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", precio_servicio: "COP ej: 30000.00" });
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => { fetchServicios(); }, []);
@@ -21,17 +21,26 @@ export default function AdminServicios() {
   const handleCreate = async () => {
     try {
       const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
-      const payload = { tipo_servicio: form.tipo_servicio, estado_servicio: form.estado_servicio, descripcion_servicio: form.descripcion_servicio, precio_servicio: Number(form.precio_servicio || 0), id_usuario: user?.id_usuario || 1, imagen_servicio: form.imagen_servicio || '' };
+      const payload = { tipo_servicio: form.tipo_servicio, estado_servicio: form.estado_servicio, descripcion_servicio: form.descripcion_servicio, precio_servicio: Number(form.precio_servicio || 0), id_usuario: user?.id_usuario || 1 };
       if (editingId) {
-        // Guardar cambios
+        // Guardar cambios (PUT acepta JSON)
         await axios.put(`http://localhost:8000/servicios/${editingId}`, payload, { headers });
         setEditingId(null);
         alert('Servicio actualizado');
       } else {
-        await axios.post("http://localhost:8000/servicios/", payload, { headers });
+        // Crear servicio: backend espera multipart/form-data (Form fields + optional file)
+        const formDataToSend = new FormData();
+        formDataToSend.append('tipo_servicio', form.tipo_servicio || '');
+        formDataToSend.append('descripcion_servicio', form.descripcion_servicio || '');
+        formDataToSend.append('estado_servicio', form.estado_servicio || 'Activo');
+        // Ensure precio is a plain value
+        formDataToSend.append('precio_servicio', String(Number(form.precio_servicio || 0)));
+        formDataToSend.append('id_usuario', String(user?.id_usuario || 1));
+
+        await axios.post("http://localhost:8000/servicios/", formDataToSend, { headers });
         alert('Servicio creado');
       }
-      setForm({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "" });
+      setForm({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", precio_servicio: "0.00" });
       fetchServicios();
     } catch (err) { console.error(err); alert('Error creando servicio'); }
   };
@@ -42,14 +51,13 @@ export default function AdminServicios() {
       tipo_servicio: s.tipo_servicio || "",
       estado_servicio: s.estado_servicio || "Activo",
       descripcion_servicio: s.descripcion_servicio || "",
-      imagen_servicio: s.imagen_servicio || "",
       precio_servicio: s.precio_servicio ? Number(s.precio_servicio).toFixed(2) : "0.00",
     });
   };
 
   const cancelEdit = () => {
     setEditingId(null);
-    setForm({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", imagen_servicio: "", precio_servicio: "0.00" });
+    setForm({ tipo_servicio: "", estado_servicio: "Activo", descripcion_servicio: "", precio_servicio: "0.00" });
   };
 
   const handleDelete = async (id) => {
@@ -70,14 +78,13 @@ export default function AdminServicios() {
         <div className="mb-6 border p-4 rounded-lg bg-gray-50">
           <h3 className="font-semibold mb-2">Crear servicio</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <input className="p-2 border" placeholder="Tipo de servicio" value={form.tipo_servicio} onChange={(e)=>setForm({...form,tipo_servicio:e.target.value})} />
+            <input className="p-2 border" placeholder="Nombre del servicio *" value={form.tipo_servicio} onChange={(e)=>setForm({...form,tipo_servicio:e.target.value})} />
             <select className="p-2 border" value={form.estado_servicio} onChange={(e)=>setForm({...form,estado_servicio:e.target.value})}>
               <option>Activo</option>
               <option>Inactivo</option>
             </select>
-            <input className="p-2 border col-span-2" placeholder="Descripción" value={form.descripcion_servicio} onChange={(e)=>setForm({...form,descripcion_servicio:e.target.value})} />
-            <input className="p-2 border" placeholder="Imagen URL" value={form.imagen_servicio} onChange={(e)=>setForm({...form,imagen_servicio:e.target.value})} />
-            <input className="p-2 border" placeholder="Precio" type="number" step="0.01" value={form.precio_servicio} onChange={(e)=>setForm({...form,precio_servicio:e.target.value})} />
+            <input className="p-2 border col-span-2" placeholder="Descripción *" value={form.descripcion_servicio} onChange={(e)=>setForm({...form,descripcion_servicio:e.target.value})} />
+            <input className="p-2 border" placeholder="Precio (COP) * ej: 30000.00" type="number" step="0.01" value={form.precio_servicio} onChange={(e)=>setForm({...form,precio_servicio:e.target.value})} />
           </div>
           <div className="mt-3">
             <button onClick={handleCreate} className="px-4 py-2 bg-[#7a8358] text-white rounded">{editingId ? 'Guardar cambios' : 'Crear servicio'}</button>

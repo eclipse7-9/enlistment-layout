@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Usuario, Region, Ciudad
 import logging
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from utils.security import hash_password, verify_password, create_access_token
 from sqlalchemy.exc import IntegrityError
 import base64
@@ -39,8 +39,7 @@ class UsuarioCreate(BaseModel):
     id_rol: int
     estado_usuario: str
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class RegisterRequest(BaseModel):
@@ -80,8 +79,7 @@ class UsuarioUpdate(BaseModel):
     estado_usuario: str | None = None
     imagen_usuario: str | None = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Esquema para cambio de contraseña
@@ -89,8 +87,7 @@ class PasswordChange(BaseModel):
     current_password: str
     new_password: str
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Esquemas para recuperación de contraseña
 class PasswordRecoveryRequest(BaseModel):
