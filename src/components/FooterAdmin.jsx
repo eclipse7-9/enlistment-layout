@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const FooterAdmin = () => {
   const year = new Date().getFullYear();
+  const [open, setOpen] = useState(false);
   return (
     <footer className="bg-[#f7f8f5] border-t border-[#d8c6aa] mt-12">
       <div className="max-w-7xl mx-auto px-6 py-10">
@@ -32,8 +33,13 @@ const FooterAdmin = () => {
 
         <div className="border-t border-[#e6e1d6] mt-8 pt-6 text-sm text-gray-600 flex items-center justify-between">
           <div>© {year} PET HEALTH SERVICES - Admin</div>
-          <div>Hecho con ♥ por el equipo</div>
+          <div className="flex items-center gap-4">
+            <a href="/manual/manual_admin.html?return=/admin" target="_blank" rel="noopener" className="px-3 py-1 bg-[#556140] text-white rounded-md">Manual Admin</a>
+            <div>Hecho con ♥ por el equipo</div>
+          </div>
         </div>
+
+        
       </div>
     </footer>
   );

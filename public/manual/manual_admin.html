@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Administrador - Pet Health Services</title>
+    <link rel="stylesheet" href="common.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span><img src="./images/logo.png" alt="PET HEALTH-SERVICES" class="mi-imagen"/></span>
+                    <h1>Manual Administrador</h1>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <a id="backToSite" href="http://localhost:5173" class="btn" style="padding:6px 10px;">← Volver al sitio</a>
+                    <a href="manual_instalacion.html" class="btn" style="padding:6px 10px;">Ir al Manual de Instalación</a>
+                    <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Mostrar menú">☰</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="manualOverlay" class="overlay"></div>
+
+    <div id="manualOverlay" class="overlay"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <strong>Contenido</strong>
+            <a href="#introduccion">1. Introducción</a>
+            <a href="#usuarios">2. Gestión de usuarios y roles</a>
+            <a href="#moderacion">3. Moderación de contenido</a>
+            <a href="#reportes">4. Reportes y métricas</a>
+            <a href="#ajustes">5. Ajustes del sistema</a>
+            <a href="#backups">6. Backups y recuperación</a>
+            <a href="#auditoria">7. Auditoría y logs</a>
+            <a href="#deploy">8. Despliegue y producción</a>
+            <a href="#soporte">9. Soporte y solución de problemas</a>
+            <hr />
+            <small class="muted">Versión: 1.0 — 2025</small>
+        </div>
+    </div>
+
+    <main class="container">
+        <section id="introduccion">
+            <div class="section-title"><h3>Introducción</h3></div>
+            <p>Este manual está orientado a los administradores del sistema. Contiene procedimientos para gestionar usuarios, contenido, reportes, seguridad y operaciones críticas del sistema.</p>
+        </section>
+
+        <section id="usuarios">
+            <div class="section-title"><h3>Gestión de usuarios y roles</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Crear y editar usuarios</h4>
+                    <p>En la sección de usuarios puedes crear cuentas, editar datos y asignar roles (cliente, emprendedor, domiciliario, admin).</p>
+                </div>
+                <div class="card">
+                    <h4>Roles y permisos</h4>
+                    <p>Asigna roles según responsabilidades. Evita dar permisos de administrador a cuentas no verificadas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="moderacion">
+            <div class="section-title"><h3>Moderación de contenido</h3></div>
+            <p>Revisa productos, servicios y reseñas. Elimina contenido inapropiado y contacta al proveedor para correcciones cuando sea necesario.</p>
+        </section>
+
+        <section id="reportes">
+            <div class="section-title"><h3>Reportes y métricas</h3></div>
+            <p>Accede a reportes de ventas, número de reservas, rendimiento por proveedor y KPIs importantes. Exporta en CSV para análisis.</p>
+        </section>
+
+        <section id="ajustes">
+            <div class="section-title"><h3>Ajustes del sistema</h3></div>
+            <ul class="feature-list">
+                <li>Configuración de medios de pago</li>
+                <li>Parámetros de notificaciones</li>
+                <li>Preferencias de geolocalización y zonas de cobertura</li>
+            </ul>
+        </section>
+
+        <section id="backups">
+            <div class="section-title"><h3>Backups y recuperación</h3></div>
+            <p>Programa backups automáticos de la base de datos y verifica restauraciones periódicamente. Mantén copias fuera del servidor principal.</p>
+        </section>
+
+        <section id="auditoria">
+            <div class="section-title"><h3>Auditoría y logs</h3></div>
+            <p>Revisa logs de acceso, cambios críticos y acciones de administradores. Mantén un registro de auditoría para cambios sensibles.</p>
+        </section>
+
+        <section id="deploy">
+            <div class="section-title"><h3>Despliegue y producción</h3></div>
+            <p>Para producción sigue las buenas prácticas: variables de entorno, SSL, monitoreo y escalabilidad. Documenta el proceso de despliegue y rollback.</p>
+        </section>
+
+        <section id="soporte">
+            <div class="section-title"><h3>Soporte y solución de problemas</h3></div>
+            <p>Si ocurre un incidente, usa los canales internos para escalar (correo, ticket). Mantén comunicación clara con el equipo de infra y desarrollo.</p>
+            <p>Contacto soporte: <a href="mailto:kurco911@pethealth.com">soporte@pethealth.com</a></p>
+        </section>
+
+        <section id="preguntas-frecuentes">
+            <div class="section-title"><h3>Preguntas frecuentes</h3></div>
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Cómo reinicio un servicio?</span><span>+</span></div>
+                <div class="faq-answer"><p>Reinicia el servicio desde el servidor o solicita al equipo de infra si no tienes acceso.</p></div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <p><em>Este manual se actualiza regularmente. Documenta cualquier procedimiento nuevo.</em></p>
+                    <p><strong>Pet-Health Services - Manual Administrador v1.0</strong></p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <style>
+    .image-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:2000}
+    .image-modal.open{display:flex}
+    .image-modal img{max-width:90%;max-height:90%;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    .image-modal .close{position:absolute;top:18px;right:24px;color:#fff;font-size:28px;cursor:pointer}
+    .manual-img-clickable{cursor:zoom-in}
+    </style>
+
+    <div id="imageModal" class="image-modal" role="dialog" aria-hidden="true">
+        <span class="close" aria-label="Cerrar">×</span>
+        <img src="" alt="Imagen ampliada" />
+    </div>
+
+    <script src="manual.js"></script>
+    <script>
+    // Set back link from query parameter 'return' if provided
+    (function(){
+        try{
+            const params = new URLSearchParams(window.location.search);
+            const ret = params.get('return');
+            const back = document.getElementById('backToSite');
+            if (back && ret) {
+                if (ret.startsWith('/')) back.href = window.location.origin + ret;
+                else back.href = ret;
+            }
+        }catch(e){}
+    })();
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            item.classList.toggle('active');
+            const icon = question.querySelector('span:last-child');
+            icon.textContent = item.classList.contains('active') ? '−' : '+';
+        });
+    });
+
+    // Smooth scroll for sidebar links
+    document.querySelectorAll('.sidebar a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+            window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
+            if (document.body.classList.contains('sidebar-open')) document.body.classList.remove('sidebar-open');
+        });
+    });
+
+    // Image lightbox
+    (function(){
+        const modal = document.getElementById('imageModal');
+        if (!modal) return;
+        const modalImg = modal.querySelector('img');
+        const closeBtn = modal.querySelector('.close');
+
+        document.querySelectorAll('main img').forEach(img => {
+            img.classList.add('manual-img-clickable');
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden','false');
+            });
+        });
+
+        function closeModal(){
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden','true');
+            modal.querySelector('img').src = '';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+        window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+    })();
+    </script>
+</body>
+</html>

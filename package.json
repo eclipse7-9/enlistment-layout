@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build:manual-css": "npx tailwindcss -i ./src/manual.css -o ./public/manual/styles.css --minify --content \"./public/manual/**/*.html\" \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint .",
     "preview": "vite preview",
     "server-api": "json-server --watch db.json --port 3001"

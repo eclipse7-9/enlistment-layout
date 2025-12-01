@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manual de Usuario — Emprendedor</title>
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <span><img src="./images/logo.png" alt="PET HEALTH-SERVICES" class="mi-imagen"/></span>
+          <h1>Manual de Usuario - Emprendedor</h1>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <a href="http://localhost:5173" class="btn" style="padding:6px 10px;">← Volver al sitio</a>
+          <a href="manual_usuario.html" class="btn" style="padding:6px 10px;">Ir al Manual general</a>
+          <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Mostrar menú">☰</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="manualOverlay" class="overlay"></div>
+
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <a href="#inicio">Inicio rápido</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#agenda">Agenda y citas</a>
+      <a href="#pedidos">Pedidos y pagos</a>
+      <a href="#comunicacion">Comunicación</a>
+      <a href="#reportes">Reportes</a>
+      <a href="#domicilios">Integración con domiciliarios</a>
+      <a href="#consejos">Consejos</a>
+      <a href="#rutas">Rutas rápidas</a>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="content">
+      <section id="inicio">
+        <h1>Inicio rápido</h1>
+        <p>Esta guía muestra las acciones más comunes que realiza un emprendedor (proveedor) en la plataforma: publicar servicios, gestionar agenda, atender reservas, administrar pedidos y comunicarse con clientes.</p>
+      </section>
+
+      <section id="servicios">
+        <h2>Servicios</h2>
+        <p>Los servicios son lo que ofreces: consulta, vacuna, esterilización, etc. Cada servicio tiene:</p>
+        <ul>
+          <li>Título y descripción</li>
+          <li>Duración estimada</li>
+          <li>Precio</li>
+          <li>Imagen representativa</li>
+          <li>Disponibilidad (horarios)</li>
+        </ul>
+        <p>Para crear uno, ve a <span class="route">/crear-servicio</span>, completa los campos y pulsa "Publicar".</p>
+      </section>
+
+      <section id="agenda">
+        <h2>Agenda y citas</h2>
+        <p>En la sección <strong>Citas</strong> verás todas las reservas realizadas por clientes. Puedes:</p>
+        <ul>
+          <li>Confirmar o rechazar reservas</li>
+          <li>Proponer reprogramaciones</li>
+          <li>Marcar visita/servicio como completado</li>
+          <li>Dejar observaciones al cliente</li>
+        </ul>
+        <p>Consejo: revisa la agenda diariamente y bloquea franjas no disponibles para evitar solapamientos.</p>
+      </section>
+
+      <section id="pedidos">
+        <h2>Pedidos y pagos</h2>
+        <p>Si vendes productos, los pedidos aparecerán en <strong>Pedidos</strong>. Para cada pedido puedes:</p>
+        <ul>
+          <li>Confirmar recepción</li>
+          <li>Actualizar estado (en preparación, enviado, entregado)</li>
+          <li>Generar o descargar recibos</li>
+        </ul>
+        <p>Los pagos se registran automáticamente si se utilizan medios de pago integrados; de lo contrario, marca manualmente el pago recibido y sube comprobante si aplica.</p>
+      </section>
+
+      <section id="comunicacion">
+        <h2>Comunicación</h2>
+        <p>Usa la mensajería interna para resolver dudas previas a la cita, enviar instrucciones o confirmar detalles. Responder rápido mejora la tasa de asistencia y la satisfacción.</p>
+      </section>
+
+      <section id="reportes">
+        <h2>Reportes</h2>
+        <p>Consulta reportes básicos de ventas, citas y calificaciones en la sección <strong>Reportes</strong>. Puedes exportar a CSV para análisis externo.</p>
+      </section>
+
+      <section id="domicilios">
+        <h2>Integración con domiciliarios</h2>
+        <p>Si ofreces servicios a domicilio, utiliza la sección de domicilios para:</p>
+        <ul>
+          <li>Asignar ordenes a domiciliarios</li>
+          <li>Monitorear el estado de la entrega</li>
+          <li>Marcar la orden como completada</li>
+        </ul>
+      </section>
+
+      <section id="consejos">
+        <h2>Consejos y buenas prácticas</h2>
+        <ul>
+          <li>Mantén horarios y disponibilidad actualizados.</li>
+          <li>Sube imágenes claras y descripciones detalladas.</li>
+          <li>Responde mensajes con rapidez.</li>
+          <li>Usa promociones para atraer clientes en horas bajas.</li>
+        </ul>
+      </section>
+
+      <section id="rutas">
+        <h2>Rutas rápidas</h2>
+        <ul>
+          <li><code>/crear-servicio</code> — Crear servicio.</li>
+          <li><code>/mis-servicios</code> — Gestionar servicios publicados.</li>
+          <li><code>/citas-recibidas</code> — Ver reservas recibidas.</li>
+          <li><code>/pedidos</code> — Panel de pedidos y ventas.</li>
+        </ul>
+      </section>
+
+      <footer>
+        <p class="muted">¿Necesitas más soporte? Contacta al equipo desde la app o envía correo a soporte@tuservicio.local.</p>
+      </footer>
+    </div>
+  </main>
+
+  <style>
+  /* Lightbox modal for manual images */
+  .image-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:2000}
+  .image-modal.open{display:flex}
+  .image-modal img{max-width:90%;max-height:90%;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+  .image-modal .close{position:absolute;top:18px;right:24px;color:#fff;font-size:28px;cursor:pointer}
+  .manual-img-clickable{cursor:zoom-in}
+  </style>
+
+  <div id="imageModal" class="image-modal" role="dialog" aria-hidden="true">
+      <span class="close" aria-label="Cerrar">×</span>
+      <img src="" alt="Imagen ampliada" />
+  </div>
+
+  <script src="manual.js"></script>
+  <script>
+      // Smooth scroll for sidebar links
+      document.querySelectorAll('.sidebar a').forEach(anchor => {
+          anchor.addEventListener('click', function(e) {
+              e.preventDefault();
+              const targetId = this.getAttribute('href');
+              const targetElement = document.querySelector(targetId);
+              if (!targetElement) return;
+              window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
+              if (document.body.classList.contains('sidebar-open')) document.body.classList.remove('sidebar-open');
+          });
+      });
+
+      // Image lightbox: make images inside main clickable and open modal
+      (function(){
+          const modal = document.getElementById('imageModal');
+          if (!modal) return;
+          const modalImg = modal.querySelector('img');
+          const closeBtn = modal.querySelector('.close');
+
+          document.querySelectorAll('main img').forEach(img => {
+              img.classList.add('manual-img-clickable');
+              img.addEventListener('click', () => {
+                  modalImg.src = img.src;
+                  modal.classList.add('open');
+                  modal.setAttribute('aria-hidden','false');
+              });
+          });
+
+          function closeModal(){
+              modal.classList.remove('open');
+              modal.setAttribute('aria-hidden','true');
+              modal.querySelector('img').src = '';
+          }
+
+          closeBtn.addEventListener('click', closeModal);
+          modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+          window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+      })();
+  </script>
+
+</body>
+</html>

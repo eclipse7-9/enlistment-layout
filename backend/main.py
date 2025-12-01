@@ -25,6 +25,11 @@ static_dir = os.path.join(os.path.dirname(__file__), "static")
 os.makedirs(os.path.join(static_dir, "uploads"), exist_ok=True)
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+# Servir el manual de usuario desde la carpeta public/manual
+manual_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "public", "manual"))
+# Asegurarnos de que existe la carpeta para evitar errores al montar
+os.makedirs(manual_dir, exist_ok=True)
+app.mount("/manual", StaticFiles(directory=manual_dir, html=True), name="manual")
 # --- rutas ---
 app.include_router(usuarios.router)
 app.include_router(mascotas.router)

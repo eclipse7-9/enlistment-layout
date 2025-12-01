@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Manual de Instalación - Pet Health Services (Instalación)</title>
+        <link rel="stylesheet" href="common.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                                <div class="logo">
+                                        <span><img src="./images/logo.png" alt="PET HEALTH-SERVICES" class="mi-imagen"/></span>
+                    <h1>Manual de Instalación</h1>
+                </div>
+                                <div style="display:flex;gap:8px;align-items:center">
+                                    <a href="http://localhost:5173" class="btn" style="padding:6px 10px;">← Volver al sitio</a>
+                                    <a href="manual_usuario.html" class="btn" style="padding:6px 10px;">Ir al Manual de Usuario</a>
+                                    <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Mostrar menú">☰</button>
+                                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="manualOverlay" class="overlay"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <a href="#informacion-general">1. Información General</a>
+            <a href="#requisitos">2. Requisitos</a>
+            <a href="#instalacion-local">3. Instalación local (Windows PowerShell)</a>
+            <a href="#backend">4. Backend (FastAPI)</a>
+            <a href="#backend">5. Backend (FastAPI)</a>
+            <a href="#frontend">6. Frontend (React + Vite)</a>
+            <a href="#base-datos">7. Base de datos</a>
+            <a href="#verificacion">8. Verificación</a>
+            <a href="#produccion">9. Producción</a>
+            <a href="#soporte">10. Solución de problemas</a>
+        </div>
+    </div>
+    
+    <main class="container"><section id="informacion-general">
+            <div class="section-title">
+                <h3>Información General del Proyecto</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Arquitectura</h4>
+                    <ul class="feature-list">
+                        <li><strong>Frontend:</strong> React + Vite + TailwindCSS</li>
+                        <li><strong>Backend:</strong> FastAPI (Python) + MySQL</li>
+                        <li><strong>Base de datos:</strong> MySQL con relaciones complejas</li>
+                        <li><strong>Contenedores:</strong> (Opcional) contenedores pueden usarse, pero no son obligatorios</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Características Técnicas</h4>
+                    <ul class="feature-list">
+                        <li>Interfaz responsive con TailwindCSS</li>
+                        <li>API REST con FastAPI</li>
+                        <li>Autenticación y autorización</li>
+                        <li>Mapas interactivos con Leaflet</li>
+                        <li>Animaciones con Framer Motion</li>
+                        <li>Testing con ESLint</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="requisitos">
+            <div class="section-title">
+                <h3>Requisitos del Sistema</h3>
+            </div>
+            
+            <div class="alert alert-info">
+                <strong>💡 Nota:</strong> Puedes usar contenedores si lo deseas, pero en este manual se ofrece la instalación local paso a paso.
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Versión Mínima</th>
+                        <th>Recomendada</th>
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Node.js</td>
+                        <td>16.x</td>
+                        <td>18.x o superior</td>
+                        <td>Para el frontend React</td>
+                    </tr>
+                    <tr>
+                        <td>Python</td>
+                        <td>3.8</td>
+                        <td>3.9+</td>
+                        <td>Para el backend FastAPI</td>
+                    </tr>
+                    <tr>
+                        <td>MySQL</td>
+                        <td>8.0</td>
+                        <td>8.0+</td>
+                        <td>Base de datos principal</td>
+                    </tr>
+                    <!-- Docker row removed -->
+                    <tr>
+                        <td>RAM</td>
+                        <td>4GB</td>
+                        <td>8GB+</td>
+                        <td>Para desarrollo</td>
+                    </tr>
+                    <tr>
+                        <td>Espacio disco</td>
+                        <td>2GB</td>
+                        <td>5GB+</td>
+                        <td>Depende de los datos</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Docker quick-install removed per request -->
+        
+        <section id="instalacion-local">
+            <div class="section-title">
+                <h3>Instalación Local (Windows PowerShell)</h3>
+            </div>
+
+            <div class="alert alert-info">
+                A continuación se muestran pasos para instalar y ejecutar el proyecto en Windows usando PowerShell (desarrollo local sin Docker).
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>Clonar el repositorio</h4>
+                        <div class="code-block">
+                            git clone https://github.com/eclipse7-9/enlistment-layout.git
+                            <br>cd enlistment-layout
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>Instalar dependencias del frontend</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># En PowerShell (en la raíz del repo)</span><br>
+                            npm install
+                        </div>
+                        <p>Esto instala las dependencias definidas en `package.json` (Vite, React, Tailwind, etc.).</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h4>Crear y activar entorno virtual para el backend</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Desde PowerShell, en la carpeta backend</span><br>
+                            cd backend<br>
+                            python -m venv venv<br>
+                            .\venv\Scripts\Activate.ps1
+                        </div>
+                        <p>Si PowerShell bloquea la activación por políticas de ejecución, ejecuta como administrador:</p>
+                        <div class="code-block">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>Instalar dependencias Python</h4>
+                        <div class="code-block">
+                            pip install -r requirements.txt
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h4>Configurar variables de entorno</h4>
+                        <p>Copia `.env.example` (si existe) y edita las variables. Asegúrate de configurar los parámetros de conexión a MySQL en `backend/database.py` o con las variables de entorno que tu app lee.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="backend">
+            <div class="section-title">
+                <h3>Instalación Manual del Backend (FastAPI)</h3>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>Navegar al directorio del backend</h4>
+                        <div class="code-block">
+                            <span class="code-function">cd</span> backend
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>Crear entorno virtual de Python</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Windows</span><br>
+                            <span class="code-function">python</span> -m venv venv<br>
+                            <span class="code-function">venv\Scripts\activate</span><br><br>
+                            <span class="code-comment"># Linux/Mac</span><br>
+                            <span class="code-function">python3</span> -m venv venv<br>
+                            <span class="code-function">source</span> venv/bin/activate
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h4>Instalar dependencias</h4>
+                        <div class="code-block">
+                            <span class="code-function">pip install</span> -r requirements.txt
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>Configurar base de datos MySQL</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Crear base de datos</span><br>
+                            <span class="code-function">mysql</span> -u root -p<br>
+                            <span class="code-function">CREATE DATABASE</span> pet_health;<br>
+                            <span class="code-function">exit</span>;
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h4>Ejecutar scripts de inicialización</h4>
+                        <p>Este proyecto contiene scripts o SQL en `migrations/`. Si hay un script de inicialización, ejecútalo contra tu base de datos:</p>
+                        <div class="code-block">
+                            mysql -u &lt;usuario&gt; -p &lt; migrations/add_id_domiciliario.sql
+                        </div>
+                        <p>O utiliza cualquier script provisto por el equipo (revisa `backend/` para utilidades de inicialización).</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div>
+                        <h4>Iniciar el servidor de desarrollo</h4>
+                        <div class="code-block">
+                            <span class="code-function">uvicorn</span> app.main:app --reload --host 0.0.0.0 --port 8000
+                        </div>
+                        <div class="alert alert-success">
+                            El backend estará disponible en: http://localhost:8000
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="frontend">
+            <div class="section-title">
+                <h3>Instalación Manual del Frontend (React)</h3>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>En este repositorio el frontend está en la raíz (`src/`). Ejecuta los comandos desde la raíz del proyecto.</h4>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>Instalar dependencias de Node.js</h4>
+                        <div class="code-block">
+                            npm install
+                        </div>
+                        <div class="alert alert-info">
+                            Esto instalará todas las dependencias listadas en package.json
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>Iniciar el servidor de desarrollo</h4>
+                        <div class="code-block">
+                            npm run dev
+                        </div>
+                        <div class="alert alert-success">
+                            El frontend estará disponible en: http://localhost:5173
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h4>Opcional: Construir para producción</h4>
+                        <div class="code-block">
+                            <span class="code-function">npm run</span> build
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="base-datos">
+            <div class="section-title">
+                <h3>Configuración de la Base de Datos MySQL</h3>
+            </div>
+            
+            <div class="alert alert-warning">
+                <strong>⚠️ Importante:</strong> La base de datos debe estar configurada antes de ejecutar la aplicación
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Estructura de la Base de Datos</h4>
+                    <ul class="feature-list">
+                        <li><strong>usuarios:</strong> Datos de usuarios y roles</li>
+                        <li><strong>mascotas:</strong> Información de mascotas registradas</li>
+                        <li><strong>servicios:</strong> Catálogo de servicios veterinarios</li>
+                        <li><strong>citas:</strong> Registro de citas programadas</li>
+                        <li><strong>tratamientos:</strong> Historial médico de mascotas</li>
+                        <li><strong>productos:</strong> Inventario de productos</li>
+                        <li><strong>pedidos:</strong> Registro de pedidos y domicilios</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Scripts y datos iniciales</h4>
+                    <p>Revisa `migrations/` en la raíz del proyecto. Para ejecutar un script SQL:</p>
+                    <div class="code-block">
+                        mysql -u &lt;usuario&gt; -p &lt; migrations/add_id_domiciliario.sql
+                    </div>
+                    <p>Actualiza `backend/database.py` o las variables de entorno para apuntar a tu base de datos (por defecto `phs_db` en `backend/database.py`).</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="verificacion">
+            <div class="section-title">
+                <h3>Verificación de la Instalación</h3>
+            </div>
+            
+            <div class="checklist">
+                <div class="check-item">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">Backend responde en http://localhost:8000</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">Frontend responde en http://localhost:5173</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">Base de datos MySQL está accesible</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">Las tablas de la base de datos fueron creadas</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">API Docs disponibles en /docs</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check6">
+                    <label for="check6">Puedo registrar un nuevo usuario</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check7">
+                    <label for="check7">Puedo agendar una cita de prueba</label>
+                </div>
+            </div>
+            
+            <div class="alert alert-success">
+                Si todos los checks están marcados, tu instalación es correcta.
+            </div>
+        </section>
+        
+        <section id="produccion">
+            <div class="section-title">
+                <h3>Despliegue en Producción</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Recomendaciones para Producción</h4>
+                    <ul class="feature-list">
+                        <li>Usar variables de entorno para configuraciones sensibles</li>
+                        <li>Configurar SSL/HTTPS para todas las conexiones</li>
+                        <li>Implementar backup automático de la base de datos</li>
+                        <li>Configurar monitoreo y logs</li>
+                        <li>Usar un servidor WSGI para FastAPI (uvicorn con workers)</li>
+                        <li>Servir el frontend build desde un servidor web (nginx)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Comandos de Producción</h4>
+                    <div class="code-block">
+                        <span class="code-comment"># Backend con múltiples workers</span><br>
+                        <span class="code-function">uvicorn</span> app.main:app --host 0.0.0.0 --port 8000 --workers 4<br><br>
+                        <span class="code-comment"># Frontend build para producción</span><br>
+                        <span class="code-function">npm run</span> build<br>
+                        <span class="code-comment"># Servir con nginx</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-danger">
+                <strong>Seguridad en Producción:</strong> 
+                Nunca uses valores por defecto en producción. Cambia todas las contraseñas, 
+                tokens y claves secretas.
+            </div>
+        </section>
+        
+        <section id="soporte">
+            <div class="section-title">
+                <h3>Solución de Problemas</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Problemas Comunes</h4>
+                    <ul class="feature-list">
+                        <li><strong>Error de conexión a MySQL:</strong> Verificar credenciales y que el servicio esté ejecutándose</li>
+                        <li><strong>Dependencias faltantes:</strong> Ejecutar npm install o pip install nuevamente</li>
+                        <li><strong>Puertos ocupados:</strong> Cambiar puertos en la configuración</li>
+                        <li><strong>Errores de CORS:</strong> Verificar configuración CORS en el backend</li>
+                        <li><strong>Archivos estáticos no cargan:</strong> Verificar rutas y permisos</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Comandos de Diagnóstico</h4>
+                    <div class="code-block">
+                        <span class="code-comment"># Verificar servicios en ejecución (ej. procesos/servicios locales)</span><br>
+                        <span class="code-comment"># Revisa los logs en la consola donde ejecutaste el backend/frontend</span><br><br>
+                        <span class="code-comment"># Probar conexión a la API</span><br>
+                        <span class="code-function">curl</span> http://localhost:8000/health
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p><em>Para soporte técnico, contacta al equipo de desarrollo.</em></p>
+                <p><strong>Pet-Health Services - Manual de Instalación v1.0</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+    /* Lightbox modal for manual images */
+    .image-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:2000}
+    .image-modal.open{display:flex}
+    .image-modal img{max-width:90%;max-height:90%;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    .image-modal .close{position:absolute;top:18px;right:24px;color:#fff;font-size:28px;cursor:pointer}
+    .manual-img-clickable{cursor:zoom-in}
+    </style>
+
+    <div id="imageModal" class="image-modal" role="dialog" aria-hidden="true">
+        <span class="close" aria-label="Cerrar">×</span>
+        <img src="" alt="Imagen ampliada" />
+    </div>
+
+    <script src="manual.js"></script>
+    <script>
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+                window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
+                if (document.body.classList.contains('sidebar-open')) document.body.classList.remove('sidebar-open');
+            });
+        });
+
+        // Checklist visual
+        document.querySelectorAll('.check-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.color = 'var(--exito)';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.color = '';
+                }
+            });
+        });
+
+        // Image lightbox: make images inside main clickable and open modal
+        (function(){
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+            const modalImg = modal.querySelector('img');
+            const closeBtn = modal.querySelector('.close');
+
+            document.querySelectorAll('main img').forEach(img => {
+                img.classList.add('manual-img-clickable');
+                img.addEventListener('click', () => {
+                    modalImg.src = img.src;
+                    modal.classList.add('open');
+                    modal.setAttribute('aria-hidden','false');
+                });
+            });
+
+            function closeModal(){
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden','true');
+                modal.querySelector('img').src = '';
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+            window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+        })();
+    </script>
+</body>
+</html>
+
+

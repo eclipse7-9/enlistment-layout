@@ -7,6 +7,9 @@ import Services from "./components/Services";
 import Preferences from "./components/Preferences";
 import Info from "./components/Info";
 import Footer from "./components/Footer";
+import FooterEmprendedor from "./components/FooterEmprendedor";
+import FooterDomiciliario from "./components/FooterDomiciliario";
+import FooterAdmin from "./components/FooterAdmin";
 import RegisterForm from "./pages/RegisterForm";
 import LoginForm from "./pages/LoginForm";
 import Products from "./pages/Products";
@@ -131,6 +134,22 @@ function App() {
         return <NavbarEmprendedor />;
       default:
         return <Navbar />;
+    }
+  };
+
+  // Función para determinar qué footer mostrar según rol
+  const renderFooter = () => {
+    if (hideLayout) return null;
+
+    switch (user?.id_rol) {
+      case ROLES.ADMIN:
+        return <FooterAdmin />;
+      case ROLES.DOMICILIARIO:
+        return <FooterDomiciliario />;
+      case ROLES.EMPRENDEDOR:
+        return <FooterEmprendedor />;
+      default:
+        return <Footer />;
     }
   };
 
@@ -377,7 +396,7 @@ function App() {
           />
         </Routes>
     </main>
-  {!hideLayout && <Footer />}
+  {renderFooter()}
     </CartProvider>
   );
 }

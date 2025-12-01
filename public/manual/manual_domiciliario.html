@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Domiciliario - Pet Health Services</title>
+    <link rel="stylesheet" href="common.css">
+</head>
+<body style="background: #ffffff">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span><img src="./images/logo.png" alt="PET HEALTH-SERVICES" class="mi-imagen"/></span>
+                    <h1>Manual Domiciliario</h1>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <a id="backToSite" href="http://localhost:5173" class="btn" style="padding:6px 10px;">← Volver al sitio</a>
+                    <a href="manual_usuario.html" class="btn" style="padding:6px 10px;">Ir al Manual de Usuario</a>
+                    <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Mostrar menú">☰</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="manualOverlay" class="overlay"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <a href="#introduccion">1. Introducción</a>
+            <a href="#panel">2. Panel de domicilios</a>
+            <a href="#aceptar">3. Aceptar y gestionar órdenes</a>
+            <a href="#estados">4. Actualizar estado</a>
+            <a href="#navegacion">5. Navegación y rutas</a>
+            <a href="#perfil">6. Perfil y disponibilidad</a>
+            <a href="#historial">7. Historial y entregas</a>
+            <a href="#incidencias">8. Incidencias y soporte</a>
+            <a href="#consejos">9. Consejos de seguridad</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <section id="introduccion">
+            <div class="section-title"><h3>Introducción</h3></div>
+            <p>Este manual está dirigido a los domiciliarios que realizan entregas para Pet Health Services. Aquí describimos el flujo completo: desde ver domicilios disponibles, aceptar una orden, navegar al destino, actualizar el estado y registrar entregas.</p>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>¿Qué verás en la app?</h4>
+                    <ul class="feature-list">
+                        <li>Listado de domicilios asignados y disponibles.</li>
+                        <li>Detalle de cada pedido con productos y dirección.</li>
+                        <li>Acciones rápidas: aceptar, contactar, cambiar estado.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel">
+            <div class="section-title"><h3>Panel de Domicilios</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Vista principal</h4>
+                    <p>En la pantalla principal verás tarjetas con domicilios disponibles. Cada tarjeta incluye: datos del cliente, dirección, productos, y estado del pedido.</p>
+                    <img src="./images/Lista_de_citas.png" alt="Panel domiciliario ejemplo" style="max-width:100%;height:auto;border:1px solid #ddd;padding:6px;border-radius:6px;"/>
+                </div>
+                <div class="card">
+                    <h4>Detalle</h4>
+                    <p>Al pulsar una tarjeta abrirás un detalle con información completa y acciones rápidas (marcar estado, contactar cliente, aceptar pedido).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="aceptar">
+            <div class="section-title"><h3>Aceptar y gestionar órdenes</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Pasos para aceptar</h4>
+                    <ol class="feature-list">
+                        <li>Revisa la lista de domicilios disponibles.</li>
+                        <li>Pulsa sobre la tarjeta para ver el detalle.</li>
+                        <li>Verifica productos y dirección; si todo está correcto, pulsa <strong>Aceptar pedido</strong>.</li>
+                        <li>El pedido se moverá a tu lista de asignados y desaparecerá del listado público.</li>
+                    </ol>
+                    <p style="font-size:0.9rem;color:#6b7280">Nota: Aceptar implica responsabilidad de entrega. Si surge una incidencia, notifícalo inmediatamente.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Rechazo y motivos</h4>
+                    <p>Si no puedes realizar la entrega, marca el pedido como <strong>Cancelado</strong> e indica el motivo para que el administrador lo revise.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="estados">
+            <div class="section-title"><h3>Actualizar estado</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Estados principales</h4>
+                    <ul class="feature-list">
+                        <li><strong>Pendiente</strong> — pedido creado, aún no aceptado.</li>
+                        <li><strong>En-entrega</strong> — estás en camino o procesando la entrega.</li>
+                        <li><strong>Entregado</strong> — entrega completada con éxito.</li>
+                        <li><strong>Cancelado</strong> — entrega cancelada por incidencia.</li>
+                    </ul>
+                    <p>Cambiar el estado actualiza la información en la plataforma y notifica al usuario y al equipo.</p>
+                </div>
+                <div class="card">
+                    <h4>Guardar estado</h4>
+                    <p>En el detalle hay un selector para actualizar el estado. Selecciona el valor y pulsa <strong>Guardar</strong>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="navegacion">
+            <div class="section-title"><h3>Navegación y rutas</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Uso de mapas</h4>
+                    <p>Desde el detalle del pedido encontrarás la dirección completa y un enlace para abrir Google Maps o tu aplicación de rutas preferida. Usa la navegación para optimizar tiempos.</p>
+                </div>
+                <div class="card">
+                    <h4>Consejo de rutas</h4>
+                    <p>Prioriza entregas por proximidad y agrupa si tu ruta lo permite.</p>
+                </div>
+                <div class="card">
+                    <h4>Mapa</h4>
+                    <img src="./images/Pagina_principal.png" alt="Mapa / panel ejemplo" style="max-width:100%;height:auto;border:1px solid #ddd;padding:6px;border-radius:6px;"/>
+                </div>
+            </div>
+        </section>
+
+        <section id="perfil">
+            <div class="section-title"><h3>Perfil y disponibilidad</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Editar perfil</h4>
+                    <p>En <strong>Mi Perfil</strong> puedes actualizar tu teléfono, dirección y marcar tu disponibilidad. Si estás inactivo no recibirás nuevas asignaciones.</p>
+                </div>
+                <div class="card">
+                    <h4>Disponibilidad</h4>
+                    <p>Activa o desactiva tu estado para controlar si recibes nuevas asignaciones.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="historial">
+            <div class="section-title"><h3>Historial y entregas</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Mis Entregas</h4>
+                    <p>En <strong>Mis Entregas</strong> encontrarás todas las entregas completadas. Puedes revisar recibos y detalles de productos entregados.</p>
+                </div>
+                <div class="card">
+                    <h4>Ejemplo</h4>
+                    <img src="./images/Registrar_cita.png" alt="Historial ejemplo" style="max-width:100%;height:auto;border:1px solid #ddd;padding:6px;border-radius:6px;"/>
+                </div>
+            </div>
+        </section>
+
+        <section id="incidencias">
+            <div class="section-title"><h3>Incidencias y soporte</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Reportar incidencia</h4>
+                    <p>Si ocurre un problema (cliente no localizable, dirección incorrecta, falta de pago), marca el pedido como <strong>Cancelado</strong> o usa la función de reporte para notificar al admin y al soporte.</p>
+                    <p>Contacta a soporte: <a href="mailto:soporte@pethealth.com">soporte@pethealth.com</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="consejos">
+            <div class="section-title"><h3>Consejos de seguridad</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <ul class="feature-list">
+                        <li>Lleva siempre identificación y el teléfono del cliente.</li>
+                        <li>No entregues si detectas riesgo o el cliente no cumple condiciones (p.ej. lugar inseguro).</li>
+                        <li>Toma fotos del paquete entregado si el procedimiento lo requiere.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="preguntas-frecuentes">
+            <div class="section-title"><h3>Preguntas frecuentes</h3></div>
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Cómo reporto un problema con una entrega?</span><span>+</span></div>
+                <div class="faq-answer"><p>Usa la opción 'Cancelar' en el detalle del pedido o contacta a soporte vía correo.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Qué hago si no encuentro al cliente?</span><span>+</span></div>
+                <div class="faq-answer"><p>Intenta comunicarte por teléfono. Si no es posible, marca el pedido como 'Cancelado' y espera instrucciones del admin.</p></div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <p><em>Este manual se actualiza regularmente. Contacta soporte para dudas específicas.</em></p>
+                    <p><strong>Pet-Health Services - Manual Domiciliario v1.0</strong></p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <style>
+    /* Lightbox modal for manual images (reuse same styles as other manuals) */
+    .image-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:2000}
+    .image-modal.open{display:flex}
+    .image-modal img{max-width:90%;max-height:90%;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    .image-modal .close{position:absolute;top:18px;right:24px;color:#fff;font-size:28px;cursor:pointer}
+    .manual-img-clickable{cursor:zoom-in}
+    </style>
+
+    <div id="imageModal" class="image-modal" role="dialog" aria-hidden="true">
+        <span class="close" aria-label="Cerrar">×</span>
+        <img src="" alt="Imagen ampliada" />
+    </div>
+
+    <script src="manual.js"></script>
+    <script>
+    // Set back link from query parameter 'return' if provided
+    (function(){
+        try{
+            const params = new URLSearchParams(window.location.search);
+            const ret = params.get('return');
+            const back = document.getElementById('backToSite');
+            if (back && ret) {
+                // If ret is a path, make it absolute to the same host
+                if (ret.startsWith('/')) back.href = window.location.origin + ret;
+                else back.href = ret;
+            }
+        }catch(e){/* ignore */}
+    })();
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            item.classList.toggle('active');
+            const icon = question.querySelector('span:last-child');
+            icon.textContent = item.classList.contains('active') ? '−' : '+';
+        });
+    });
+
+    // Smooth scroll for sidebar links
+    document.querySelectorAll('.sidebar a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+            window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
+            if (document.body.classList.contains('sidebar-open')) document.body.classList.remove('sidebar-open');
+        });
+    });
+
+    // Image lightbox: make images inside main clickable and open modal
+    (function(){
+        const modal = document.getElementById('imageModal');
+        if (!modal) return;
+        const modalImg = modal.querySelector('img');
+        const closeBtn = modal.querySelector('.close');
+
+        document.querySelectorAll('main img').forEach(img => {
+            img.classList.add('manual-img-clickable');
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden','false');
+            });
+        });
+
+        function closeModal(){
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden','true');
+            modal.querySelector('img').src = '';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+        window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+    })();
+    </script>
+</body>
+</html>

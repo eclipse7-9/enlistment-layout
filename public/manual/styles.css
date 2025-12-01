@@ -1,0 +1,39 @@
+/* Estilos específicos para el Manual de Usuario (public/manual/styles.css) */
+:root{
+  --main-green: #4e5932;
+  --accent: #7a8358;
+  --muted: #6b6b6b;
+  --bg: #ffffff;
+  --max-width: 960px;
+}
+
+*{box-sizing: border-box}
+body{font-family: Arial, Helvetica, sans-serif;background:var(--bg);color:#222;margin:0;line-height:1.5}
+.container{max-width:var(--max-width);margin:0 auto;padding:24px}
+
+/* Header / Nav */
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{font-weight:700;color:var(--main-green);font-size:20px;margin:0}
+.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:12px}
+.nav-links a{color:var(--accent);text-decoration:none;font-weight:600}
+.nav-links a.active{color:var(--main-green)}
+
+.hero{background:linear-gradient(90deg,#f7f6f2,#ffffff);padding:36px 0;border-radius:8px;margin:16px 0}
+.hero-text h2{margin:0 0 8px 0;color:var(--main-green)}
+.hero-text p{margin:0;color:var(--muted)}
+
+.citas{margin-top:28px}
+.lista-citas{border:1px solid #eee;padding:12px;border-radius:6px;background:#fbfbfb;min-height:80px}
+
+footer{padding:20px 0;margin-top:32px;border-top:1px solid #eee;text-align:center;color:var(--muted)}
+
+/* Responsive */
+@media (max-width:640px){
+  .navbar{flex-direction:column;align-items:flex-start}
+  .nav-links{flex-wrap:wrap}
+  .container{padding:16px}
+}
+
+/* Utilidades usadas en el manual */
+.muted{color:var(--muted)}
+.mb-4{margin-bottom:16px}

@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Puedes añadir reglas personalizadas para el manual aquí */
+/* Ejemplo: asegurar body blanco y padding */
+html, body {
+  background: white;
+}
+
+.manual-container {
+  @apply max-w-4xl mx-auto px-6 py-8;
+}
+
+.manual-header {
+  @apply text-2xl font-bold text-[#4e5932] mb-4;
+}
+
+.manual-nav a {
+  @apply text-[#7a8358] hover:underline mr-4;
+}

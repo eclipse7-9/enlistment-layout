@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Manual de Usuario - Pet Health Services (Clientes)</title>
+        <link rel="stylesheet" href="common.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                                <div class="logo">
+                                        <span><img src="./images/logo.png" alt="PET HEALTH-SERVICES" class="mi-imagen"/></span>
+                                        <h1>Manual de Usuario</h1>
+                                </div>
+                                <div style="display:flex;gap:8px;align-items:center">
+                                    <a href="http://localhost:5173" class="btn" style="padding:6px 10px;">← Volver al sitio</a>
+                                    <a href="manual_instalacion.html" class="btn" style="padding:6px 10px;">Ir al Manual de Instalación</a>
+                                    <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Mostrar menú">☰</button>
+                                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="manualOverlay" class="overlay"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <a href="#introduccion">1. Introducción</a>
+            <a href="#comenzando">2. Comenzando</a>
+            <a href="#registro-login">3. Registro y acceso</a>
+            <a href="#dashboard">4. Dashboard (Página principal)</a>
+            <a href="#mascotas">5. Gestionar mascotas</a>
+            <a href="#citas">6. Reservar y administrar citas</a>
+            <a href="#pedidos">7. Pedidos y carrito</a>
+            <a href="#pagos">8. Pagos y recibos</a>
+            <a href="#notificaciones">9. Notificaciones</a>
+            <a href="#preguntas-frecuentes">10. Preguntas frecuentes</a>
+            <a href="#contacto">11. Contacto y soporte</a>
+        </div>
+    </div>
+    
+    <main class="container">
+        <section id="introduccion">
+            <div class="section-title">
+                <h3>Introducción</h3>
+            </div>
+            <p>Bienvenido a Pet Health Services. Esta guía está pensada para usuarios (clientes) que desean utilizar la plataforma para recibir atención veterinaria, programar visitas a domicilio, gestionar pedidos de productos y administrar la información de sus mascotas.</p>
+
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Objetivos del manual</h4>
+                    <ul class="feature-list">
+                        <li>Explicar el flujo principal de la aplicación para clientes.</li>
+                        <li>Mostrar cómo registrar mascotas, agendar citas y hacer pedidos.</li>
+                        <li>Resolver dudas frecuentes y explicar métodos de pago.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comenzando">
+            <div class="section-title">
+                <h3>Comenzando</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Requisitos Previos</h4>
+                    <ul class="feature-list">
+                        <li>Navegador web moderno (Chrome, Firefox, Safari, Edge)</li>
+                        <li>Conexión a Internet</li>
+                        <li>Cuenta de usuario registrada</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Acceso a la Plataforma</h4>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div>Abre tu navegador y visita la URL de la aplicación.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div>Regístrate con tu correo o inicia sesión si ya tienes cuenta.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div>Verifica tu correo si se solicita (revisa spam).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="registro-login">
+            <div class="section-title"><h3>Registro y acceso</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Crear una cuenta</h4>
+                    <ol class="feature-list">
+                        <li>Haz clic en "Registrarse" en la parte superior.</li>
+                        <li>Rellena los datos solicitados: nombre, correo, contraseña.</li>
+                        <li>Confirma tu cuenta desde el correo recibido.</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h4>Recuperar contraseña</h4>
+                    <p>Si olvidaste la contraseña, usa el enlace "Recuperar contraseña". Recibirás un correo con instrucciones para restablecerla.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard">
+            <div class="section-title"><h3>Dashboard (Página principal)</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Resumen del panel</h4>
+                    <ul class="feature-list">
+                        <li>Resumen de próximas citas y pedidos recientes.</li>
+                        <li>Accesos rápidos: Agendar cita, Comprar productos, Mis mascotas.</li>
+                        <li>Notificaciones importantes y mensajes de la clínica.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Atajos visuales</h4>
+                    <p>En la imagen se muestran los elementos principales del dashboard.</p>
+                    <img src="./images/Pagina_principal.png" alt="Dashboard" style="max-width:100%;height:auto;border:1px solid #ddd;padding:6px;border-radius:6px;"/>
+                </div>
+            </div>
+        </section>
+
+        <section id="mascotas">
+            <div class="section-title"><h3>Gestionar mascotas</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Añadir o editar mascotas</h4>
+                    <ol class="feature-list">
+                        <li>Ve a "Mi cuenta" → "Mascotas" → "Agregar mascota".</li>
+                        <li>Completa nombre, especie, raza, edad, historial médico.</li>
+                        <li>Guarda los cambios; la mascota quedará disponible para reservas.</li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <h4>Historial médico</h4>
+                    <p>Puedes adjuntar documentos y ver historiales de atención por mascota.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="citas">
+            <div class="section-title"><h3>Reservar y administrar citas</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Cómo reservar</h4>
+                    <ol class="feature-list">
+                        <li>En el menú selecciona "Reservar servicios" o "Agendar cita".</li>
+                        <li>Elige servicio, mascota, fecha y hora disponibles.</li>
+                        <li>Confirma ubicación (clínica o domicilio) y métodos de pago.</li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <h4>Gestionar reservas</h4>
+                    <p>En "Mis citas" puedes ver, cancelar o reprogramar citas. Las cancelaciones con menos de 24h pueden generar cargos.</p>
+                    <img src="./images/Lista_de_citas.png" alt="Lista de citas" style="max-width:100%;height:auto;border:1px solid #ddd;padding:6px;border-radius:6px;"/>
+                </div>
+            </div>
+        </section>
+
+        <section id="pedidos">
+            <div class="section-title"><h3>Pedidos y carrito</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Realizar un pedido</h4>
+                    <ol class="feature-list">
+                        <li>Busca productos en la sección "Productos".</li>
+                        <li>Añade los productos al carrito.</li>
+                        <li>Revisa el carrito y confirma la dirección de envío.</li>
+                        <li>Selecciona método de pago y realiza el pago.</li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <h4>Seguimiento de pedidos</h4>
+                    <p>En "Mis pedidos" verás el estado, guía de envío y recibos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pagos">
+            <div class="section-title"><h3>Pagos y recibos</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Métodos de pago</h4>
+                    <ul class="feature-list">
+                        <li>Tarjeta de crédito / débito</li>
+                        <li>Transferencia bancaria</li>
+                        <li>Pago en clínica (para servicios presenciales)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Recibos</h4>
+                    <p>Después de un pago recibirás un recibo que puedes descargar desde "Mis pedidos" o "Facturas".</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="notificaciones">
+            <div class="section-title"><h3>Notificaciones</h3></div>
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Tipos de notificaciones</h4>
+                    <ul class="feature-list">
+                        <li>Recordatorios de cita</li>
+                        <li>Confirmaciones y cambios de horario</li>
+                        <li>Actualizaciones de pedidos</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Configurar notificaciones</h4>
+                    <p>En "Mi cuenta" → "Preferencias" puedes activar/desactivar email y notificaciones push.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pagina-principal">
+            <div class="section-title">
+                <h3>Página Principal</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Características Principales</h4>
+                    <ul class="feature-list">
+                        <li><strong>Header navegacional:</strong> Acceso rápido a todas las secciones</li>
+                        <li><strong>Búsqueda inteligente:</strong> Encuentra servicios y productos rápidamente</li>
+                        <li><strong>Tarjetas de servicios:</strong> Visualización atractiva de servicios disponibles</li>
+                        <li><strong>Indicadores de estado:</strong> Ver el estado de tus citas y pedidos</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Navegación Básica</h4>
+                    <ul class="feature-list">
+                        <li>Usa el menú superior para moverte entre secciones</li>
+                        <li>El botón de inicio siempre te lleva al dashboard principal</li>
+                        <li>El icono de perfil te permite acceder a tu cuenta y configuraciones</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="gestion-perfil">
+            <div class="section-title">
+                <h3>Gestión de Perfil</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Tu Perfil de Usuario</h4>
+                    <ul class="feature-list">
+                        <li><strong>Información personal:</strong> Gestiona tus datos de contacto</li>
+                        <li><strong>Mascotas registradas:</strong> Añade y edita información de tus mascotas</li>
+                        <li><strong>Historial médico:</strong> Accede al historial completo de tus mascotas</li>
+                        <li><strong>Preferencias:</strong> Configura notificaciones y preferencias de servicio</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Cómo Actualizar tu Perfil</h4>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div>Haz clic en tu nombre o avatar en la esquina superior derecha</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div>Selecciona "Mi Perfil"</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div>Edita la información necesaria</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div>Guarda los cambios</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="servicios-veterinarios">
+            <div class="section-title">
+                <h3>Servicios Veterinarios</h3>
+            </div>
+            
+            <h4>Tipos de Servicios Disponibles</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Consultas generales</td>
+                        <td>Revisiones de rutina y chequeos de salud</td>
+                    </tr>
+                    <tr>
+                        <td>Urgencias</td>
+                        <td>Atención inmediata las 24/7 para casos críticos</td>
+                    </tr>
+                    <tr>
+                        <td>Vacunación</td>
+                        <td>Programa completo de vacunas para todas las edades</td>
+                    </tr>
+                    <tr>
+                        <td>Cirugías</td>
+                        <td>Procedimientos quirúrgicos programados y de emergencia</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Agendar una Cita</h4>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div>Navega a "Servicios" → "Agendar Cita"</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div>Selecciona el tipo de servicio necesario</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div>Selecciona la mascota para la cita</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div>Elige la fecha y hora disponible</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div>Confirma la ubicación</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div>Revisa y confirma la reserva</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="preguntas-frecuentes">
+            <div class="section-title"><h3>Preguntas frecuentes</h3></div>
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Puedo tener múltiples mascotas en una misma cuenta?</span><span>+</span></div>
+                <div class="faq-answer"><p>Sí, puedes registrar y administrar todas tus mascotas desde una sola cuenta.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Qué métodos de pago aceptan?</span><span>+</span></div>
+                <div class="faq-answer"><p>Tarjetas (crédito/débito), transferencia bancaria y pago en clínica. Disponemos de opciones según el servicio.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Puedo cancelar o reprogramar una cita?</span><span>+</span></div>
+                <div class="faq-answer"><p>Sí, desde "Mis citas" puedes cancelar o reprogramar. Cancela con al menos 24 horas para evitar cargos.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question"><span>¿Cómo contacto soporte?</span><span>+</span></div>
+                <div class="faq-answer"><p>Usa el chat en la plataforma, envía un correo a soporte@pethealth.com o llama al número de asistencia.</p></div>
+            </div>
+        </section>
+    </main>
+    
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <h3>Contacto y Soporte</h3>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div>
+                            <strong>Horario de atención:</strong><br>
+                            Lunes a Viernes: 7:00 AM - 9:00 PM<br>
+                            Sábados: 8:00 AM - 6:00 PM<br>
+                            Domingos: 9:00 AM - 2:00 PM
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div>
+                            <strong>Canales de contacto:</strong><br>
+                            Chat en vivo en la plataforma<br>
+                            Teléfono: (01) 234-5678<br>
+                            Email: soporte@pethealth.com
+                        </div>
+                    </div>
+                </div>
+                
+                <p><em>Este manual se actualiza regularmente. Visita la sección de ayuda para la versión más reciente.</em></p>
+                <p><strong>Pet-Health Services - Cuidando a quienes más quieres</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+    /* Lightbox modal for manual images */
+    .image-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:2000}
+    .image-modal.open{display:flex}
+    .image-modal img{max-width:90%;max-height:90%;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    .image-modal .close{position:absolute;top:18px;right:24px;color:#fff;font-size:28px;cursor:pointer}
+    .manual-img-clickable{cursor:zoom-in}
+    </style>
+
+    <div id="imageModal" class="image-modal" role="dialog" aria-hidden="true">
+        <span class="close" aria-label="Cerrar">×</span>
+        <img src="" alt="Imagen ampliada" />
+    </div>
+
+    <script src="manual.js"></script>
+    <script>
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+                const icon = question.querySelector('span:last-child');
+                icon.textContent = item.classList.contains('active') ? '−' : '+';
+            });
+        });
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+                window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
+                // Close sidebar on small screens
+                if (document.body.classList.contains('sidebar-open')) {
+                    document.body.classList.remove('sidebar-open');
+                }
+            });
+        });
+
+        // Image lightbox: make images inside main clickable and open modal
+        (function(){
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+            const modalImg = modal.querySelector('img');
+            const closeBtn = modal.querySelector('.close');
+
+            document.querySelectorAll('main img').forEach(img => {
+                img.classList.add('manual-img-clickable');
+                img.addEventListener('click', () => {
+                    modalImg.src = img.src;
+                    modal.classList.add('open');
+                    modal.setAttribute('aria-hidden','false');
+                });
+            });
+
+            function closeModal(){
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden','true');
+                modal.querySelector('img').src = '';
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+            window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+        })();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

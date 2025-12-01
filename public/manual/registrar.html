@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrar Cita | Pet-Health Services</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Pet-Health Services</h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="manual_usuario.html">Manual Usuario</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="form-section">
+    <h2>Registrar Cita</h2>
+    <form id="formReprogramar" class="formulario">
+      <label>Nombre de la mascota o animal:</label>
+      <input type="text" id="nombreMascota" type="hidden" required>
+
+      <label>Fecha:</label>
+      <input type="date" id="nuevaFecha" required>
+
+      <label>Hora:</label>
+      <input type="time" id="nuevaHora" required>
+
+      <button type="submit" class="btn">Guardar Cambios</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Pet-Health Services — Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const mascota = params.get('mascota');
+    document.getElementById('nombreMascota').value = mascota || '';
+
+    document.getElementById('formReprogramar').addEventListener('submit', e => {
+      e.preventDefault();
+      const fecha = document.getElementById('nuevaFecha').value;
+      const hora = document.getElementById('nuevaHora').value;
+
+      alert(`✅ La cita de ${mascota} fue reprogramada para el ${fecha} a las ${hora}.`);
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

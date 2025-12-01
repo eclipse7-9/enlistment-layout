@@ -41,6 +41,7 @@ const Footer = () => {
               <li><Link to="/productos" className="hover:underline">Productos</Link></li>
               <li><Link to="/reservar-servicios" className="hover:underline">Servicios</Link></li>
               <li><Link to="/ubicaciones" className="hover:underline">Ubicaciones</Link></li>
+              <li><a href="http://localhost:5173/manual" target="_blank" rel="noopener noreferrer" className="hover:underline">Manual de usuario</a></li>
               <li><Link to="/politicas-privacidad" className="hover:underline">Política de privacidad</Link></li>
             </ul>
           </div>
