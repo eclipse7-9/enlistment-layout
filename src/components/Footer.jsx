@@ -39,6 +39,7 @@ const Footer = () => {
             <h3 className="text-[#4e5932] font-semibold mb-3">Enlaces rápidos</h3>
             <ul className="space-y-2 text-gray-700">
               <li><Link to="/productos" className="hover:underline">Productos</Link></li>
+              <li> <Link to="/manual/index.html" target="_blank"Manual de Usuario></Link></li>
               <li><Link to="/reservar-servicios" className="hover:underline">Servicios</Link></li>
               <li><Link to="/ubicaciones" className="hover:underline">Ubicaciones</Link></li>
               <li><Link to="/politicas-privacidad" className="hover:underline">Política de privacidad</Link></li>

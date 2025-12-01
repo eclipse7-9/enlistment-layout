@@ -123,22 +123,22 @@ export default function AdminProducts() {
         <div className="mb-6 border p-4 rounded-lg bg-gray-50">
           <h3 className="font-semibold mb-2">Crear / Editar producto</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <input className="p-2 border" placeholder="Nombre" value={form.nombre_producto} onChange={(e)=>setForm({...form,nombre_producto:e.target.value})} />
+            <input className="p-2 border" placeholder="Nombre *" value={form.nombre_producto} onChange={(e)=>setForm({...form,nombre_producto:e.target.value})} />
             <select className="p-2 border" value={form.categoria_producto} onChange={(e)=>setForm({...form,categoria_producto:e.target.value})}>
-              <option value="">Selecciona categoría</option>
+              <option value="">Selecciona categoría *</option>
               <option value="comida">comida</option>
               <option value="accesorios">accesorios</option>
               <option value="salud">salud</option>
             </select>
             <div className="flex items-center gap-2">
-              <input type="number" step="0.01" min="0" className="p-2 border flex-1" placeholder="Precio (COP)" value={form.precio_producto} onChange={(e)=>setForm({...form,precio_producto:e.target.value})} />
+              <input type="number" step="0.01" min="0" className="p-2 border flex-1" placeholder="Precio (COP) ej: 25000.00 *" value={form.precio_producto} onChange={(e)=>setForm({...form,precio_producto:e.target.value})} />
               <span className="text-sm text-gray-600">COP</span>
             </div>
             <select className="p-2 border" value={form.id_proveedor} onChange={(e)=>setForm({...form,id_proveedor:e.target.value})}>
-              <option value="">Selecciona proveedor</option>
+              <option value="">Selecciona proveedor *</option>
               {proveedores.map(pr => (<option key={pr.id_proveedor} value={pr.id_proveedor}>{pr.nombre_compania}</option>))}
             </select>
-            <input className="p-2 border col-span-2" placeholder="Descripción" value={form.descripcion_producto} onChange={(e)=>setForm({...form,descripcion_producto:e.target.value})} />
+            <input className="p-2 border col-span-2" placeholder="Descripción *" value={form.descripcion_producto} onChange={(e)=>setForm({...form,descripcion_producto:e.target.value})} />
             <select className="p-2 border" value={form.estado_producto} onChange={(e)=>setForm({...form,estado_producto:e.target.value})}>
               <option value="en-stock">en-stock</option>
               <option value="agotado">agotado</option>

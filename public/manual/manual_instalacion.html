@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Instalación - Pet-Health Services</title>
+    <style>
+        :root {
+            --beige: #E6D0B4;
+            --blanco: #ffffff;
+            --verde-oliva: #6E7255;
+            --verde-oscuro: #5A5E47;
+            --gris-claro: #f8f9fa;
+            --sombra: rgba(0, 0, 0, 0.1);
+            --exito: #4CAF50;
+            --advertencia: #FF9800;
+            --peligro: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--verde-oliva);
+            background-color: var(--beige);
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--verde-oscuro);
+            color: var(--blanco);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px var(--sombra);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        main {
+            background-color: var(--blanco);
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--sombra);
+            overflow: hidden;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(90, 94, 71, 0.8), rgba(90, 94, 71, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%235A5E47"/><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="%23E6D0B4" stroke-width="2"/><circle cx="50" cy="50" r="20" fill="none" stroke="%23E6D0B4" stroke-width="2"/></svg>');
+            background-size: cover;
+            color: var(--blanco);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        section {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--beige);
+        }
+        
+        section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            color: var(--verde-oscuro);
+        }
+        
+        .section-title i {
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .card {
+            background-color: var(--gris-claro);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px var(--sombra);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--sombra);
+        }
+        
+        .card h4 {
+            color: var(--verde-oscuro);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        ul.feature-list {
+            list-style-type: none;
+            margin: 1rem 0;
+        }
+        
+        ul.feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        ul.feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-oscuro);
+            font-weight: bold;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .step {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: var(--verde-oscuro);
+            color: var(--blanco);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-comment {
+            color: #75715e;
+        }
+        
+        .code-keyword {
+            color: #f92672;
+        }
+        
+        .code-string {
+            color: #e6db74;
+        }
+        
+        .code-function {
+            color: #66d9ef;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+        
+        .alert-warning {
+            background-color: #fff3e0;
+            border-color: var(--advertencia);
+            color: #e65100;
+        }
+        
+        .alert-danger {
+            background-color: #ffebee;
+            border-color: var(--peligro);
+            color: #c62828;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e8;
+            border-color: var(--exito);
+            color: #2e7d32;
+        }
+        
+        .file-structure {
+            background-color: var(--gris-claro);
+            border-radius: 5px;
+            padding: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            margin: 1rem 0;
+        }
+        
+        .file-item {
+            margin: 0.3rem 0;
+            padding-left: 1rem;
+        }
+        
+        .file-folder {
+            color: var(--verde-oscuro);
+            font-weight: bold;
+        }
+        
+        .file-file {
+            color: var(--verde-oliva);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--beige);
+        }
+        
+        th {
+            background-color: var(--verde-oscuro);
+            color: var(--blanco);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--gris-claro);
+        }
+        
+        .checklist {
+            margin: 1.5rem 0;
+        }
+        
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .check-item:hover {
+            background-color: var(--gris-claro);
+        }
+        
+        .check-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        footer {
+            background-color: var(--verde-oscuro);
+            color: var(--blanco);
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .titulo {
+                font-size: 2.25rem;
+            }
+        }
+
+        .mi-imagen {
+            width: 4rem;
+            height: 4rem;
+            object-fit: cover;
+            border-radius: 9999px;
+            transition-property: transform;
+            transition-duration: 700ms;
+        }
+
+        .sidebar {
+            width: 260px;
+            background-color: #6E7255;
+            color: white;
+            position: fixed;
+            height: 100%;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+            overflow-y: auto;
+        }
+        
+        .sidebar-content {
+            padding-top: 20px;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            letter-spacing: 1px;
+            padding: 0 15px;
+        }
+        
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+            transition: background 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar a:hover {
+            background-color: #5A5E47;
+        }
+
+        .topnav {
+            background-color: #5A5E47;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 260px;
+            right: 0;
+            z-index: 10;
+        }
+        
+        .topnav a {
+            color: #fce8ce;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        
+        .topnav a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        
+        .content {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span><img
+                        src="/images/logo.png"
+                        alt="Animales de granja - PET HEALTH-SERVICES"
+                        class="mi-imagen"
+                        />
+                    </span>
+                    <h1>Manual de Instalación</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <a href="#informacion-general">1. Información General del Proyecto</a>
+            <a href="#requisitos">2. Requisitos del Sistema</a>
+            <a href="#instalacion-rapida">3. Instalación Rápida con Docker</a>
+            <a href="#backend">4. Instalación Manual del Backend</a>
+            <a href="#frontend">5. Instalación Manual del Frontend</a>
+        <a href="#base-datos">6. Configuración de la Base de Datos</a>
+        <a href="#verificacion">7. Verificación de la Instalación</a>
+        <a href="#produccion">7. Despliegue en Producción</a>
+        <a href="#soporte">7. Solución de Problemas</a>
+        </div>
+    </div>
+    
+    <main class="container"><section id="informacion-general">
+            <div class="section-title">
+                <h3>Información General del Proyecto</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Arquitectura</h4>
+                    <ul class="feature-list">
+                        <li><strong>Frontend:</strong> React + Vite + TailwindCSS</li>
+                        <li><strong>Backend:</strong> FastAPI (Python) + MySQL</li>
+                        <li><strong>Base de datos:</strong> MySQL con relaciones complejas</li>
+                        <li><strong>Contenedores:</strong> Docker Compose para el stack completo</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Características Técnicas</h4>
+                    <ul class="feature-list">
+                        <li>Interfaz responsive con TailwindCSS</li>
+                        <li>API REST con FastAPI</li>
+                        <li>Autenticación y autorización</li>
+                        <li>Mapas interactivos con Leaflet</li>
+                        <li>Animaciones con Framer Motion</li>
+                        <li>Testing con ESLint</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="requisitos">
+            <div class="section-title">
+                <h3>Requisitos del Sistema</h3>
+            </div>
+            
+            <div class="alert alert-info">
+                <strong>💡 Nota:</strong> Se recomienda usar Docker para una instalación simplificada
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Versión Mínima</th>
+                        <th>Recomendada</th>
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Node.js</td>
+                        <td>16.x</td>
+                        <td>18.x o superior</td>
+                        <td>Para el frontend React</td>
+                    </tr>
+                    <tr>
+                        <td>Python</td>
+                        <td>3.8</td>
+                        <td>3.9+</td>
+                        <td>Para el backend FastAPI</td>
+                    </tr>
+                    <tr>
+                        <td>MySQL</td>
+                        <td>8.0</td>
+                        <td>8.0+</td>
+                        <td>Base de datos principal</td>
+                    </tr>
+                    <tr>
+                        <td>Docker</td>
+                        <td>20.x</td>
+                        <td>24.x+</td>
+                        <td>Opcional para contenedores</td>
+                    </tr>
+                    <tr>
+                        <td>RAM</td>
+                        <td>4GB</td>
+                        <td>8GB+</td>
+                        <td>Para desarrollo</td>
+                    </tr>
+                    <tr>
+                        <td>Espacio disco</td>
+                        <td>2GB</td>
+                        <td>5GB+</td>
+                        <td>Depende de los datos</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="instalacion-rapida">
+            <div class="section-title">
+                <h3>Instalación Rápida con Docker</h3>
+            </div>
+            
+            <div class="alert alert-success">
+                <strong>✅ Recomendado:</strong> Esta es la forma más rápida de tener el proyecto funcionando
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>Clonar el repositorio</h4>
+                        <div class="code-block">
+                            <span class="code-function">git clone</span> https://github.com/tu-usuario/pet-health-services.git<br>
+                            <span class="code-function">cd</span> pet-health-services
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>Configurar variables de entorno</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Copiar y editar el archivo de configuración</span><br>
+                            <span class="code-function">cp</span> .env.example .env<br>
+                            <span class="code-comment"># Editar las variables según tu entorno</span><br>
+                            <span class="code-function">nano</span> .env
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h4>Levantar los contenedores</h4>
+                        <div class="code-block">
+                            <span class="code-function">docker-compose up</span> -d
+                        </div>
+                        <div class="alert alert-info">
+                            Esto levantará: MySQL, Backend FastAPI, Frontend React
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>Verificar la instalación</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Frontend disponible en:</span><br>
+                            http://localhost:5173<br><br>
+                            <span class="code-comment"># Backend API disponible en:</span><br>
+                            http://localhost:8000<br><br>
+                            <span class="code-comment"># Documentación API (Swagger):</span><br>
+                            http://localhost:8000/docs
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="backend">
+            <div class="section-title">
+                <h3>Instalación Manual del Backend (FastAPI)</h3>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>Navegar al directorio del backend</h4>
+                        <div class="code-block">
+                            <span class="code-function">cd</span> backend
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>Crear entorno virtual de Python</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Windows</span><br>
+                            <span class="code-function">python</span> -m venv venv<br>
+                            <span class="code-function">venv\Scripts\activate</span><br><br>
+                            <span class="code-comment"># Linux/Mac</span><br>
+                            <span class="code-function">python3</span> -m venv venv<br>
+                            <span class="code-function">source</span> venv/bin/activate
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h4>Instalar dependencias</h4>
+                        <div class="code-block">
+                            <span class="code-function">pip install</span> -r requirements.txt
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>Configurar base de datos MySQL</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Crear base de datos</span><br>
+                            <span class="code-function">mysql</span> -u root -p<br>
+                            <span class="code-function">CREATE DATABASE</span> pet_health;<br>
+                            <span class="code-function">exit</span>;
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h4>Ejecutar migraciones y datos iniciales</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Desde el directorio backend</span><br>
+                            <span class="code-function">python</span> -m app.db.init_db<br>
+                            <span class="code-function">python</span> -m app.db.seed_data
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div>
+                        <h4>Iniciar el servidor de desarrollo</h4>
+                        <div class="code-block">
+                            <span class="code-function">uvicorn</span> app.main:app --reload --host 0.0.0.0 --port 8000
+                        </div>
+                        <div class="alert alert-success">
+                            El backend estará disponible en: http://localhost:8000
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="frontend">
+            <div class="section-title">
+                <h3>Instalación Manual del Frontend (React)</h3>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>Navegar al directorio del frontend</h4>
+                        <div class="code-block">
+                            <span class="code-function">cd</span> frontend
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>Instalar dependencias de Node.js</h4>
+                        <div class="code-block">
+                            <span class="code-function">npm install</span>
+                        </div>
+                        <div class="alert alert-info">
+                            Esto instalará todas las dependencias listadas en package.json
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>Iniciar el servidor de desarrollo</h4>
+                        <div class="code-block">
+                            <span class="code-function">npm run</span> dev
+                        </div>
+                        <div class="alert alert-success">
+                            El frontend estará disponible en: http://localhost:5173
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h4>Opcional: Construir para producción</h4>
+                        <div class="code-block">
+                            <span class="code-function">npm run</span> build
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="base-datos">
+            <div class="section-title">
+                <h3>Configuración de la Base de Datos MySQL</h3>
+            </div>
+            
+            <div class="alert alert-warning">
+                <strong>⚠️ Importante:</strong> La base de datos debe estar configurada antes de ejecutar la aplicación
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Estructura de la Base de Datos</h4>
+                    <ul class="feature-list">
+                        <li><strong>usuarios:</strong> Datos de usuarios y roles</li>
+                        <li><strong>mascotas:</strong> Información de mascotas registradas</li>
+                        <li><strong>servicios:</strong> Catálogo de servicios veterinarios</li>
+                        <li><strong>citas:</strong> Registro de citas programadas</li>
+                        <li><strong>tratamientos:</strong> Historial médico de mascotas</li>
+                        <li><strong>productos:</strong> Inventario de productos</li>
+                        <li><strong>pedidos:</strong> Registro de pedidos y domicilios</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Script de Inicialización</h4>
+                    <div class="code-block">
+                        <span class="code-comment"># Ejecutar el script inicial</span><br>
+                        <span class="code-function">mysql</span> -u root -p pet_health < db/init.sql
+                    </div>
+                    <p>Este script crea:</p>
+                    <ul class="feature-list">
+                        <li>Tablas con relaciones</li>
+                        <li>Datos iniciales (roles, servicios básicos)</li>
+                        <li>Usuarios de prueba</li>
+                        <li>Índices para optimización</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="verificacion">
+            <div class="section-title">
+                <h3>Verificación de la Instalación</h3>
+            </div>
+            
+            <div class="checklist">
+                <div class="check-item">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">Backend responde en http://localhost:8000</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">Frontend responde en http://localhost:5173</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">Base de datos MySQL está accesible</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">Las tablas de la base de datos fueron creadas</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">API Docs disponibles en /docs</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check6">
+                    <label for="check6">Puedo registrar un nuevo usuario</label>
+                </div>
+                
+                <div class="check-item">
+                    <input type="checkbox" id="check7">
+                    <label for="check7">Puedo agendar una cita de prueba</label>
+                </div>
+            </div>
+            
+            <div class="alert alert-success">
+                Si todos los checks están marcados, tu instalación es correcta.
+            </div>
+        </section>
+        
+        <section id="produccion">
+            <div class="section-title">
+                <h3>Despliegue en Producción</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Recomendaciones para Producción</h4>
+                    <ul class="feature-list">
+                        <li>Usar variables de entorno para configuraciones sensibles</li>
+                        <li>Configurar SSL/HTTPS para todas las conexiones</li>
+                        <li>Implementar backup automático de la base de datos</li>
+                        <li>Configurar monitoreo y logs</li>
+                        <li>Usar un servidor WSGI para FastAPI (uvicorn con workers)</li>
+                        <li>Servir el frontend build desde un servidor web (nginx)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Comandos de Producción</h4>
+                    <div class="code-block">
+                        <span class="code-comment"># Backend con múltiples workers</span><br>
+                        <span class="code-function">uvicorn</span> app.main:app --host 0.0.0.0 --port 8000 --workers 4<br><br>
+                        <span class="code-comment"># Frontend build para producción</span><br>
+                        <span class="code-function">npm run</span> build<br>
+                        <span class="code-comment"># Servir con nginx</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-danger">
+                <strong>Seguridad en Producción:</strong> 
+                Nunca uses valores por defecto en producción. Cambia todas las contraseñas, 
+                tokens y claves secretas.
+            </div>
+        </section>
+        
+        <section id="soporte">
+            <div class="section-title">
+                <h3>Solución de Problemas</h3>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h4>Problemas Comunes</h4>
+                    <ul class="feature-list">
+                        <li><strong>Error de conexión a MySQL:</strong> Verificar credenciales y que el servicio esté ejecutándose</li>
+                        <li><strong>Dependencias faltantes:</strong> Ejecutar npm install o pip install nuevamente</li>
+                        <li><strong>Puertos ocupados:</strong> Cambiar puertos en la configuración</li>
+                        <li><strong>Errores de CORS:</strong> Verificar configuración CORS en el backend</li>
+                        <li><strong>Archivos estáticos no cargan:</strong> Verificar rutas y permisos</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Comandos de Diagnóstico</h4>
+                    <div class="code-block">
+                        <span class="code-comment"># Verificar servicios en ejecución</span><br>
+                        <span class="code-function">docker ps</span><br><br>
+                        <span class="code-comment"># Ver logs de la aplicación</span><br>
+                        <span class="code-function">docker-compose logs</span> frontend<br>
+                        <span class="code-function">docker-compose logs</span> backend<br><br>
+                        <span class="code-comment"># Probar conexión a la API</span><br>
+                        <span class="code-function">curl</span> http://localhost:8000/health
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p><em>Para soporte técnico, contacta al equipo de desarrollo.</em></p>
+                <p><strong>Pet-Health Services - Manual de Instalación v1.0</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        document.querySelectorAll('.check-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.color = 'var(--exito)';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.color = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

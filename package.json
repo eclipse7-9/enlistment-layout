@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
   "name": "react-app",
   "private": true,
   "version": "0.0.0",
@@ -40,28 +36,5 @@
     "globals": "^16.4.0",
     "json-server": "^1.0.0-beta.3",
     "vite": "^7.1.6"
-<<<<<<< HEAD
-=======
-  "name": "workflow_test",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint .",
-    "build": "tsc"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "eslint": "^9.33.0",
-    "eslint-plugin-react": "^7.37.5",
-    "globals": "^16.3.0"
->>>>>>> 62e6b3d3fa00b660688f0383e879cf2c3d3ef106
-=======
->>>>>>> master
   }
 }

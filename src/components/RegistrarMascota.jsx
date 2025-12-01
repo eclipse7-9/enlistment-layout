@@ -65,7 +65,7 @@ export default function RegistrarMascotaModal({ show, setShow, petForm = {}, set
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Peso (kg):</label>
+            <label className="text-sm font-medium">Peso (kg):<span className="text-red-500"> *</span></label>
             <input
               type="number"
               placeholder="Peso (kg)"
@@ -134,7 +134,7 @@ export default function RegistrarMascotaModal({ show, setShow, petForm = {}, set
             )}
           </div>
           <div>
-            <label className="text-sm font-medium">Edad (años):</label>
+            <label className="text-sm font-medium">Edad (años):<span className="text-red-500"> *</span></label>
             <input
               type="number"
               placeholder="Edad (años)"
@@ -153,7 +153,7 @@ export default function RegistrarMascotaModal({ show, setShow, petForm = {}, set
             {errors.edad && <p className="text-xs text-red-600 mt-1">{errors.edad}</p>}
           </div>
           <div>
-            <label className="text-sm font-medium">Altura (cm):</label>
+            <label className="text-sm font-medium">Altura (cm):<span className="text-red-500"> *</span></label>
             <input
               type="number"
               placeholder="Altura (cm)"

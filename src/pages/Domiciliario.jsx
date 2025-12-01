@@ -73,7 +73,8 @@ const Domiciliary = () => {
   }, [user]);
 
   // Mostrar únicamente pedidos reales obtenidos de la base de datos (creados por usuarios registrados)
-  const displayPedidos = pedidos || [];
+  // Excluir pedidos que ya fueron entregados o cancelados para que no aparezcan en el panel del domiciliario
+  const displayPedidos = (pedidos || []).filter(p => !(p.estado_domicilio === 'Entregado' || p.estado_domicilio === 'Cancelado'));
 
   const openModal = (pedido) => {
     setSelectedPedido(pedido);

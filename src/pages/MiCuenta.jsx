@@ -486,7 +486,7 @@ export default function MiCuenta() {
                 <option value="PSE">PSE</option>
               </select>
 
-              <label className="block text-sm font-medium text-gray-700">Número / cuenta </label>
+              <label className="block text-sm font-medium text-gray-700">Número / cuenta *</label>
               <input
                 type="text"
                 className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm"
@@ -494,7 +494,7 @@ export default function MiCuenta() {
                 onChange={(e) => setPaymentForm(prev => ({ ...prev, numero_cuenta: e.target.value }))}
               />
 
-              <label className="block text-sm font-medium text-gray-700">Titular</label>
+              <label className="block text-sm font-medium text-gray-700">Titular *</label>
               <input
                 type="text"
                 className="mt-1 mb-4 block w-full rounded-md border-gray-300 shadow-sm"

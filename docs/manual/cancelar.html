@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cancelar Cita | Pet-Health Services</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Pet-Health Services</h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="manual_usuario.html">Manual Usuario</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="form-section">
+    <h2>Cancelar Cita</h2>
+    <form id="formCancelar" class="formulario">
+      <label>Nombre de la mascota o animal:</label>
+      <input type="text" id="nombreMascota" type="hidden">
+
+      <label>Motivo de cancelación:</label>
+      <textarea id="motivo" required placeholder="Ejemplo: No puedo asistir ese día"></textarea>
+
+      <button type="submit" class="btn">Confirmar Cancelación</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Pet Health Service — Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const mascota = params.get('mascota');
+    document.getElementById('nombreMascota').value = mascota || '';
+
+    document.getElementById('formCancelar').addEventListener('submit', e => {
+      e.preventDefault();
+      alert(`❌ La cita de ${mascota} ha sido cancelada.`);
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
