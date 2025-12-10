@@ -1,26 +1,26 @@
 <<<<<<< HEAD
 ﻿# enlistment-layout
 
-Pet Health Services — Fullstack (React + FastAPI)
+🐮 Pet Health Services — Fullstack (React + FastAPI) 🐷
 
 Proyecto fullstack para gestión de servicios veterinarios, productos y domicilios. Este README contiene instrucciones rápidas para ejecutar la app en desarrollo, variables de entorno y enlaces a la documentación en `docs/`.
 
-## Resumen rápido
+## ⚜️ Resumen rápido
 - Frontend: React (Vite), Tailwind CSS, framer-motion.
 - Backend: FastAPI, SQLAlchemy, Pydantic.
 - Base de datos: MySQL (ajustable en `backend/database.py`).
 
-## Estructura principal
+## 🧱 Estructura principal
 - `backend/` — código Python (FastAPI). Revisa `backend/main.py`, `backend/models.py`, `backend/routes/`.
 - `src/` — frontend React (Vite). Componentes en `src/components/`, páginas en `src/pages/`.
 - `docs/` — documentación en español (endpoints y guías prácticas).
 
-## Requisitos
+## 🤖 Requisitos
 - Node.js >= 16
 - Python 3.10+
 - MySQL (u otra BD compatible)
 
-## Variables de entorno (ejemplos)
+## 🤖 Variables de entorno (ejemplos)
 - Backend (usa `.env` o variables del entorno):
   - `DATABASE_URL` = mysql+pymysql://user:pass@localhost:3306/dbname
   - `SECRET_KEY` = tu_secreto_para_jwt
